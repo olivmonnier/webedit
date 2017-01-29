@@ -1,0 +1,36 @@
+.w-btn {
+  padding: 4px 8px;
+  box-shadow: 1px 1px 1px 0px #ededed;
+  background-color: transparent;
+  border: 1px solid #ededed;
+  font-size: 16px;
+  cursor: pointer;
+
+  &-open {
+    @extend .w-btn;
+    padding: 12px 8px;
+    background-color: #bdbdbd;
+    color: #000;
+  }
+
+  &-export {
+    @extend .w-btn;
+    padding: 8px 12px;
+    background-color: #bdbdbd;
+    color: #000;
+  }
+
+  &-move {
+    @extend .w-btn;
+    background-color: #7ec0ee;
+    border: 1px solid #7ec0ee;
+    color: #fff;
+  }
+
+  &-delete {
+    @extend .w-btn;
+    background-color: #FF0000;
+    border: 1px solid #FF0000;
+    color: #fff;
+  }
+}

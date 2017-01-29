@@ -1,3 +1,17 @@
+@import "../../node_modules/font-awesome/scss/font-awesome";
 @import "../../node_modules/medium-editor/src/sass/medium-editor";
 @import "../../node_modules/medium-editor/src/sass/themes/beagle";
+@import "../../node_modules/basicmodal/src/styles/main";
 @import "./dragula";
+
+//components
+@import "./components/aside";
+@import "./components/bar";
+@import "./components/buttons";
+@import "./components/content";
+
+[class*="w-"] {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
