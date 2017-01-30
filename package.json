@@ -4,10 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "sass": "node-sass src/sass/styles.scss -o dist/",
-    "babelify": "browserify src/js/main.js -o dist/bundle.js -t [ babelify --presets [ es2015 ] ]",
-    "uglify": "uglifyjs dist/bundle.js -o dist/bundle.min.js -c",
-    "start": "npm run sass && npm run babelify && npm run uglify",
+    "sass": "node-sass src/sass/webedit.scss -o dist/",
+    "babelify": "browserify src/js/main.js -o dist/webedit.js -t [ babelify --presets [ es2015 ] ]",
+    "minify:js": "minify dist/webedit.js --output dist/webedit.min.js",
+    "minify:css": "minify dist/webedit.css --output dist/webedit.min.css",
+    "minify": "npm run minify:js && npm run minify:css",
+    "start": "npm run sass && npm run babelify && npm run minify",
     "test": "http-server ./ -p 3000"
   },
   "keywords": [],
@@ -23,7 +25,7 @@
     "htmlencode": "0.0.4",
     "http-server": "^0.9.0",
     "medium-editor": "^5.22.2",
-    "node-sass": "^4.3.0",
-    "uglify-js": "^2.7.5"
+    "minifier": "^0.8.1",
+    "node-sass": "^4.3.0"
   }
 }

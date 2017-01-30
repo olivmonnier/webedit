@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <title>Test</title>
-    <link rel="stylesheet" href="./dist/styles.css">
+    <link rel="stylesheet" href="./dist/webedit.min.css">
   </head>
   <body>
-    <div id="left" style="margin: 0 100px;display:inline-block;width:50%;min-height:200px;border: 4px solid #ededed;">
+    <div id="editor" style="margin: 0 100px;display:inline-block;width:50%;min-height:200px;">
     </div>
-    <script src="./dist/bundle.min.js"></script>
+    <script src="./dist/webedit.min.js"></script>
     <script>
-      WebEdit('left', {
+      var webEditor = WebEdit('editor', {
         snippetsPath: './snippets.html',
         editorOptions: {
           toolbar: {

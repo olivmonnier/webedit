@@ -9839,19 +9839,8 @@ function hasOwnProperty(obj, prop) {
 'use strict';
 
 var basicModal = require('basicmodal');
-var htmlEncode = require('htmlencode').htmlEncode;
 var createButton = require('./createButton');
-
-function getContents(primaryContainer) {
-  var result = '';
-  var snippets = primaryContainer.querySelectorAll('.w-snippet');
-
-  snippets.forEach(function (snippet) {
-    result += snippet.innerHTML;
-  });
-
-  return result;
-}
+var getContents = require('../utils/getContents');
 
 module.exports = function createBarActions(primaryContainer) {
   var container = document.createElement('div');
@@ -9861,7 +9850,7 @@ module.exports = function createBarActions(primaryContainer) {
     var content = getContents(primaryContainer);
 
     basicModal.show({
-      body: '<pre>' + htmlEncode(content) + '</pre>',
+      body: '<pre>' + content + '</pre>',
       buttons: {
         action: {
           title: 'Close',
@@ -9876,7 +9865,7 @@ module.exports = function createBarActions(primaryContainer) {
   document.body.appendChild(container);
 };
 
-},{"./createButton":19,"basicmodal":2,"htmlencode":11}],19:[function(require,module,exports){
+},{"../utils/getContents":27,"./createButton":19,"basicmodal":2}],19:[function(require,module,exports){
 'use strict';
 
 module.exports = function createButton(text, className, id) {
@@ -9983,7 +9972,13 @@ module.exports = function dragNdrop(primaryContainer, editorOptions) {
       }
       return container.id == 'snippetsContainer';
     }
+  }).on('drag', function (el, container) {
+    if (container.id !== primaryContainer.id) {
+      primaryContainer.classList.add('w-hover');
+    }
   }).on('drop', function (el, container) {
+    primaryContainer.classList.remove('w-hover');
+
     if (el.querySelectorAll('.w-actions').length > 0) return;
 
     if (container && container.id == primaryContainer.id) {
@@ -10006,6 +10001,7 @@ module.exports = function dragNdrop(primaryContainer, editorOptions) {
 var createBarActions = require('./components/createBarActions');
 var createSnippetContainer = require('./components/createSnippetContainer');
 var dragNDrop = require('./dragNDrop');
+var getContents = require('./utils/getContents');
 
 module.exports = function (containerId, options) {
   var primaryContainer = document.getElementById(containerId);
@@ -10023,10 +10019,18 @@ module.exports = function (containerId, options) {
     }).catch(function (response) {
       return console.log(response);
     });
+
+    return {
+      exportHtml: function exportHtml() {
+        return getContents(primaryContainer);
+      }
+    };
+  } else {
+    new Error('snippets path missing');
   }
 };
 
-},{"./components/createBarActions":18,"./components/createSnippetContainer":22,"./dragNDrop":23}],25:[function(require,module,exports){
+},{"./components/createBarActions":18,"./components/createSnippetContainer":22,"./dragNDrop":23,"./utils/getContents":27}],25:[function(require,module,exports){
 'use strict';
 
 var init = require('./init');
@@ -10065,4 +10069,20 @@ module.exports = function getClosest(elem, selector) {
     return null;
 };
 
-},{}]},{},[25]);
+},{}],27:[function(require,module,exports){
+'use strict';
+
+var htmlEncode = require('htmlencode').htmlEncode;
+
+module.exports = function getContents(primaryContainer) {
+  var result = '';
+  var snippets = primaryContainer.querySelectorAll('.w-snippet');
+
+  snippets.forEach(function (snippet) {
+    result += snippet.innerHTML;
+  });
+
+  return htmlEncode(result);
+};
+
+},{"htmlencode":11}]},{},[25]);

@@ -16,7 +16,13 @@ module.exports = function dragNdrop(primaryContainer, editorOptions) {
       }
       return container.id == 'snippetsContainer';
     }
+  }).on('drag', function(el, container) {
+    if (container.id !== primaryContainer.id) {
+      primaryContainer.classList.add('w-hover');
+    }
   }).on('drop', function (el, container) {
+    primaryContainer.classList.remove('w-hover');
+
     if (el.querySelectorAll('.w-actions').length > 0) return;
 
     if (container && container.id == primaryContainer.id ) {

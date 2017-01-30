@@ -1,0 +1,14 @@
+.basicModal {
+  width: 800px;
+
+  &__buttons {
+    font-family: Arial;
+  }
+  pre {
+    padding: 9.5px;
+    white-space: pre-wrap;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+}

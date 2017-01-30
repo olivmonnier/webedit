@@ -9,9 +9,14 @@
 @import "./components/bar";
 @import "./components/buttons";
 @import "./components/content";
+@import "./components/modal";
 
 [class*="w-"] {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+}
+
+.w-hover {
+  border: 1px solid #ddd;
 }

@@ -1,17 +1,6 @@
 const basicModal = require('basicmodal');
-const htmlEncode = require('htmlencode').htmlEncode;
 const createButton = require('./createButton');
-
-function getContents(primaryContainer) {
-  let result = '';
-  const snippets = primaryContainer.querySelectorAll('.w-snippet');
-
-  snippets.forEach(snippet => {
-    result += snippet.innerHTML;
-  });
-
-  return result;
-}
+const getContents = require('../utils/getContents');
 
 module.exports = function createBarActions(primaryContainer) {
   const container = document.createElement('div');
@@ -21,7 +10,7 @@ module.exports = function createBarActions(primaryContainer) {
     const content = getContents(primaryContainer);
 
     basicModal.show({
-      body: '<pre>' + htmlEncode(content) + '</pre>',
+      body: '<pre>' + content + '</pre>',
       buttons: {
         action: {
           title: 'Close',

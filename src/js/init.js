@@ -1,6 +1,7 @@
 const createBarActions = require('./components/createBarActions');
 const createSnippetContainer = require('./components/createSnippetContainer');
 const dragNDrop = require('./dragNDrop');
+const getContents = require('./utils/getContents');
 
 module.exports = function(containerId, options) {
   const primaryContainer = document.getElementById(containerId);
@@ -16,5 +17,13 @@ module.exports = function(containerId, options) {
     }).then(() => {
       dragNDrop(primaryContainer, editorOptions);
     }).catch(response => console.log(response));
+
+    return {
+      exportHtml: function() {
+        return getContents(primaryContainer);
+      }
+    }
+  } else {
+    new Error('snippets path missing')
   }
 }
