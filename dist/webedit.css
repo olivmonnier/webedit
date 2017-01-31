@@ -2811,8 +2811,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: .1;
-    background-color: #000; }
+    box-shadow: -1px -1px 5px 0 #ddd;
+    background-color: rgba(204, 204, 204, 0.14); }
   .w-aside-container.in {
     right: 0; }
   .w-aside-container #snippetsContainer {
@@ -2823,7 +2823,8 @@
       padding: 8px;
       cursor: pointer;
       font-family: Arial;
-      transition: all .3s ease-out; }
+      transition: all .3s ease-out;
+      border: 1px solid transparent; }
       .w-aside-container #snippetsContainer > *:hover, .w-aside-container #snippetsContainer > *:focus {
         border: 1px solid #ccc; }
   .w-aside-container .w-btn-open {
@@ -2843,52 +2844,64 @@
   display: flex;
   justify-content: center; }
 
-.w-btn, .w-btn-open, .w-btn-export, .w-btn-move, .w-btn-delete {
+.w-btn, .w-btn-open, .w-btn-export, .w-btn-move, .w-btn-delete, .w-btn-duplicate {
   padding: 4px 8px;
   box-shadow: 1px 1px 1px 0px #ededed;
   background-color: transparent;
-  border: 1px solid #ededed;
+  border: 1px solid #ddd;
   font-size: 16px;
   cursor: pointer; }
   .w-btn-open {
     padding: 12px 8px;
-    background-color: #bdbdbd;
+    background-color: rgba(204, 204, 204, 0.14);
     color: #000; }
   .w-btn-export {
     padding: 8px 12px;
-    background-color: #bdbdbd;
+    background-color: rgba(204, 204, 204, 0.14);
     color: #000; }
   .w-btn-move {
-    background-color: #7ec0ee;
-    border: 1px solid #7ec0ee;
+    background-color: #0F0F0F;
+    border: 1px solid #0F0F0F;
     color: #fff; }
   .w-btn-delete {
     background-color: #FF0000;
     border: 1px solid #FF0000;
     color: #fff; }
+  .w-btn-duplicate {
+    background-color: #337ab7;
+    border: 1px solid #337ab7;
+    color: #fff; }
 
 .w-content-container {
-  position: relative; }
+  position: relative;
+  margin-left: -35px;
+  padding-left: 35px; }
+  .w-content-container:hover .w-actions, .w-content-container.gu-mirror .w-actions {
+    visibility: visible;
+    opacity: 1; }
   .w-content-container .w-actions {
     position: absolute;
     top: 0;
-    left: -35px;
+    left: 0;
     display: flex;
     height: 100%;
-    min-height: 60px;
+    min-height: 80px;
     max-width: 50px;
     flex-direction: column;
-    align-items: stretch; }
+    align-items: stretch;
+    visibility: hidden;
+    opacity: 0;
+    transition: all .3s ease-out; }
     .w-content-container .w-actions [class*="w-btn-"] {
       margin-bottom: 4px;
       padding: 4px;
-      font-size: 14px; }
+      font-size: 12px; }
   .w-content-container .w-snippet {
     display: block; }
 
 .basicModal {
   width: 800px; }
-  .basicModal__buttons {
+  .basicModal__buttons, .basicModal__content {
     font-family: Arial; }
   .basicModal pre {
     padding: 9.5px;

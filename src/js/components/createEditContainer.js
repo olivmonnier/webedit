@@ -1,8 +1,8 @@
 const createContentActions = require('./createContentActions');
 
-module.exports = function createEditContainer(content) {
+module.exports = function createEditContainer(content, editorOptions) {
   const container = document.createElement('div');
-  const contentActions = createContentActions();
+  const contentActions = createContentActions(editorOptions);
 
   container.className = 'w-content-container';
   container.appendChild(contentActions);

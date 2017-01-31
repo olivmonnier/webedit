@@ -30,9 +30,10 @@ module.exports = function dragNdrop(primaryContainer, editorOptions) {
       const newEl = el.cloneNode(true);
       const content = newEl.querySelectorAll('.w-snippet')[0];
 
+
       if (content) {
         content.className += ' editable';
-        parent.replaceChild(createEditContainer(content), el);
+        parent.replaceChild(createEditContainer(content, editorOptions), el);
         new MediumEditor(content, editorOptions);
       }
     }

@@ -9881,35 +9881,85 @@ module.exports = function createButton(text, className, id) {
 },{}],20:[function(require,module,exports){
 'use strict';
 
+var basicModal = require('basicmodal');
+var MediumEditor = require('medium-editor');
 var createButton = require('./createButton');
 var getClosest = require('../utils/getClosest');
+var insertAfter = require('../utils/insertAfter');
 
-module.exports = function createContentActions() {
+function createContentActions(editorOptions) {
   var barActions = document.createElement('div');
   var btnMove = createButton('', 'w-btn-move fa fa-arrows');
   var btnDelete = createButton('', 'w-btn-delete fa fa-trash');
+  var btnDuplicate = createButton('', 'w-btn-duplicate fa fa-plus');
 
-  btnDelete.addEventListener('click', function (e) {
-    var parent = getClosest(btnDelete, '.w-content-container');
-
-    parent.remove();
-  });
+  initEventBtnDelete(btnDelete);
+  initEventBtnDuplicate(btnDuplicate, editorOptions);
 
   barActions.className = 'w-actions';
   barActions.appendChild(btnMove);
   barActions.appendChild(btnDelete);
+  barActions.appendChild(btnDuplicate);
 
   return barActions;
-};
+}
 
-},{"../utils/getClosest":26,"./createButton":19}],21:[function(require,module,exports){
+function initEventBtnDelete(elem) {
+  elem.addEventListener('click', function (e) {
+    var parent = getClosest(elem, '.w-content-container');
+
+    basicModal.show({
+      body: '<p><strong>Are you sure ?</strong></p>',
+      buttons: {
+        cancel: {
+          title: 'Cancel',
+          fn: basicModal.close
+        },
+        action: {
+          title: 'Continue',
+          fn: function fn() {
+            parent.remove();
+            basicModal.close();
+          }
+        }
+      }
+    });
+  });
+}
+
+function initEventBtnDuplicate(elem, editorOptions) {
+  elem.addEventListener('click', function (e) {
+    var parent = getClosest(elem, '.w-content-container');
+    var content = parent.querySelectorAll('.w-snippet')[0];
+    var html = content.innerHTML;
+    var newParent = parent.cloneNode(true);
+    var newContent = newParent.querySelectorAll('.w-snippet')[0];
+    var newBarAction = newParent.querySelectorAll('.w-actions')[0];
+    var divSnippet = document.createElement('div');
+    var divActions = createContentActions(editorOptions);
+
+    newBarAction.remove();
+    newContent.remove();
+    divSnippet.className = 'w-snippet editable';
+    divSnippet.innerHTML = html;
+    newParent.appendChild(divActions);
+    newParent.appendChild(divSnippet);
+
+    insertAfter(newParent, parent);
+    new MediumEditor(divSnippet, editorOptions);
+  });
+}
+
+module.exports = createContentActions;
+
+},{"../utils/getClosest":26,"../utils/insertAfter":28,"./createButton":19,"basicmodal":2,"medium-editor":12}],21:[function(require,module,exports){
 'use strict';
 
 var createContentActions = require('./createContentActions');
 
-module.exports = function createEditContainer(content) {
+module.exports = function createEditContainer(content, editorOptions) {
   var container = document.createElement('div');
-  var contentActions = createContentActions();
+  var contentActions = createContentActions(editorOptions);
 
   container.className = 'w-content-container';
   container.appendChild(contentActions);
@@ -9988,7 +10038,7 @@ module.exports = function dragNdrop(primaryContainer, editorOptions) {
 
       if (content) {
         content.className += ' editable';
-        parent.replaceChild(createEditContainer(content), el);
+        parent.replaceChild(createEditContainer(content, editorOptions), el);
         new MediumEditor(content, editorOptions);
       }
     }
@@ -10085,4 +10135,11 @@ module.exports = function getContents(primaryContainer) {
   return htmlEncode(result);
 };
 
-},{"htmlencode":11}]},{},[25]);
+},{"htmlencode":11}],28:[function(require,module,exports){
+"use strict";
+
+module.exports = function insertAfter(newNode, referenceNode) {
+  referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+};
+
+},{}]},{},[25]);
