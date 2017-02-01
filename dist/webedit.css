@@ -2827,6 +2827,10 @@
       border: 1px solid transparent; }
       .w-aside-container #snippetsContainer > *:hover, .w-aside-container #snippetsContainer > *:focus {
         border: 1px solid #ccc; }
+      .w-aside-container #snippetsContainer > * img {
+        display: block;
+        max-width: 100%;
+        height: auto; }
   .w-aside-container .w-btn-open {
     position: absolute;
     top: 30px;
