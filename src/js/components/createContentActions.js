@@ -3,6 +3,7 @@ const MediumEditor = require('medium-editor');
 const createButton = require('./createButton');
 const getClosest = require('../utils/getClosest');
 const insertAfter = require('../utils/insertAfter');
+const clickContent = require('../events/clickContent');
 
 function createContentActions(editorOptions) {
   const barActions = document.createElement('div');
@@ -54,6 +55,8 @@ function initEventBtnDuplicate(elem, editorOptions) {
     const newBarAction = newParent.querySelectorAll('.w-actions')[0];
     const divSnippet = document.createElement('div');
     const divActions = createContentActions(editorOptions);
+
+    clickContent(newParent);
 
     newBarAction.remove();
     newContent.remove();

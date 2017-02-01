@@ -2876,7 +2876,7 @@
   position: relative;
   margin-left: -35px;
   padding-left: 35px; }
-  .w-content-container:hover .w-actions, .w-content-container.gu-mirror .w-actions {
+  .w-content-container.w-focus .w-actions, .w-content-container.gu-mirror .w-actions {
     visibility: visible;
     opacity: 1; }
   .w-content-container .w-actions {

@@ -9865,7 +9865,7 @@ module.exports = function createBarActions(primaryContainer) {
   document.body.appendChild(container);
 };
 
-},{"../utils/getContents":27,"./createButton":19,"basicmodal":2}],19:[function(require,module,exports){
+},{"../utils/getContents":28,"./createButton":19,"basicmodal":2}],19:[function(require,module,exports){
 'use strict';
 
 module.exports = function createButton(text, className, id) {
@@ -9886,6 +9886,7 @@ var MediumEditor = require('medium-editor');
 var createButton = require('./createButton');
 var getClosest = require('../utils/getClosest');
 var insertAfter = require('../utils/insertAfter');
+var clickContent = require('../events/clickContent');
 
 function createContentActions(editorOptions) {
   var barActions = document.createElement('div');
@@ -9938,6 +9939,8 @@ function initEventBtnDuplicate(elem, editorOptions) {
     var divSnippet = document.createElement('div');
     var divActions = createContentActions(editorOptions);
 
+    clickContent(newParent);
+
     newBarAction.remove();
     newContent.remove();
     divSnippet.className = 'w-snippet editable';
@@ -9952,14 +9955,17 @@ function initEventBtnDuplicate(elem, editorOptions) {
 
 module.exports = createContentActions;
 
-},{"../utils/getClosest":26,"../utils/insertAfter":28,"./createButton":19,"basicmodal":2,"medium-editor":12}],21:[function(require,module,exports){
+},{"../events/clickContent":24,"../utils/getClosest":27,"../utils/insertAfter":29,"./createButton":19,"basicmodal":2,"medium-editor":12}],21:[function(require,module,exports){
 'use strict';
 
 var createContentActions = require('./createContentActions');
+var clickContent = require('../events/clickContent');
 
 module.exports = function createEditContainer(content, editorOptions) {
   var container = document.createElement('div');
   var contentActions = createContentActions(editorOptions);
+
+  clickContent(container);
 
   container.className = 'w-content-container';
   container.appendChild(contentActions);
@@ -9968,7 +9974,7 @@ module.exports = function createEditContainer(content, editorOptions) {
   return container;
 };
 
-},{"./createContentActions":20}],22:[function(require,module,exports){
+},{"../events/clickContent":24,"./createContentActions":20}],22:[function(require,module,exports){
 'use strict';
 
 var createButton = require('./createButton');
@@ -10048,6 +10054,20 @@ module.exports = function dragNdrop(primaryContainer, editorOptions) {
 },{"./components/createEditContainer":21,"dragula":9,"medium-editor":12}],24:[function(require,module,exports){
 'use strict';
 
+module.exports = function (elem) {
+  elem.addEventListener('click', function (e) {
+    e.stopPropagation();
+
+    document.querySelectorAll('.w-focus').forEach(function (elFocus) {
+      elFocus.classList.remove('w-focus');
+    });
+    elem.classList.add('w-focus');
+  });
+};
+
+},{}],25:[function(require,module,exports){
+'use strict';
+
 var createBarActions = require('./components/createBarActions');
 var createSnippetContainer = require('./components/createSnippetContainer');
 var dragNDrop = require('./dragNDrop');
@@ -10057,6 +10077,13 @@ module.exports = function (containerId, options) {
   var primaryContainer = document.getElementById(containerId);
   var editorOptions = options && options.editorOptions;
   var snippetsPath = options && options.snippetsPath;
+  var body = document.getElementsByTagName('body')[0];
+
+  body.addEventListener('click', function () {
+    document.querySelectorAll('.w-focus').forEach(function (elFocus) {
+      elFocus.classList.remove('w-focus');
+    });
+  });
 
   if (snippetsPath) {
     fetch(snippetsPath).then(function (response) {
@@ -10080,7 +10107,7 @@ module.exports = function (containerId, options) {
   }
 };
 
-},{"./components/createBarActions":18,"./components/createSnippetContainer":22,"./dragNDrop":23,"./utils/getContents":27}],25:[function(require,module,exports){
+},{"./components/createBarActions":18,"./components/createSnippetContainer":22,"./dragNDrop":23,"./utils/getContents":28}],26:[function(require,module,exports){
 'use strict';
 
 var init = require('./init');
@@ -10089,7 +10116,7 @@ if (window) {
   window.WebEdit = init;
 }
 
-},{"./init":24}],26:[function(require,module,exports){
+},{"./init":25}],27:[function(require,module,exports){
 "use strict";
 
 /**
@@ -10119,7 +10146,7 @@ module.exports = function getClosest(elem, selector) {
     return null;
 };
 
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 'use strict';
 
 var htmlEncode = require('htmlencode').htmlEncode;
@@ -10135,11 +10162,11 @@ module.exports = function getContents(primaryContainer) {
   return htmlEncode(result);
 };
 
-},{"htmlencode":11}],28:[function(require,module,exports){
+},{"htmlencode":11}],29:[function(require,module,exports){
 "use strict";
 
 module.exports = function insertAfter(newNode, referenceNode) {
   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 };
 
-},{}]},{},[25]);
+},{}]},{},[26]);
