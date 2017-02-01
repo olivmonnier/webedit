@@ -1,9 +1,9 @@
-const basicModal = require('basicmodal');
 const MediumEditor = require('medium-editor');
 const createButton = require('./createButton');
 const getClosest = require('../utils/getClosest');
 const insertAfter = require('../utils/insertAfter');
 const clickContent = require('../events/clickContent');
+const clickBtnDelete = require('../events/clickBtnDelete');
 
 function createContentActions(editorOptions) {
   const barActions = document.createElement('div');
@@ -11,7 +11,7 @@ function createContentActions(editorOptions) {
   const btnDelete = createButton('', 'w-btn-delete fa fa-trash');
   const btnDuplicate = createButton('', 'w-btn-duplicate fa fa-plus');
 
-  initEventBtnDelete(btnDelete);
+  clickBtnDelete(btnDelete);
   initEventBtnDuplicate(btnDuplicate, editorOptions);
 
   barActions.className = 'w-actions';
@@ -20,29 +20,6 @@ function createContentActions(editorOptions) {
   barActions.appendChild(btnDuplicate);
 
   return barActions;
-}
-
-function initEventBtnDelete(elem) {
-  elem.addEventListener('click', function(e) {
-    const parent = getClosest(elem, '.w-content-container');
-
-    basicModal.show({
-      body: '<p><strong>Are you sure ?</strong></p>',
-      buttons: {
-        cancel: {
-          title: 'Cancel',
-          fn: basicModal.close
-        },
-        action: {
-          title: 'Continue',
-          fn: () => {
-            parent.remove();
-            basicModal.close();
-          }
-        }
-      }
-    })
-  });
 }
 
 function initEventBtnDuplicate(elem, editorOptions) {

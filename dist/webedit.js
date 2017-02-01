@@ -9838,34 +9838,21 @@ function hasOwnProperty(obj, prop) {
 },{"./support/isBuffer":16,"_process":13,"inherits":15}],18:[function(require,module,exports){
 'use strict';
 
-var basicModal = require('basicmodal');
 var createButton = require('./createButton');
-var getContents = require('../utils/getContents');
+var clickBtnExport = require('../events/clickBtnExport');
 
 module.exports = function createBarActions(primaryContainer) {
   var container = document.createElement('div');
   var btnExport = createButton('', 'w-btn-export fa fa-code');
 
-  btnExport.addEventListener('click', function (e) {
-    var content = getContents(primaryContainer);
-
-    basicModal.show({
-      body: '<pre>' + content + '</pre>',
-      buttons: {
-        action: {
-          title: 'Close',
-          fn: basicModal.close
-        }
-      }
-    });
-  });
+  clickBtnExport(btnExport, primaryContainer);
 
   container.className = 'w-bar-container';
   container.appendChild(btnExport);
   document.body.appendChild(container);
 };
 
-},{"../utils/getContents":28,"./createButton":19,"basicmodal":2}],19:[function(require,module,exports){
+},{"../events/clickBtnExport":26,"./createButton":19}],19:[function(require,module,exports){
 'use strict';
 
 module.exports = function createButton(text, className, id) {
@@ -9881,12 +9868,12 @@ module.exports = function createButton(text, className, id) {
 },{}],20:[function(require,module,exports){
 'use strict';
 
-var basicModal = require('basicmodal');
 var MediumEditor = require('medium-editor');
 var createButton = require('./createButton');
 var getClosest = require('../utils/getClosest');
 var insertAfter = require('../utils/insertAfter');
 var clickContent = require('../events/clickContent');
+var clickBtnDelete = require('../events/clickBtnDelete');
 
 function createContentActions(editorOptions) {
   var barActions = document.createElement('div');
@@ -9894,7 +9881,7 @@ function createContentActions(editorOptions) {
   var btnDelete = createButton('', 'w-btn-delete fa fa-trash');
   var btnDuplicate = createButton('', 'w-btn-duplicate fa fa-plus');
 
-  initEventBtnDelete(btnDelete);
+  clickBtnDelete(btnDelete);
   initEventBtnDuplicate(btnDuplicate, editorOptions);
 
   barActions.className = 'w-actions';
@@ -9903,29 +9890,6 @@ function createContentActions(editorOptions) {
   barActions.appendChild(btnDuplicate);
 
   return barActions;
-}
-
-function initEventBtnDelete(elem) {
-  elem.addEventListener('click', function (e) {
-    var parent = getClosest(elem, '.w-content-container');
-
-    basicModal.show({
-      body: '<p><strong>Are you sure ?</strong></p>',
-      buttons: {
-        cancel: {
-          title: 'Cancel',
-          fn: basicModal.close
-        },
-        action: {
-          title: 'Continue',
-          fn: function fn() {
-            parent.remove();
-            basicModal.close();
-          }
-        }
-      }
-    });
-  });
 }
 
 function initEventBtnDuplicate(elem, editorOptions) {
@@ -9955,7 +9919,7 @@ function initEventBtnDuplicate(elem, editorOptions) {
 
 module.exports = createContentActions;
 
-},{"../events/clickContent":24,"../utils/getClosest":27,"../utils/insertAfter":29,"./createButton":19,"basicmodal":2,"medium-editor":12}],21:[function(require,module,exports){
+},{"../events/clickBtnDelete":25,"../events/clickContent":28,"../utils/getClosest":31,"../utils/insertAfter":33,"./createButton":19,"medium-editor":12}],21:[function(require,module,exports){
 'use strict';
 
 var createContentActions = require('./createContentActions');
@@ -9974,30 +9938,18 @@ module.exports = function createEditContainer(content, editorOptions) {
   return container;
 };
 
-},{"../events/clickContent":24,"./createContentActions":20}],22:[function(require,module,exports){
+},{"../events/clickContent":28,"./createContentActions":20}],22:[function(require,module,exports){
 'use strict';
 
 var createButton = require('./createButton');
+var clickBtnOpen = require('../events/clickBtnOpen');
 
 module.exports = function createSnippetContainer(snippets) {
   var primaryContainer = document.createElement('div');
   var container = document.createElement('div');
   var btnOpen = createButton('', 'w-btn-open fa fa-angle-left');
 
-  btnOpen.addEventListener('click', function (e) {
-    var btnOpenClass = btnOpen.classList;
-
-    btnOpenClass.toggle('in');
-    primaryContainer.classList.toggle('in');
-
-    if (btnOpenClass.contains('in')) {
-      btnOpenClass.remove('fa-angle-left');
-      btnOpenClass.add('fa-angle-right');
-    } else {
-      btnOpenClass.remove('fa-angle-right');
-      btnOpenClass.add('fa-angle-left');
-    }
-  });
+  clickBtnOpen(btnOpen, primaryContainer);
 
   primaryContainer.className = 'w-aside-container';
   container.id = 'snippetsContainer';
@@ -10007,7 +9959,7 @@ module.exports = function createSnippetContainer(snippets) {
   document.body.appendChild(primaryContainer);
 };
 
-},{"./createButton":19}],23:[function(require,module,exports){
+},{"../events/clickBtnOpen":27,"./createButton":19}],23:[function(require,module,exports){
 'use strict';
 
 var MediumEditor = require('medium-editor');
@@ -10055,6 +10007,88 @@ module.exports = function dragNdrop(primaryContainer, editorOptions) {
 'use strict';
 
 module.exports = function (elem) {
+  elem.addEventListener('click', function () {
+    document.querySelectorAll('.w-focus').forEach(function (elFocus) {
+      elFocus.classList.remove('w-focus');
+    });
+  });
+};
+
+},{}],25:[function(require,module,exports){
+'use strict';
+
+var basicModal = require('basicmodal');
+var getClosest = require('../utils/getClosest');
+
+module.exports = function (elem) {
+  elem.addEventListener('click', function (e) {
+    var parent = getClosest(elem, '.w-content-container');
+
+    basicModal.show({
+      body: '<p><strong>Are you sure ?</strong></p>',
+      buttons: {
+        cancel: {
+          title: 'Cancel',
+          fn: basicModal.close
+        },
+        action: {
+          title: 'Continue',
+          fn: function fn() {
+            parent.remove();
+            basicModal.close();
+          }
+        }
+      }
+    });
+  });
+};
+
+},{"../utils/getClosest":31,"basicmodal":2}],26:[function(require,module,exports){
+'use strict';
+
+var basicModal = require('basicmodal');
+var getContents = require('../utils/getContents');
+
+module.exports = function (elem, container) {
+  elem.addEventListener('click', function (e) {
+    var content = getContents(container);
+
+    basicModal.show({
+      body: '<pre>' + content + '</pre>',
+      buttons: {
+        action: {
+          title: 'Close',
+          fn: basicModal.close
+        }
+      }
+    });
+  });
+};
+
+},{"../utils/getContents":32,"basicmodal":2}],27:[function(require,module,exports){
+'use strict';
+
+module.exports = function (elem, container) {
+  elem.addEventListener('click', function (e) {
+    var btnOpenClass = elem.classList;
+
+    btnOpenClass.toggle('in');
+    container.classList.toggle('in');
+
+    if (btnOpenClass.contains('in')) {
+      btnOpenClass.remove('fa-angle-left');
+      btnOpenClass.add('fa-angle-right');
+    } else {
+      btnOpenClass.remove('fa-angle-right');
+      btnOpenClass.add('fa-angle-left');
+    }
+  });
+};
+
+},{}],28:[function(require,module,exports){
+'use strict';
+
+module.exports = function (elem) {
   elem.addEventListener('click', function (e) {
     e.stopPropagation();
 
@@ -10065,13 +10099,14 @@ module.exports = function (elem) {
   });
 };
 
-},{}],25:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 'use strict';
 
 var createBarActions = require('./components/createBarActions');
 var createSnippetContainer = require('./components/createSnippetContainer');
 var dragNDrop = require('./dragNDrop');
 var getContents = require('./utils/getContents');
+var clickBody = require('./events/clickBody');
 
 module.exports = function (containerId, options) {
   var primaryContainer = document.getElementById(containerId);
@@ -10079,11 +10114,7 @@ module.exports = function (containerId, options) {
   var snippetsPath = options && options.snippetsPath;
   var body = document.getElementsByTagName('body')[0];
 
-  body.addEventListener('click', function () {
-    document.querySelectorAll('.w-focus').forEach(function (elFocus) {
-      elFocus.classList.remove('w-focus');
-    });
-  });
+  clickBody(body);
 
   if (snippetsPath) {
     fetch(snippetsPath).then(function (response) {
@@ -10107,7 +10138,7 @@ module.exports = function (containerId, options) {
   }
 };
 
-},{"./components/createBarActions":18,"./components/createSnippetContainer":22,"./dragNDrop":23,"./utils/getContents":28}],26:[function(require,module,exports){
+},{"./components/createBarActions":18,"./components/createSnippetContainer":22,"./dragNDrop":23,"./events/clickBody":24,"./utils/getContents":32}],30:[function(require,module,exports){
 'use strict';
 
 var init = require('./init');
@@ -10116,7 +10147,7 @@ if (window) {
   window.WebEdit = init;
 }
 
-},{"./init":25}],27:[function(require,module,exports){
+},{"./init":29}],31:[function(require,module,exports){
 "use strict";
 
 /**
@@ -10146,7 +10177,7 @@ module.exports = function getClosest(elem, selector) {
     return null;
 };
 
-},{}],28:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 'use strict';
 
 var htmlEncode = require('htmlencode').htmlEncode;
@@ -10162,11 +10193,11 @@ module.exports = function getContents(primaryContainer) {
   return htmlEncode(result);
 };
 
-},{"htmlencode":11}],29:[function(require,module,exports){
+},{"htmlencode":11}],33:[function(require,module,exports){
 "use strict";
 
 module.exports = function insertAfter(newNode, referenceNode) {
   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 };
 
-},{}]},{},[26]);
+},{}]},{},[30]);
