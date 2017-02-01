@@ -1,4 +1,4 @@
-module.exports = function createButton(text, className, id) {
+export default function createButton(text, className, id) {
   const button = document.createElement('button');
   button.textContent = text;
 

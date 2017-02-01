@@ -1,4 +1,4 @@
-module.exports = function(elem) {
+export default function(elem) {
   elem.addEventListener('click', function(e) {
     e.stopPropagation();
 

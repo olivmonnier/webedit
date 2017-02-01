@@ -1,7 +1,7 @@
-const createContentActions = require('./createContentActions');
-const clickContent = require('../events/clickContent');
+import createContentActions from './createContentActions';
+import clickContent from '../events/clickContent';
 
-module.exports = function createEditContainer(content, editorOptions) {
+export default function createEditContainer(content, editorOptions) {
   const container = document.createElement('div');
   const contentActions = createContentActions(editorOptions);
 

@@ -1,7 +1,7 @@
 const basicModal = require('basicmodal');
-const getClosest = require('../utils/getClosest');
+import getClosest from '../utils/getClosest';
 
-module.exports = function(elem) {
+export default function(elem) {
   elem.addEventListener('click', function(e) {
     const parent = getClosest(elem, '.w-content-container');
 

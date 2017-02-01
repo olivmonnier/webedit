@@ -1,10 +1,10 @@
-const createBarActions = require('./components/createBarActions');
-const createSnippetContainer = require('./components/createSnippetContainer');
-const dragNDrop = require('./dragNDrop');
-const getContents = require('./utils/getContents');
-const clickDocument = require('./events/clickDocument');
+import createBarActions from './components/createBarActions';
+import createSnippetContainer from './components/createSnippetContainer';
+import dragNDrop from './dragNDrop';
+import getContents from './utils/getContents';
+import clickDocument from './events/clickDocument';
 
-module.exports = function(containerId, options) {
+export default function(containerId, options) {
   const primaryContainer = document.getElementById(containerId);
   const editorOptions = options && options.editorOptions;
   const snippetsPath = options && options.snippetsPath;

@@ -1,7 +1,7 @@
 const basicModal = require('basicmodal');
-const getContents = require('../utils/getContents');
+import getContents from '../utils/getContents';
 
-module.exports = function(elem, container) {
+export default function(elem, container) {
   elem.addEventListener('click', function(e) {
     const content = getContents(container);
 

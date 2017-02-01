@@ -1,7 +1,7 @@
-const createButton = require('./createButton');
-const clickBtnExport = require('../events/clickBtnExport');
+import createButton from './createButton';
+import clickBtnExport from '../events/clickBtnExport';
 
-module.exports = function createBarActions(primaryContainer) {
+export default function createBarActions(primaryContainer) {
   const container = document.createElement('div');
   const btnExport = createButton('', 'w-btn-export fa fa-code');
 

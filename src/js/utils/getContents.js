@@ -1,6 +1,6 @@
 const htmlEncode = require('htmlencode').htmlEncode;
 
-module.exports = function getContents(primaryContainer) {
+export default function getContents(primaryContainer) {
   let result = '';
   const snippets = primaryContainer.querySelectorAll('.w-snippet');
 

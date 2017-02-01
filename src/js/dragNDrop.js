@@ -1,8 +1,8 @@
 const MediumEditor = require('medium-editor');
 const dragula = require('dragula');
-const createEditContainer = require('./components/createEditContainer');
+import createEditContainer from './components/createEditContainer';
 
-module.exports = function dragNdrop(primaryContainer, editorOptions) {
+export default function dragNdrop(primaryContainer, editorOptions) {
   dragula([primaryContainer, document.getElementById('snippetsContainer')], {
     copy: function (el, source) {
       return source === document.getElementById('snippetsContainer')

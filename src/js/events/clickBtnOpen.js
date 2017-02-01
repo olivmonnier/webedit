@@ -1,4 +1,4 @@
-module.exports = function(elem, container) {
+export default function(elem, container) {
   elem.addEventListener('click', function(e) {
     const btnOpenClass = elem.classList;
 

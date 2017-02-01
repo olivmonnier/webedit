@@ -1,7 +1,7 @@
-const createButton = require('./createButton');
-const clickBtnOpen = require('../events/clickBtnOpen');
+import createButton from './createButton';
+import clickBtnOpen from '../events/clickBtnOpen';
 
-module.exports = function createSnippetContainer(snippets) {
+export default function createSnippetContainer(snippets) {
   const primaryContainer = document.createElement('div');
   const container = document.createElement('div');
   const btnOpen = createButton('', 'w-btn-open fa fa-angle-left');

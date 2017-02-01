@@ -5,7 +5,7 @@
  * @param  {String}  selector Selector to match against
  * @return {Boolean|Element}  Returns null if not match found
  */
-module.exports = function getClosest ( elem, selector ) {
+export default function getClosest ( elem, selector ) {
 
     // Element.matches() polyfill
     if (!Element.prototype.matches) {

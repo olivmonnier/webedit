@@ -9838,24 +9838,40 @@ function hasOwnProperty(obj, prop) {
 },{"./support/isBuffer":16,"_process":13,"inherits":15}],18:[function(require,module,exports){
 'use strict';
 
-var createButton = require('./createButton');
-var clickBtnExport = require('../events/clickBtnExport');
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = createBarActions;
 
-module.exports = function createBarActions(primaryContainer) {
+var _createButton = require('./createButton');
+
+var _createButton2 = _interopRequireDefault(_createButton);
+
+var _clickBtnExport = require('../events/clickBtnExport');
+
+var _clickBtnExport2 = _interopRequireDefault(_clickBtnExport);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function createBarActions(primaryContainer) {
   var container = document.createElement('div');
-  var btnExport = createButton('', 'w-btn-export fa fa-code');
+  var btnExport = (0, _createButton2.default)('', 'w-btn-export fa fa-code');
 
-  clickBtnExport(btnExport, primaryContainer);
+  (0, _clickBtnExport2.default)(btnExport, primaryContainer);
 
   container.className = 'w-bar-container';
   container.appendChild(btnExport);
   document.body.appendChild(container);
-};
+}
 
-},{"../events/clickBtnExport":25,"./createButton":19}],19:[function(require,module,exports){
+},{"../events/clickBtnExport":26,"./createButton":19}],19:[function(require,module,exports){
 'use strict';
 
-module.exports = function createButton(text, className, id) {
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = createButton;
+function createButton(text, className, id) {
   var button = document.createElement('button');
   button.textContent = text;
 
@@ -9863,26 +9879,38 @@ module.exports = function createButton(text, className, id) {
   if (id) button.id = id;
 
   return button;
-};
+}
 
 },{}],20:[function(require,module,exports){
 'use strict';
 
-var MediumEditor = require('medium-editor');
-var createButton = require('./createButton');
-var getClosest = require('../utils/getClosest');
-var insertAfter = require('../utils/insertAfter');
-var clickContent = require('../events/clickContent');
-var clickBtnDelete = require('../events/clickBtnDelete');
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = createContentActions;
+
+var _createButton = require('./createButton');
+
+var _createButton2 = _interopRequireDefault(_createButton);
+
+var _clickBtnDelete = require('../events/clickBtnDelete');
+
+var _clickBtnDelete2 = _interopRequireDefault(_clickBtnDelete);
+
+var _clickBtnDuplicate = require('../events/clickBtnDuplicate');
+
+var _clickBtnDuplicate2 = _interopRequireDefault(_clickBtnDuplicate);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function createContentActions(editorOptions) {
   var barActions = document.createElement('div');
-  var btnMove = createButton('', 'w-btn-move fa fa-arrows');
-  var btnDelete = createButton('', 'w-btn-delete fa fa-trash');
-  var btnDuplicate = createButton('', 'w-btn-duplicate fa fa-plus');
+  var btnMove = (0, _createButton2.default)('', 'w-btn-move fa fa-arrows');
+  var btnDelete = (0, _createButton2.default)('', 'w-btn-delete fa fa-trash');
+  var btnDuplicate = (0, _createButton2.default)('', 'w-btn-duplicate fa fa-plus');
 
-  clickBtnDelete(btnDelete);
-  initEventBtnDuplicate(btnDuplicate, editorOptions);
+  (0, _clickBtnDelete2.default)(btnDelete);
+  (0, _clickBtnDuplicate2.default)(btnDuplicate, editorOptions);
 
   barActions.className = 'w-actions';
   barActions.appendChild(btnMove);
@@ -9892,64 +9920,61 @@ function createContentActions(editorOptions) {
   return barActions;
 }
 
-function initEventBtnDuplicate(elem, editorOptions) {
-  elem.addEventListener('click', function (e) {
-    var parent = getClosest(elem, '.w-content-container');
-    var content = parent.querySelectorAll('.w-snippet')[0];
-    var html = content.innerHTML;
-    var newParent = parent.cloneNode(true);
-    var newContent = newParent.querySelectorAll('.w-snippet')[0];
-    var newBarAction = newParent.querySelectorAll('.w-actions')[0];
-    var divSnippet = document.createElement('div');
-    var divActions = createContentActions(editorOptions);
-
-    clickContent(newParent);
-
-    newBarAction.remove();
-    newContent.remove();
-    divSnippet.className = 'w-snippet editable';
-    divSnippet.innerHTML = html;
-    newParent.appendChild(divActions);
-    newParent.appendChild(divSnippet);
-
-    insertAfter(newParent, parent);
-    new MediumEditor(divSnippet, editorOptions);
-  });
-}
-
-module.exports = createContentActions;
-
-},{"../events/clickBtnDelete":24,"../events/clickContent":27,"../utils/getClosest":31,"../utils/insertAfter":33,"./createButton":19,"medium-editor":12}],21:[function(require,module,exports){
+},{"../events/clickBtnDelete":24,"../events/clickBtnDuplicate":25,"./createButton":19}],21:[function(require,module,exports){
 'use strict';
 
-var createContentActions = require('./createContentActions');
-var clickContent = require('../events/clickContent');
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = createEditContainer;
 
-module.exports = function createEditContainer(content, editorOptions) {
+var _createContentActions = require('./createContentActions');
+
+var _createContentActions2 = _interopRequireDefault(_createContentActions);
+
+var _clickContent = require('../events/clickContent');
+
+var _clickContent2 = _interopRequireDefault(_clickContent);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function createEditContainer(content, editorOptions) {
   var container = document.createElement('div');
-  var contentActions = createContentActions(editorOptions);
+  var contentActions = (0, _createContentActions2.default)(editorOptions);
 
-  clickContent(container);
+  (0, _clickContent2.default)(container);
 
   container.className = 'w-content-container';
   container.appendChild(contentActions);
   container.appendChild(content);
 
   return container;
-};
+}
 
-},{"../events/clickContent":27,"./createContentActions":20}],22:[function(require,module,exports){
+},{"../events/clickContent":28,"./createContentActions":20}],22:[function(require,module,exports){
 'use strict';
 
-var createButton = require('./createButton');
-var clickBtnOpen = require('../events/clickBtnOpen');
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = createSnippetContainer;
 
-module.exports = function createSnippetContainer(snippets) {
+var _createButton = require('./createButton');
+
+var _createButton2 = _interopRequireDefault(_createButton);
+
+var _clickBtnOpen = require('../events/clickBtnOpen');
+
+var _clickBtnOpen2 = _interopRequireDefault(_clickBtnOpen);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function createSnippetContainer(snippets) {
   var primaryContainer = document.createElement('div');
   var container = document.createElement('div');
-  var btnOpen = createButton('', 'w-btn-open fa fa-angle-left');
+  var btnOpen = (0, _createButton2.default)('', 'w-btn-open fa fa-angle-left');
 
-  clickBtnOpen(btnOpen, primaryContainer);
+  (0, _clickBtnOpen2.default)(btnOpen, primaryContainer);
 
   primaryContainer.className = 'w-aside-container';
   container.id = 'snippetsContainer';
@@ -9957,16 +9982,25 @@ module.exports = function createSnippetContainer(snippets) {
   primaryContainer.appendChild(btnOpen);
   primaryContainer.appendChild(container);
   document.body.appendChild(primaryContainer);
-};
+}
 
-},{"../events/clickBtnOpen":26,"./createButton":19}],23:[function(require,module,exports){
+},{"../events/clickBtnOpen":27,"./createButton":19}],23:[function(require,module,exports){
 'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = dragNdrop;
+
+var _createEditContainer = require('./components/createEditContainer');
+
+var _createEditContainer2 = _interopRequireDefault(_createEditContainer);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var MediumEditor = require('medium-editor');
 var dragula = require('dragula');
-var createEditContainer = require('./components/createEditContainer');
-
-module.exports = function dragNdrop(primaryContainer, editorOptions) {
+function dragNdrop(primaryContainer, editorOptions) {
   dragula([primaryContainer, document.getElementById('snippetsContainer')], {
     copy: function copy(el, source) {
       return source === document.getElementById('snippetsContainer');
@@ -9996,22 +10030,23 @@ module.exports = function dragNdrop(primaryContainer, editorOptions) {
 
       if (content) {
         content.className += ' editable';
-        parent.replaceChild(createEditContainer(content, editorOptions), el);
+        parent.replaceChild((0, _createEditContainer2.default)(content, editorOptions), el);
         new MediumEditor(content, editorOptions);
       }
     }
   });
-};
+}
 
 },{"./components/createEditContainer":21,"dragula":9,"medium-editor":12}],24:[function(require,module,exports){
 'use strict';
 
-var basicModal = require('basicmodal');
-var getClosest = require('../utils/getClosest');
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-module.exports = function (elem) {
+exports.default = function (elem) {
   elem.addEventListener('click', function (e) {
-    var parent = getClosest(elem, '.w-content-container');
+    var parent = (0, _getClosest2.default)(elem, '.w-content-container');
 
     basicModal.show({
       body: '<p><strong>Are you sure ?</strong></p>',
@@ -10032,15 +10067,63 @@ module.exports = function (elem) {
   });
 };
 
-},{"../utils/getClosest":31,"basicmodal":2}],25:[function(require,module,exports){
-'use strict';
+var _getClosest = require('../utils/getClosest');
+
+var _getClosest2 = _interopRequireDefault(_getClosest);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var basicModal = require('basicmodal');
-var getContents = require('../utils/getContents');
 
-module.exports = function (elem, container) {
+},{"../utils/getClosest":32,"basicmodal":2}],25:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function (elem, editorOptions) {
   elem.addEventListener('click', function (e) {
-    var content = getContents(container);
+    var newParent = null;
+    var parent = (0, _getClosest2.default)(elem, '.w-content-container');
+    var content = parent.querySelectorAll('.w-snippet')[0];
+    var html = content.innerHTML;
+    var divSnippet = document.createElement('div');
+
+    divSnippet.className = 'w-snippet editable';
+    divSnippet.innerHTML = html;
+    newParent = (0, _createEditContainer2.default)(divSnippet, editorOptions);
+    (0, _insertAfter2.default)(newParent, parent);
+    new MediumEditor(divSnippet, editorOptions);
+  });
+};
+
+var _createEditContainer = require('../components/createEditContainer');
+
+var _createEditContainer2 = _interopRequireDefault(_createEditContainer);
+
+var _getClosest = require('../utils/getClosest');
+
+var _getClosest2 = _interopRequireDefault(_getClosest);
+
+var _insertAfter = require('../utils/insertAfter');
+
+var _insertAfter2 = _interopRequireDefault(_insertAfter);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var MediumEditor = require('medium-editor');
+
+},{"../components/createEditContainer":21,"../utils/getClosest":32,"../utils/insertAfter":34,"medium-editor":12}],26:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function (elem, container) {
+  elem.addEventListener('click', function (e) {
+    var content = (0, _getContents2.default)(container);
 
     basicModal.show({
       body: '<pre>' + content + '</pre>',
@@ -10054,10 +10137,22 @@ module.exports = function (elem, container) {
   });
 };
 
-},{"../utils/getContents":32,"basicmodal":2}],26:[function(require,module,exports){
+var _getContents = require('../utils/getContents');
+
+var _getContents2 = _interopRequireDefault(_getContents);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var basicModal = require('basicmodal');
+
+},{"../utils/getContents":33,"basicmodal":2}],27:[function(require,module,exports){
 'use strict';
 
-module.exports = function (elem, container) {
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function (elem, container) {
   elem.addEventListener('click', function (e) {
     var btnOpenClass = elem.classList;
 
@@ -10074,10 +10169,14 @@ module.exports = function (elem, container) {
   });
 };
 
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 'use strict';
 
-module.exports = function (elem) {
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function (elem) {
   elem.addEventListener('click', function (e) {
     e.stopPropagation();
 
@@ -10088,10 +10187,14 @@ module.exports = function (elem) {
   });
 };
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 'use strict';
 
-module.exports = function (elem) {
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function (elem) {
   elem.addEventListener('click', function () {
     document.querySelectorAll('.w-focus').forEach(function (elFocus) {
       elFocus.classList.remove('w-focus');
@@ -10099,37 +10202,35 @@ module.exports = function (elem) {
   });
 };
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 'use strict';
 
-var createBarActions = require('./components/createBarActions');
-var createSnippetContainer = require('./components/createSnippetContainer');
-var dragNDrop = require('./dragNDrop');
-var getContents = require('./utils/getContents');
-var clickDocument = require('./events/clickDocument');
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-module.exports = function (containerId, options) {
+exports.default = function (containerId, options) {
   var primaryContainer = document.getElementById(containerId);
   var editorOptions = options && options.editorOptions;
   var snippetsPath = options && options.snippetsPath;
 
-  clickDocument(document);
+  (0, _clickDocument2.default)(document);
 
   if (snippetsPath) {
     fetch(snippetsPath).then(function (response) {
       return response.text();
     }).then(function (snippets) {
-      createSnippetContainer(snippets);
-      createBarActions(primaryContainer);
+      (0, _createSnippetContainer2.default)(snippets);
+      (0, _createBarActions2.default)(primaryContainer);
     }).then(function () {
-      dragNDrop(primaryContainer, editorOptions);
+      (0, _dragNDrop2.default)(primaryContainer, editorOptions);
     }).catch(function (response) {
       return console.log(response);
     });
 
     return {
       exportHtml: function exportHtml() {
-        return getContents(primaryContainer);
+        return (0, _getContents2.default)(primaryContainer);
       }
     };
   } else {
@@ -10137,18 +10238,48 @@ module.exports = function (containerId, options) {
   }
 };
 
-},{"./components/createBarActions":18,"./components/createSnippetContainer":22,"./dragNDrop":23,"./events/clickDocument":28,"./utils/getContents":32}],30:[function(require,module,exports){
+var _createBarActions = require('./components/createBarActions');
+
+var _createBarActions2 = _interopRequireDefault(_createBarActions);
+
+var _createSnippetContainer = require('./components/createSnippetContainer');
+
+var _createSnippetContainer2 = _interopRequireDefault(_createSnippetContainer);
+
+var _dragNDrop = require('./dragNDrop');
+
+var _dragNDrop2 = _interopRequireDefault(_dragNDrop);
+
+var _getContents = require('./utils/getContents');
+
+var _getContents2 = _interopRequireDefault(_getContents);
+
+var _clickDocument = require('./events/clickDocument');
+
+var _clickDocument2 = _interopRequireDefault(_clickDocument);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+},{"./components/createBarActions":18,"./components/createSnippetContainer":22,"./dragNDrop":23,"./events/clickDocument":29,"./utils/getContents":33}],31:[function(require,module,exports){
 'use strict';
 
-var init = require('./init');
+var _init = require('./init');
+
+var _init2 = _interopRequireDefault(_init);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 if (window) {
-  window.WebEdit = init;
+  window.WebEdit = _init2.default;
 }
 
-},{"./init":29}],31:[function(require,module,exports){
+},{"./init":30}],32:[function(require,module,exports){
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = getClosest;
 /**
  * Get the closest matching element up the DOM tree.
  * @private
@@ -10156,7 +10287,7 @@ if (window) {
  * @param  {String}  selector Selector to match against
  * @return {Boolean|Element}  Returns null if not match found
  */
-module.exports = function getClosest(elem, selector) {
+function getClosest(elem, selector) {
 
     // Element.matches() polyfill
     if (!Element.prototype.matches) {
@@ -10176,12 +10307,16 @@ module.exports = function getClosest(elem, selector) {
     return null;
 };
 
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getContents;
 var htmlEncode = require('htmlencode').htmlEncode;
 
-module.exports = function getContents(primaryContainer) {
+function getContents(primaryContainer) {
   var result = '';
   var snippets = primaryContainer.querySelectorAll('.w-snippet');
 
@@ -10190,13 +10325,17 @@ module.exports = function getContents(primaryContainer) {
   });
 
   return htmlEncode(result);
-};
+}
 
-},{"htmlencode":11}],33:[function(require,module,exports){
+},{"htmlencode":11}],34:[function(require,module,exports){
 "use strict";
 
-module.exports = function insertAfter(newNode, referenceNode) {
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = insertAfter;
+function insertAfter(newNode, referenceNode) {
   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-};
+}
 
-},{}]},{},[30]);
+},{}]},{},[31]);

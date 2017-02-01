@@ -1,4 +1,4 @@
-const init = require('./init');
+import init from './init';
 
 if (window) {
   window.WebEdit = init;
