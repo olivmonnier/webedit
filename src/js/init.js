@@ -2,15 +2,14 @@ const createBarActions = require('./components/createBarActions');
 const createSnippetContainer = require('./components/createSnippetContainer');
 const dragNDrop = require('./dragNDrop');
 const getContents = require('./utils/getContents');
-const clickBody = require('./events/clickBody');
+const clickDocument = require('./events/clickDocument');
 
 module.exports = function(containerId, options) {
   const primaryContainer = document.getElementById(containerId);
   const editorOptions = options && options.editorOptions;
   const snippetsPath = options && options.snippetsPath;
-  const body = document.getElementsByTagName('body')[0];
 
-  clickBody(body);
+  clickDocument(document);
 
   if (snippetsPath) {
     fetch(snippetsPath).then(response => {
