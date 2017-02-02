@@ -1,3 +1,5 @@
+import changeSnippetsList from '../events/changeSnippetsList';
+
 export default function createSelectorSnippets(nbList, container) {
   const select = document.createElement('select');
 
@@ -5,9 +7,11 @@ export default function createSelectorSnippets(nbList, container) {
     const option = document.createElement('option');
 
     option.setAttribute('value', n);
-    option.textContent = n;
+    option.textContent = 'List ' + n;
     select.appendChild(option);
   }
+
+  changeSnippetsList(select);
 
   container.appendChild(select);
 }

@@ -20,3 +20,10 @@
 .w-hover {
   border: 1px solid #ddd;
 }
+
+.w-hide {
+  height: 0 !important;
+  visibility: hidden;
+  opacity: 0;
+  overflow: hidden;
+}

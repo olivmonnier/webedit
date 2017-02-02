@@ -13,6 +13,7 @@ export default function createSnippetContainer(snippets) {
     const list = document.createElement('div');
 
     list.className = 'w-list-snippets';
+    if (i !== 0) list.className += ' w-hide';
     list.setAttribute('data-index', i);
     list.innerHTML = snippet;
     container.appendChild(list);

@@ -2815,10 +2815,19 @@
     background-color: rgba(204, 204, 204, 0.14); }
   .w-aside-container.in {
     right: 0; }
+  .w-aside-container select {
+    margin-bottom: 8px;
+    padding: 6px 12px;
+    display: block;
+    height: 34px;
+    width: 100%; }
   .w-aside-container .w-list-snippets {
     width: 100%;
     height: 100%;
-    overflow-y: auto; }
+    overflow-y: auto;
+    transition: all .5s ease-out;
+    background-color: #fff;
+    border: 1px solid #ddd; }
     .w-aside-container .w-list-snippets > * {
       padding: 8px;
       cursor: pointer;
@@ -2921,3 +2930,9 @@
 
 .w-hover {
   border: 1px solid #ddd; }
+
+.w-hide {
+  height: 0 !important;
+  visibility: hidden;
+  opacity: 0;
+  overflow: hidden; }
