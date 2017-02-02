@@ -11,25 +11,18 @@
     <script src="./dist/webedit.js"></script>
     <script>
       var webEditor = WebEdit('editor', {
-        snippetsPath: ['./snippets.html', './snippets1.html'],
+        snippetsPath: [{
+          label: 'test 1',
+          url: './snippets.html'
+        },
+        {
+          label: 'test 2',
+          url: './snippets1.html'
+        }],
         editorOptions: {
           buttonLabels: 'fontawesome',
           toolbar: {
-              /* These are the default options for the toolbar,
-                 if nothing is passed this is what is used */
-              allowMultiParagraphSelection: true,
-              buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'image', 'quote', 'justifyLeft', 'justifyRight', 'justifyCenter'],
-              diffLeft: 0,
-              diffTop: -10,
-              firstButtonClass: 'medium-editor-button-first',
-              lastButtonClass: 'medium-editor-button-last',
-              relativeContainer: null,
-              standardizeSelectionStart: false,
-              static: false,
-              /* options which only apply when static is true */
-              align: 'center',
-              sticky: false,
-              updateOnEmptySelection: false
+            buttons: ['bold', 'italic', 'underline', 'strikethrough', 'anchor', 'image', 'quote', 'justifyLeft', 'justifyRight', 'justifyCenter', 'h1', 'h2', 'h3', 'h4', 'orderedlist', 'unorderedlist', 'indent', 'outdent', 'colorPicker', 'removeFormat']
           }
         }
       });

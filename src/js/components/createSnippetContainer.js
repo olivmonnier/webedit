@@ -2,7 +2,7 @@ import createButton from './createButton';
 import createSelectorSnippets from './createSelectorSnippets';
 import clickBtnOpen from '../events/clickBtnOpen';
 
-export default function createSnippetContainer(snippets) {
+export default function createSnippetContainer(snippets, urls) {
   const primaryContainer = document.createElement('div');
   const container = document.createElement('div');
   const btnOpen = createButton('', 'w-btn-open fa fa-angle-left');
@@ -20,7 +20,7 @@ export default function createSnippetContainer(snippets) {
   });
 
   if (snippets.length > 1) {
-    createSelectorSnippets(snippets.length, primaryContainer);
+    createSelectorSnippets(urls, primaryContainer);
   }
 
   primaryContainer.className = 'w-aside-container';

@@ -9965,16 +9965,16 @@ var _changeSnippetsList2 = _interopRequireDefault(_changeSnippetsList);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function createSelectorSnippets(nbList, container) {
+function createSelectorSnippets(urls, container) {
   var select = document.createElement('select');
 
-  for (var n = 0; n < nbList; n++) {
+  urls.forEach(function (url, n) {
     var option = document.createElement('option');
 
     option.setAttribute('value', n);
-    option.textContent = 'List ' + n;
+    option.textContent = url.label || 'List ' + n;
     select.appendChild(option);
-  }
+  });
 
   (0, _changeSnippetsList2.default)(select);
 
@@ -10003,7 +10003,7 @@ var _clickBtnOpen2 = _interopRequireDefault(_clickBtnOpen);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function createSnippetContainer(snippets) {
+function createSnippetContainer(snippets, urls) {
   var primaryContainer = document.createElement('div');
   var container = document.createElement('div');
   var btnOpen = (0, _createButton2.default)('', 'w-btn-open fa fa-angle-left');
@@ -10021,7 +10021,7 @@ function createSnippetContainer(snippets) {
   });
 
   if (snippets.length > 1) {
-    (0, _createSelectorSnippets2.default)(snippets.length, primaryContainer);
+    (0, _createSelectorSnippets2.default)(urls, primaryContainer);
   }
 
   primaryContainer.className = 'w-aside-container';
@@ -10283,7 +10283,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 exports.default = function (containerId, options) {
-  var urls = [];
+  var urls = [];var snippetsUrls = [];
   var primaryContainer = document.getElementById(containerId);
   var editorOptions = options && options.editorOptions;
   var snippetsPath = options && options.snippetsPath;
@@ -10291,15 +10291,18 @@ exports.default = function (containerId, options) {
   (0, _clickDocument2.default)(document);
 
   if (snippetsPath) {
-    urls = Array.isArray(snippetsPath) ? snippetsPath : [snippetsPath];
+    snippetsUrls = Array.isArray(snippetsPath) ? snippetsPath : [snippetsPath];
+    urls = snippetsUrls.map(function (u) {
+      return { url: u.url || u, label: u.label || '' };
+    });
 
-    Promise.all(urls.map(function (url) {
-      return fetch(url, { method: 'GET' });
+    Promise.all(urls.map(function (u) {
+      return fetch(u.url, { method: 'GET' });
     })).then(function (responses) {
       Promise.all(responses.map(function (res) {
         return res.text();
       })).then(function (snippets) {
-        (0, _createSnippetContainer2.default)(snippets);
+        (0, _createSnippetContainer2.default)(snippets, urls);
         (0, _createBarActions2.default)(primaryContainer);
       }).then(function () {
         (0, _dragNDrop2.default)(primaryContainer, editorOptions);

@@ -1,15 +1,15 @@
 import changeSnippetsList from '../events/changeSnippetsList';
 
-export default function createSelectorSnippets(nbList, container) {
+export default function createSelectorSnippets(urls, container) {
   const select = document.createElement('select');
 
-  for(let n = 0; n < nbList; n++) {
+  urls.forEach((url, n) => {
     const option = document.createElement('option');
 
     option.setAttribute('value', n);
-    option.textContent = 'List ' + n;
+    option.textContent = url.label || 'List ' + n;
     select.appendChild(option);
-  }
+  });
 
   changeSnippetsList(select);
 

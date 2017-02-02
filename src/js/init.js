@@ -5,7 +5,7 @@ import getContents from './utils/getContents';
 import clickDocument from './events/clickDocument';
 
 export default function(containerId, options) {
-  let urls = [];
+  let urls = []; let snippetsUrls = [];
   const primaryContainer = document.getElementById(containerId);
   const editorOptions = options && options.editorOptions;
   const snippetsPath = options && options.snippetsPath;
@@ -13,12 +13,13 @@ export default function(containerId, options) {
   clickDocument(document);
 
   if (snippetsPath) {
-    urls = Array.isArray(snippetsPath) ? snippetsPath : [snippetsPath];
-    
-    Promise.all(urls.map(url => fetch(url, { method: 'GET' }))).then(responses => {
+    snippetsUrls = Array.isArray(snippetsPath) ? snippetsPath : [snippetsPath];
+    urls = snippetsUrls.map(u => ({url: u.url || u, label: u.label || ''}));
+
+    Promise.all(urls.map(u => fetch(u.url, { method: 'GET' }))).then(responses => {
       Promise.all(responses.map(res => res.text()))
         .then((snippets) => {
-          createSnippetContainer(snippets);
+          createSnippetContainer(snippets, urls);
           createBarActions(primaryContainer);
         }).then(() => {
           dragNDrop(primaryContainer, editorOptions);
