@@ -1,4 +1,5 @@
 import createButton from './createButton';
+import createSelectorSnippets from './createSelectorSnippets';
 import clickBtnOpen from '../events/clickBtnOpen';
 
 export default function createSnippetContainer(snippets) {
@@ -8,10 +9,22 @@ export default function createSnippetContainer(snippets) {
 
   clickBtnOpen(btnOpen, primaryContainer);
 
+  snippets.forEach((snippet, i) => {
+    const list = document.createElement('div');
+
+    list.className = 'w-list-snippets';
+    list.setAttribute('data-index', i);
+    list.innerHTML = snippet;
+    container.appendChild(list);
+  });
+
+  if (snippets.length > 1) {
+    createSelectorSnippets(snippets.length, primaryContainer);
+  }
+
   primaryContainer.className = 'w-aside-container';
-  container.id = 'snippetsContainer';
-  container.innerHTML = snippets;
+  container.className = 'w-snippets-container';
   primaryContainer.appendChild(btnOpen);
-  primaryContainer.appendChild(container)
+  primaryContainer.appendChild(container);
   document.body.appendChild(primaryContainer);
 }

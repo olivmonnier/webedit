@@ -2815,19 +2815,19 @@
     background-color: rgba(204, 204, 204, 0.14); }
   .w-aside-container.in {
     right: 0; }
-  .w-aside-container #snippetsContainer {
+  .w-aside-container .w-list-snippets {
     width: 100%;
     height: 100%;
     overflow-y: auto; }
-    .w-aside-container #snippetsContainer > * {
+    .w-aside-container .w-list-snippets > * {
       padding: 8px;
       cursor: pointer;
       font-family: Arial;
       transition: all .3s ease-out;
       border: 1px solid transparent; }
-      .w-aside-container #snippetsContainer > *:hover, .w-aside-container #snippetsContainer > *:focus {
+      .w-aside-container .w-list-snippets > *:hover, .w-aside-container .w-list-snippets > *:focus {
         border: 1px solid #ccc; }
-      .w-aside-container #snippetsContainer > * img {
+      .w-aside-container .w-list-snippets > * img {
         display: block;
         max-width: 100%;
         height: auto; }

@@ -3,18 +3,22 @@ const dragula = require('dragula');
 import createEditContainer from './components/createEditContainer';
 
 export default function dragNdrop(primaryContainer, editorOptions) {
-  dragula([primaryContainer, document.getElementById('snippetsContainer')], {
+  let elems = [].slice.call(document.querySelectorAll('.w-list-snippets'));
+
+  elems.push(primaryContainer);
+
+  dragula(elems, {
     copy: function (el, source) {
-      return source === document.getElementById('snippetsContainer')
+      return source.className === 'w-list-snippets'
     },
     accepts: function (el, target) {
-      return target !== document.getElementById('snippetsContainer')
+      return target.className !== 'w-list-snippets'
     },
     moves: function (e, container, handle) {
       if (container.id == primaryContainer.id) {
         return handle.classList.contains('w-btn-move');
       }
-      return container.id == 'snippetsContainer';
+      return container.className == 'w-list-snippets';
     }
   }).on('drag', function(el, container) {
     if (container.id !== primaryContainer.id) {
@@ -29,7 +33,6 @@ export default function dragNdrop(primaryContainer, editorOptions) {
       const parent = el.parentNode;
       const newEl = el.cloneNode(true);
       const content = newEl.querySelectorAll('.w-snippet')[0];
-
 
       if (content) {
         content.className += ' editable';

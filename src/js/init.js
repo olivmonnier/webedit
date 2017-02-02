@@ -5,6 +5,7 @@ import getContents from './utils/getContents';
 import clickDocument from './events/clickDocument';
 
 export default function(containerId, options) {
+  let urls = [];
   const primaryContainer = document.getElementById(containerId);
   const editorOptions = options && options.editorOptions;
   const snippetsPath = options && options.snippetsPath;
@@ -12,14 +13,17 @@ export default function(containerId, options) {
   clickDocument(document);
 
   if (snippetsPath) {
-    fetch(snippetsPath).then(response => {
-      return response.text();
-    }).then((snippets) => {
-      createSnippetContainer(snippets);
-      createBarActions(primaryContainer);
-    }).then(() => {
-      dragNDrop(primaryContainer, editorOptions);
-    }).catch(response => console.log(response));
+    urls = Array.isArray(snippetsPath) ? snippetsPath : [snippetsPath];
+    
+    Promise.all(urls.map(url => fetch(url, { method: 'GET' }))).then(responses => {
+      Promise.all(responses.map(res => res.text()))
+        .then((snippets) => {
+          createSnippetContainer(snippets);
+          createBarActions(primaryContainer);
+        }).then(() => {
+          dragNDrop(primaryContainer, editorOptions);
+        }).catch(response => console.log(response))
+    })
 
     return {
       exportHtml: function() {
