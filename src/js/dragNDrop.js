@@ -9,19 +9,19 @@ export default function dragNdrop(primaryContainer, editorOptions) {
 
   dragula(elems, {
     copy: function (el, source) {
-      return source.className === 'w-list-snippets'
+      return source.classList.contains('w-list-snippets')
     },
     accepts: function (el, target) {
-      return target.className !== 'w-list-snippets'
+      return !target.classList.contains('w-list-snippets')
     },
     moves: function (e, container, handle) {
-      if (container.id == primaryContainer.id) {
+      if (container.classList.contains('w-contents-container')) {
         return handle.classList.contains('w-btn-move');
       }
-      return container.className == 'w-list-snippets';
+      return container.classList.contains('w-list-snippets')
     }
   }).on('drag', function(el, container) {
-    if (container.id !== primaryContainer.id) {
+    if (!container.classList.contains('w-contents-container')) {
       primaryContainer.classList.add('w-hover');
     }
   }).on('drop', function (el, container) {
@@ -29,7 +29,7 @@ export default function dragNdrop(primaryContainer, editorOptions) {
 
     if (el.querySelectorAll('.w-actions').length > 0) return;
 
-    if (container && container.id == primaryContainer.id ) {
+    if (container && container.classList.contains('w-contents-container')) {
       const parent = el.parentNode;
       const newEl = el.cloneNode(true);
       const content = newEl.querySelectorAll('.w-snippet')[0];

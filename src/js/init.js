@@ -12,6 +12,8 @@ export default function(containerId, options) {
 
   clickDocument(document);
 
+  primaryContainer.classList.add('w-contents-container');
+
   if (snippetsPath) {
     snippetsUrls = Array.isArray(snippetsPath) ? snippetsPath : [snippetsPath];
     urls = snippetsUrls.map(u => ({url: u.url || u, label: u.label || ''}));
