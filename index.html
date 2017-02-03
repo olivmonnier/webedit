@@ -4,13 +4,24 @@
     <meta charset="utf-8">
     <title>Test</title>
     <link rel="stylesheet" href="./dist/webedit.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      @media screen and (max-width: 800px) {
+        .w-content-container {
+          font-size: 50px;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="editor" style="margin: 0 100px;display:inline-block;width:50%;min-height:200px;">
+    <div style="width: 1024px; margin: 0 auto;">
+      <div id="editor">
+    </div>
     </div>
     <script src="./dist/webedit.js"></script>
     <script>
       var webEditor = WebEdit('editor', {
+        viewports: ['320px'],
         snippetsPath: [{
           label: 'test 1',
           url: './snippets.html'

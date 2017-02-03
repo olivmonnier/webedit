@@ -6,4 +6,8 @@
   padding: 4px;
   display: flex;
   justify-content: center;
+
+  [class*="w-btn"] + [class*="w-btn"] {
+    margin-left: 4px;
+  }
 }
