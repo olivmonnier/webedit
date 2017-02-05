@@ -9863,19 +9863,12 @@ function createBarActions(primaryContainer) {
   var container = document.createElement('div');
   var btnExport = (0, _createButton2.default)('', 'w-btn-export fa fa-code');
 
-  if (viewports.length > 0) {
-    var btnViewPortAuto = (0, _createButton2.default)('Auto', 'w-btn-viewport');
+  viewports.forEach(function (viewport) {
+    var btnViewPort = (0, _createButton2.default)(viewport, 'w-btn-viewport');
 
-    (0, _clickBtnViewPort2.default)(btnViewPortAuto);
-    container.appendChild(btnViewPortAuto);
-
-    viewports.forEach(function (viewport) {
-      var btnViewPort = (0, _createButton2.default)(viewport, 'w-btn-viewport');
-
-      (0, _clickBtnViewPort2.default)(btnViewPort, viewport);
-      container.appendChild(btnViewPort);
-    });
-  }
+    (0, _clickBtnViewPort2.default)(btnViewPort, viewport);
+    container.appendChild(btnViewPort);
+  });
 
   (0, _clickBtnExport2.default)(btnExport, primaryContainer);
 
@@ -10168,7 +10161,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var basicModal = require('basicmodal');
 
-},{"../utils/getClosest":35,"basicmodal":2}],27:[function(require,module,exports){
+},{"../utils/getClosest":36,"basicmodal":2}],27:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10207,7 +10200,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var MediumEditor = require('medium-editor');
 
-},{"../components/createEditContainer":21,"../utils/getClosest":35,"../utils/insertAfter":37,"medium-editor":12}],28:[function(require,module,exports){
+},{"../components/createEditContainer":21,"../utils/getClosest":36,"../utils/insertAfter":38,"medium-editor":12}],28:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10238,7 +10231,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var basicModal = require('basicmodal');
 
-},{"../utils/getContents":36,"basicmodal":2}],29:[function(require,module,exports){
+},{"../utils/getContents":37,"basicmodal":2}],29:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10269,15 +10262,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = clickBtnViewPort;
+function popupSettings(width) {
+  return 'height=400, width=' + width + ', top=100, left=' + width / 2 + ', toolbar=no, menubar=no, location=no, resizable=no, scrollbars=yes, status=no';
+}
+
 function clickBtnViewPort(elem, width) {
-  var contentsContainers = [].slice.call(document.querySelectorAll('.w-contents-container'));
   var widthInt = width && width.replace('px', '');
 
   elem.addEventListener('click', function () {
-    window.open(document.location.href, 'viewRender', 'height=200, width=' + widthInt + ', top=100, left=' + widthInt + ', toolbar=no, menubar=yes, location=no, resizable=yes, scrollbars=no, status=no');
-    contentsContainers.forEach(function (elem) {
-      return elem.style.width = width || '100%';
-    });
+    var pop = window.open(document.location.href, 'viewRender', popupSettings(widthInt));
   });
 }
 
@@ -10384,20 +10377,48 @@ var _clickDocument2 = _interopRequireDefault(_clickDocument);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./components/createBarActions":18,"./components/createSnippetContainer":23,"./dragNDrop":24,"./events/clickDocument":32,"./utils/getContents":36}],34:[function(require,module,exports){
+},{"./components/createBarActions":18,"./components/createSnippetContainer":23,"./dragNDrop":24,"./events/clickDocument":32,"./utils/getContents":37}],34:[function(require,module,exports){
 'use strict';
 
-var _init = require('./init');
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-var _init2 = _interopRequireDefault(_init);
+exports.default = function (documentParent) {
+  var container = documentParent.querySelectorAll('.w-contents-container')[0];
+  var contents = (0, _getContents2.default)(container, false);
+
+  window.document.getElementById(container.id).innerHTML = contents;
+};
+
+var _getContents = require('./utils/getContents');
+
+var _getContents2 = _interopRequireDefault(_getContents);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+},{"./utils/getContents":37}],35:[function(require,module,exports){
+'use strict';
+
+var _initEdit = require('./initEdit');
+
+var _initEdit2 = _interopRequireDefault(_initEdit);
+
+var _initRender = require('./initRender');
+
+var _initRender2 = _interopRequireDefault(_initRender);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 if (window) {
-  window.WebEdit = _init2.default;
+  if (window.opener) {
+    (0, _initRender2.default)(window.opener.document);
+  } else {
+    window.WebEdit = _initEdit2.default;
+  }
 }
 
-},{"./init":33}],35:[function(require,module,exports){
+},{"./initEdit":33,"./initRender":34}],36:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10431,7 +10452,7 @@ function getClosest(elem, selector) {
     return null;
 };
 
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10441,6 +10462,8 @@ exports.default = getContents;
 var htmlEncode = require('htmlencode').htmlEncode;
 
 function getContents(primaryContainer) {
+  var encoded = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
   var result = '';
   var snippets = primaryContainer.querySelectorAll('.w-snippet');
 
@@ -10448,10 +10471,10 @@ function getContents(primaryContainer) {
     result += snippet.innerHTML;
   });
 
-  return htmlEncode(result);
+  return encoded ? htmlEncode(result) : result;
 }
 
-},{"htmlencode":11}],37:[function(require,module,exports){
+},{"htmlencode":11}],38:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10462,4 +10485,4 @@ function insertAfter(newNode, referenceNode) {
   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 
-},{}]},{},[34]);
+},{}]},{},[35]);

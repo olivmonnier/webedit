@@ -6,8 +6,8 @@
     <link rel="stylesheet" href="./dist/webedit.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-      @media screen and (max-width: 800px) {
-        .w-content-container {
+      @media screen and (max-width: 600px) {
+        body {
           font-size: 50px;
         }
       }
@@ -20,23 +20,25 @@
     </div>
     <script src="./dist/webedit.js"></script>
     <script>
-      var webEditor = WebEdit('editor', {
-        viewports: ['320px'],
-        snippetsPath: [{
-          label: 'test 1',
-          url: './snippets.html'
-        },
-        {
-          label: 'test 2',
-          url: './snippets1.html'
-        }],
-        editorOptions: {
-          buttonLabels: 'fontawesome',
-          toolbar: {
-            buttons: ['bold', 'italic', 'underline', 'strikethrough', 'anchor', 'image', 'quote', 'justifyLeft', 'justifyRight', 'justifyCenter', 'h1', 'h2', 'h3', 'h4', 'orderedlist', 'unorderedlist', 'indent', 'outdent', 'colorPicker', 'removeFormat']
+      if (WebEdit) {
+        var webEditor = WebEdit('editor', {
+          viewports: ['480px', '720px'],
+          snippetsPath: [{
+            label: 'test 1',
+            url: './snippets.html'
+          },
+          {
+            label: 'test 2',
+            url: './snippets1.html'
+          }],
+          editorOptions: {
+            buttonLabels: 'fontawesome',
+            toolbar: {
+              buttons: ['bold', 'italic', 'underline', 'strikethrough', 'anchor', 'image', 'quote', 'justifyLeft', 'justifyRight', 'justifyCenter', 'h1', 'h2', 'h3', 'h4', 'orderedlist', 'unorderedlist', 'indent', 'outdent', 'colorPicker', 'removeFormat']
+            }
           }
-        }
-      });
+        });
+      }
     </script>
   </body>
 </html>

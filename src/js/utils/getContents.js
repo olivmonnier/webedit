@@ -1,6 +1,6 @@
 const htmlEncode = require('htmlencode').htmlEncode;
 
-export default function getContents(primaryContainer) {
+export default function getContents(primaryContainer, encoded = true) {
   let result = '';
   const snippets = primaryContainer.querySelectorAll('.w-snippet');
 
@@ -8,5 +8,5 @@ export default function getContents(primaryContainer) {
     result += snippet.innerHTML;
   });
 
-  return htmlEncode(result);
+  return encoded ? htmlEncode(result) : result;
 }

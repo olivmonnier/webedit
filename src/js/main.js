@@ -1,5 +1,10 @@
-import init from './init';
+import initEdit from './initEdit';
+import initRender from './initRender';
 
 if (window) {
-  window.WebEdit = init;
+  if (window.opener) {
+    initRender(window.opener.document);
+  } else {
+    window.WebEdit = initEdit;
+  }
 }
