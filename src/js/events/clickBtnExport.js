@@ -7,6 +7,7 @@ export default function(elem, container) {
 
     basicModal.show({
       body: '<pre>' + content + '</pre>',
+      class: 'modal-export',
       buttons: {
         action: {
           title: 'Close',

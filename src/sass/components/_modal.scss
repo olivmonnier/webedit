@@ -1,9 +1,29 @@
 .basicModal {
-  width: 800px;
 
   &__buttons, &__content {
     font-family: Arial;
   }
+
+  &__content {
+    background-color: #fff;
+
+    &:before {
+      content: ' ';
+      z-index: -1;
+      position:absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      box-shadow: -1px -1px 5px 0 #ddd;
+      background-color: rgba(204, 204, 204, 0.14);
+    }
+  }
+
+  &.modal-export {
+    width: 800px;
+  }
+
   pre {
     padding: 9.5px;
     white-space: pre-wrap;

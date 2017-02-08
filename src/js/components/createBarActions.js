@@ -7,9 +7,16 @@ export default function createBarActions(primaryContainer, viewports = []) {
   const btnExport = createButton('', 'w-btn-export fa fa-code');
 
   viewports.forEach(viewport => {
-    const btnViewPort = createButton(viewport, 'w-btn-viewport');
+    const widthInt = viewport.width.replace('px', '') || '';
+    const heightInt = viewport.height.replace('px', '') || '';
+    const label = viewport.label || widthInt + 'x' + heightInt;
+    const btnViewPort = createButton(label, 'w-btn-viewport');
+    const settings = {
+      width: widthInt,
+      height: heightInt
+    }
 
-    clickBtnViewPort(btnViewPort, viewport);
+    clickBtnViewPort(btnViewPort, settings);
     container.appendChild(btnViewPort);
   });
 

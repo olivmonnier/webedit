@@ -9864,9 +9864,16 @@ function createBarActions(primaryContainer) {
   var btnExport = (0, _createButton2.default)('', 'w-btn-export fa fa-code');
 
   viewports.forEach(function (viewport) {
-    var btnViewPort = (0, _createButton2.default)(viewport, 'w-btn-viewport');
+    var widthInt = viewport.width.replace('px', '') || '';
+    var heightInt = viewport.height.replace('px', '') || '';
+    var label = viewport.label || widthInt + 'x' + heightInt;
+    var btnViewPort = (0, _createButton2.default)(label, 'w-btn-viewport');
+    var settings = {
+      width: widthInt,
+      height: heightInt
+    };
 
-    (0, _clickBtnViewPort2.default)(btnViewPort, viewport);
+    (0, _clickBtnViewPort2.default)(btnViewPort, settings);
     container.appendChild(btnViewPort);
   });
 
@@ -10213,6 +10220,7 @@ exports.default = function (elem, container) {
 
     basicModal.show({
       body: '<pre>' + content + '</pre>',
+      class: 'modal-export',
       buttons: {
         action: {
           title: 'Close',
@@ -10263,14 +10271,18 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = clickBtnViewPort;
 function popupSettings(width) {
-  return 'height=400, width=' + width + ', top=100, left=' + width / 2 + ', toolbar=no, menubar=no, location=no, resizable=no, scrollbars=yes, status=no';
+  var height = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '700';
+
+  return 'height=' + height + ', width=' + width + ', top=100, left=' + width / 2 + ', toolbar=no, menubar=no, location=no, resizable=no, scrollbars=yes, status=no';
 }
 
-function clickBtnViewPort(elem, width) {
-  var widthInt = width && width.replace('px', '');
+function clickBtnViewPort(elem, settings) {
+  var width = settings.width,
+      height = settings.height;
+
 
   elem.addEventListener('click', function () {
-    var pop = window.open(document.location.href, 'viewRender', popupSettings(widthInt));
+    var pop = window.open(document.location.href, 'viewRender', popupSettings(width, height));
   });
 }
 
@@ -10314,11 +10326,20 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-exports.default = function (containerId, options) {
+exports.default = function (containerId) {
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
   var urls = [];var snippetsUrls = [];
+
   var primaryContainer = document.getElementById(containerId);
-  var editorOptions = options && options.editorOptions;
-  var snippetsPath = options && options.snippetsPath;
+  var editorOptionsDefault = {
+    buttonLabels: 'fontawesome',
+    toolbar: {
+      buttons: ['bold', 'italic', 'underline', 'strikethrough', 'anchor', 'image', 'quote', 'justifyLeft', 'justifyRight', 'justifyCenter', 'h1', 'h2', 'h3', 'h4', 'orderedlist', 'unorderedlist', 'indent', 'outdent', 'colorPicker', 'removeFormat']
+    }
+  };
+  var editorOptions = options.editorOptions || editorOptionsDefault;
+  var snippetsPath = options.snippetsPath;
 
   (0, _clickDocument2.default)(document);
 
