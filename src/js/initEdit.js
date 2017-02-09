@@ -25,7 +25,7 @@ export default function(containerId, options = {}) {
     snippetsUrls = Array.isArray(snippetsPath) ? snippetsPath : [snippetsPath];
     urls = snippetsUrls.map(u => ({url: u.url || u, label: u.label || ''}));
 
-    Promise.all(urls.map(u => fetch(u.url, { method: 'GET' }))).then(responses => {
+    Promise.all(urls.map(u => fetch(u.url, { method: 'GET', mode: 'cors' }))).then(responses => {
       Promise.all(responses.map(res => res.text()))
         .then((snippets) => {
           createSnippetContainer(snippets, urls);

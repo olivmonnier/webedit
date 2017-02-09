@@ -10374,7 +10374,7 @@ exports.default = function (containerId) {
     });
 
     Promise.all(urls.map(function (u) {
-      return fetch(u.url, { method: 'GET' });
+      return fetch(u.url, { method: 'GET', mode: 'cors' });
     })).then(function (responses) {
       Promise.all(responses.map(function (res) {
         return res.text();
