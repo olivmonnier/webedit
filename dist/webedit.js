@@ -10429,11 +10429,18 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-exports.default = function (documentParent) {
-  var container = documentParent.querySelectorAll('.w-contents-container')[0];
-  var contents = (0, _getContents2.default)(container, false);
+exports.default = function (containerId) {
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-  window.document.getElementById(container.id).innerHTML = contents;
+  var documentParent = window.opener.document;
+  var containersParent = [].slice.call(documentParent.querySelectorAll(containerId));
+  var containers = [].slice.call(document.querySelectorAll(containerId));
+
+  containersParent.forEach(function (containerParent, i) {
+    var contents = (0, _getContents2.default)(containerParent, false);
+
+    containers[i].innerHTML = contents;
+  });
 };
 
 var _getContents = require('./utils/getContents');
@@ -10456,11 +10463,7 @@ var _initRender2 = _interopRequireDefault(_initRender);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 if (window) {
-  if (window.opener) {
-    (0, _initRender2.default)(window.opener.document);
-  } else {
-    window.WebEdit = _initEdit2.default;
-  }
+  window.WebEdit = window.opener ? _initRender2.default : _initEdit2.default;
 }
 
 },{"./initEdit":33,"./initRender":34}],36:[function(require,module,exports){

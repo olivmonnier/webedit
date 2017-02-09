@@ -1,8 +1,13 @@
 import getContents from './utils/getContents';
 
-export default function(documentParent) {
-  const container = documentParent.querySelectorAll('.w-contents-container')[0];
-  const contents = getContents(container, false);
+export default function(containerId, options = {}) {
+  const documentParent = window.opener.document;
+  const containersParent = [].slice.call(documentParent.querySelectorAll(containerId));
+  const containers = [].slice.call(document.querySelectorAll(containerId));
 
-  window.document.getElementById(container.id).innerHTML = contents;
+  containersParent.forEach((containerParent, i) => {
+    const contents = getContents(containerParent, false);
+
+    containers[i].innerHTML = contents;
+  });
 }
