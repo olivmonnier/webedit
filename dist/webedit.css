@@ -2880,7 +2880,11 @@
   .w-btn-move {
     background-color: #0F0F0F;
     border: 1px solid #0F0F0F;
-    color: #fff; }
+    color: #fff;
+    cursor: move;
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab; }
   .w-btn-delete {
     background-color: #FF0000;
     border: 1px solid #FF0000;

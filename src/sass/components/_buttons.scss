@@ -16,6 +16,10 @@
     background-color: #0F0F0F;
     border: 1px solid #0F0F0F;
     color: #fff;
+    cursor: move;
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
   }
 
   &-delete {
