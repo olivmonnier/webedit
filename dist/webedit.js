@@ -9857,9 +9857,9 @@ var _clickBtnViewPort2 = _interopRequireDefault(_clickBtnViewPort);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function createBarActions(primaryContainer) {
-  var viewports = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-  var buttons = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+function createBarActions() {
+  var viewports = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var buttons = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
   var container = document.createElement('div');
   container.className = 'w-bar-container';
@@ -9879,7 +9879,7 @@ function createBarActions(primaryContainer) {
   });
 
   var btnExport = (0, _createButton2.default)('', 'w-btn-export fa fa-code');
-  (0, _clickBtnExport2.default)(btnExport, primaryContainer);
+  (0, _clickBtnExport2.default)(btnExport);
   container.appendChild(btnExport);
 
   buttons.forEach(function (button) {
@@ -10078,7 +10078,7 @@ var dragula = require('dragula');
 function dragNdrop(primaryContainer, editorOptions) {
   var elems = [].slice.call(document.querySelectorAll('.w-list-snippets'));
 
-  elems.push(primaryContainer);
+  elems = elems.concat(primaryContainer);
 
   dragula(elems, {
     copy: function copy(el, source) {
@@ -10094,11 +10094,13 @@ function dragNdrop(primaryContainer, editorOptions) {
       return container.classList.contains('w-list-snippets');
     }
   }).on('drag', function (el, container) {
-    if (!container.classList.contains('w-contents-container')) {
-      primaryContainer.classList.add('w-hover');
-    }
+    primaryContainer.forEach(function (elem) {
+      return elem.classList.add('w-hover');
+    });
   }).on('drop', function (el, container) {
-    primaryContainer.classList.remove('w-hover');
+    primaryContainer.forEach(function (elem) {
+      return elem.classList.remove('w-hover');
+    });
 
     if (el.querySelectorAll('.w-actions').length > 0) return;
 
@@ -10113,6 +10115,10 @@ function dragNdrop(primaryContainer, editorOptions) {
         new MediumEditor(content, editorOptions);
       }
     }
+  }).on('cancel', function (el, container) {
+    primaryContainer.forEach(function (elem) {
+      return elem.classList.remove('w-hover');
+    });
   });
 }
 
@@ -10222,7 +10228,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-exports.default = function (elem, container) {
+exports.default = function (elem) {
+  var container = document.body;
+
   elem.addEventListener('click', function (e) {
     var content = (0, _getContents2.default)(container);
 
@@ -10243,11 +10251,15 @@ var _getContents = require('../utils/getContents');
 
 var _getContents2 = _interopRequireDefault(_getContents);
 
+var _getClosest = require('../utils/getClosest');
+
+var _getClosest2 = _interopRequireDefault(_getClosest);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var basicModal = require('basicmodal');
 
-},{"../utils/getContents":37,"basicmodal":2}],29:[function(require,module,exports){
+},{"../utils/getClosest":36,"../utils/getContents":37,"basicmodal":2}],29:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10339,7 +10351,7 @@ exports.default = function (containerId) {
 
   var urls = [];var snippetsUrls = [];
 
-  var primaryContainer = document.getElementById(containerId);
+  var primaryContainer = [].slice.call(document.querySelectorAll(containerId));
   var editorOptionsDefault = {
     buttonLabels: 'fontawesome',
     toolbar: {
@@ -10351,7 +10363,9 @@ exports.default = function (containerId) {
 
   (0, _clickDocument2.default)(document);
 
-  primaryContainer.classList.add('w-contents-container');
+  primaryContainer.forEach(function (elem) {
+    return elem.classList.add('w-contents-container');
+  });
 
   if (snippetsPath) {
     snippetsUrls = Array.isArray(snippetsPath) ? snippetsPath : [snippetsPath];
@@ -10366,7 +10380,7 @@ exports.default = function (containerId) {
         return res.text();
       })).then(function (snippets) {
         (0, _createSnippetContainer2.default)(snippets, urls);
-        (0, _createBarActions2.default)(primaryContainer, options.viewports, options.buttons);
+        (0, _createBarActions2.default)(options.viewports, options.buttons);
       }).then(function () {
         (0, _dragNDrop2.default)(primaryContainer, editorOptions);
       }).catch(function (response) {
@@ -10376,7 +10390,9 @@ exports.default = function (containerId) {
 
     return {
       exportHtml: function exportHtml() {
-        return (0, _getContents2.default)(primaryContainer);
+        var container = document.body;
+
+        return (0, _getContents2.default)(container);
       }
     };
   } else {
@@ -10494,7 +10510,7 @@ function getContents(primaryContainer) {
   var encoded = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
   var result = '';
-  var snippets = primaryContainer.querySelectorAll('.w-snippet');
+  var snippets = primaryContainer.querySelectorAll('.w-snippet.editable');
 
   snippets.forEach(function (snippet) {
     result += snippet.innerHTML;

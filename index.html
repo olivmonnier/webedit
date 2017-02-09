@@ -15,13 +15,13 @@
   </head>
   <body>
     <div style="width: 1024px; margin: 0 auto;">
-      <div id="editor">
-    </div>
+      <div class="editor"></div>
+      <div class="editor"></div>
     </div>
     <script src="./dist/webedit.js"></script>
     <script>
       if (WebEdit) {
-        var webEditor = WebEdit('editor', {
+        var webEditor = WebEdit('.editor', {
           viewports: [{ label: 'mobile', width: '480px', height: '600px' }, { label: 'tablet', width: '720px', height: '800px' }],
           snippetsPath: [{
             label: 'test 1',

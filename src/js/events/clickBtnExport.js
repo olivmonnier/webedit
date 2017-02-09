@@ -1,7 +1,10 @@
 const basicModal = require('basicmodal');
 import getContents from '../utils/getContents';
+import getClosest from '../utils/getClosest';
 
-export default function(elem, container) {
+export default function(elem) {
+  const container = document.body;
+  
   elem.addEventListener('click', function(e) {
     const content = getContents(container);
 

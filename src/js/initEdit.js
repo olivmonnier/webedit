@@ -7,7 +7,7 @@ import clickDocument from './events/clickDocument';
 export default function(containerId, options = {}) {
   let urls = []; let snippetsUrls = [];
 
-  const primaryContainer = document.getElementById(containerId);
+  const primaryContainer = [].slice.call(document.querySelectorAll(containerId));
   const editorOptionsDefault = {
     buttonLabels: 'fontawesome',
     toolbar: {
@@ -19,7 +19,7 @@ export default function(containerId, options = {}) {
 
   clickDocument(document);
 
-  primaryContainer.classList.add('w-contents-container');
+  primaryContainer.forEach(elem => elem.classList.add('w-contents-container'));
 
   if (snippetsPath) {
     snippetsUrls = Array.isArray(snippetsPath) ? snippetsPath : [snippetsPath];
@@ -29,7 +29,7 @@ export default function(containerId, options = {}) {
       Promise.all(responses.map(res => res.text()))
         .then((snippets) => {
           createSnippetContainer(snippets, urls);
-          createBarActions(primaryContainer, options.viewports, options.buttons);
+          createBarActions(options.viewports, options.buttons);
         }).then(() => {
           dragNDrop(primaryContainer, editorOptions);
         }).catch(response => console.log(response))
@@ -37,7 +37,9 @@ export default function(containerId, options = {}) {
 
     return {
       exportHtml: function() {
-        return getContents(primaryContainer);
+        const container = document.body;
+
+        return getContents(container);
       }
     }
   } else {

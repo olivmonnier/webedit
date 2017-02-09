@@ -2,7 +2,7 @@ import createButton from './createButton';
 import clickBtnExport from '../events/clickBtnExport';
 import clickBtnViewPort from '../events/clickBtnViewPort';
 
-export default function createBarActions(primaryContainer, viewports = [], buttons = []) {
+export default function createBarActions(viewports = [], buttons = []) {
   const container = document.createElement('div');
   container.className = 'w-bar-container';
 
@@ -21,7 +21,7 @@ export default function createBarActions(primaryContainer, viewports = [], butto
   });
 
   const btnExport = createButton('', 'w-btn-export fa fa-code');
-  clickBtnExport(btnExport, primaryContainer);
+  clickBtnExport(btnExport);
   container.appendChild(btnExport);
 
   buttons.forEach(button => {

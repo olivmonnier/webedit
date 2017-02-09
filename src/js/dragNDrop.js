@@ -5,7 +5,7 @@ import createEditContainer from './components/createEditContainer';
 export default function dragNdrop(primaryContainer, editorOptions) {
   let elems = [].slice.call(document.querySelectorAll('.w-list-snippets'));
 
-  elems.push(primaryContainer);
+  elems = elems.concat(primaryContainer);
 
   dragula(elems, {
     copy: function (el, source) {
@@ -21,11 +21,9 @@ export default function dragNdrop(primaryContainer, editorOptions) {
       return container.classList.contains('w-list-snippets')
     }
   }).on('drag', function(el, container) {
-    if (!container.classList.contains('w-contents-container')) {
-      primaryContainer.classList.add('w-hover');
-    }
+    primaryContainer.forEach(elem => elem.classList.add('w-hover'));
   }).on('drop', function (el, container) {
-    primaryContainer.classList.remove('w-hover');
+    primaryContainer.forEach(elem => elem.classList.remove('w-hover'));
 
     if (el.querySelectorAll('.w-actions').length > 0) return;
 
@@ -40,5 +38,7 @@ export default function dragNdrop(primaryContainer, editorOptions) {
         new MediumEditor(content, editorOptions);
       }
     }
+  }).on('cancel', function(el, container) {
+    primaryContainer.forEach(elem => elem.classList.remove('w-hover'));
   });
 }
