@@ -7,6 +7,12 @@
   display: flex;
   justify-content: center;
 
+  [class*="w-btn"] {
+    padding: 8px 12px;
+    background-color: #ececec;
+    color: #000;
+  }
+
   [class*="w-btn"] + [class*="w-btn"] {
     margin-left: 4px;
   }

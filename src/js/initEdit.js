@@ -29,7 +29,7 @@ export default function(containerId, options = {}) {
       Promise.all(responses.map(res => res.text()))
         .then((snippets) => {
           createSnippetContainer(snippets, urls);
-          createBarActions(primaryContainer, options.viewports);
+          createBarActions(primaryContainer, options.viewports, options.buttons);
         }).then(() => {
           dragNDrop(primaryContainer, editorOptions);
         }).catch(response => console.log(response))

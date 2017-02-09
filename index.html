@@ -30,7 +30,15 @@
           {
             label: 'test 2',
             url: './snippets1.html'
-          }]
+          }],
+          buttons: [
+            {
+              label: 'Test',
+              fn: function() {
+                console.log(this);
+              }
+            }
+          ]
         });
       }
     </script>

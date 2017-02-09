@@ -2859,10 +2859,14 @@
   padding: 4px;
   display: flex;
   justify-content: center; }
+  .w-bar-container [class*="w-btn"] {
+    padding: 8px 12px;
+    background-color: #ececec;
+    color: #000; }
   .w-bar-container [class*="w-btn"] + [class*="w-btn"] {
     margin-left: 4px; }
 
-.w-btn, .w-btn-open, .w-btn-export, .w-btn-viewport, .w-btn-move, .w-btn-delete, .w-btn-duplicate {
+.w-btn, [class*="w-btn"] {
   padding: 4px 8px;
   box-shadow: 1px 1px 1px 0px #ededed;
   background-color: transparent;
@@ -2871,10 +2875,6 @@
   cursor: pointer; }
   .w-btn-open {
     padding: 12px 8px;
-    background-color: #ececec;
-    color: #000; }
-  .w-btn-export, .w-btn-viewport {
-    padding: 8px 12px;
     background-color: #ececec;
     color: #000; }
   .w-btn-move {

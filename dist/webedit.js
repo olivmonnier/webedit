@@ -9859,9 +9859,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function createBarActions(primaryContainer) {
   var viewports = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+  var buttons = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
 
   var container = document.createElement('div');
-  var btnExport = (0, _createButton2.default)('', 'w-btn-export fa fa-code');
+  container.className = 'w-bar-container';
 
   viewports.forEach(function (viewport) {
     var widthInt = viewport.width.replace('px', '') || '';
@@ -9877,10 +9878,17 @@ function createBarActions(primaryContainer) {
     container.appendChild(btnViewPort);
   });
 
+  var btnExport = (0, _createButton2.default)('', 'w-btn-export fa fa-code');
   (0, _clickBtnExport2.default)(btnExport, primaryContainer);
-
-  container.className = 'w-bar-container';
   container.appendChild(btnExport);
+
+  buttons.forEach(function (button) {
+    var btn = (0, _createButton2.default)(button.label, 'w-btn ' + (button.class || ''), button.id);
+
+    btn.addEventListener('click', button.fn);
+    container.appendChild(btn);
+  });
+
   document.body.appendChild(container);
 }
 
@@ -10358,7 +10366,7 @@ exports.default = function (containerId) {
         return res.text();
       })).then(function (snippets) {
         (0, _createSnippetContainer2.default)(snippets, urls);
-        (0, _createBarActions2.default)(primaryContainer, options.viewports);
+        (0, _createBarActions2.default)(primaryContainer, options.viewports, options.buttons);
       }).then(function () {
         (0, _dragNDrop2.default)(primaryContainer, editorOptions);
       }).catch(function (response) {

@@ -2,9 +2,9 @@ import createButton from './createButton';
 import clickBtnExport from '../events/clickBtnExport';
 import clickBtnViewPort from '../events/clickBtnViewPort';
 
-export default function createBarActions(primaryContainer, viewports = []) {
+export default function createBarActions(primaryContainer, viewports = [], buttons = []) {
   const container = document.createElement('div');
-  const btnExport = createButton('', 'w-btn-export fa fa-code');
+  container.className = 'w-bar-container';
 
   viewports.forEach(viewport => {
     const widthInt = viewport.width.replace('px', '') || '';
@@ -20,9 +20,16 @@ export default function createBarActions(primaryContainer, viewports = []) {
     container.appendChild(btnViewPort);
   });
 
+  const btnExport = createButton('', 'w-btn-export fa fa-code');
   clickBtnExport(btnExport, primaryContainer);
-
-  container.className = 'w-bar-container';
   container.appendChild(btnExport);
+
+  buttons.forEach(button => {
+    const btn = createButton(button.label, 'w-btn ' + (button.class || ''), button.id);
+
+    btn.addEventListener('click', button.fn);
+    container.appendChild(btn);
+  });
+
   document.body.appendChild(container);
 }

@@ -7,37 +7,30 @@
   cursor: pointer;
 
   &-open {
-    @extend .w-btn;
     padding: 12px 8px;
     background-color: #ececec;
     color: #000;
   }
 
-  &-export, &-viewport {
-    @extend .w-btn;
-    padding: 8px 12px;
-    background-color: #ececec;
-    color: #000;
-  }
-
   &-move {
-    @extend .w-btn;
     background-color: #0F0F0F;
     border: 1px solid #0F0F0F;
     color: #fff;
   }
 
   &-delete {
-    @extend .w-btn;
     background-color: #FF0000;
     border: 1px solid #FF0000;
     color: #fff;
   }
 
   &-duplicate {
-    @extend .w-btn;
     background-color: #337ab7;
     border: 1px solid #337ab7;
     color: #fff;
   }
+}
+
+[class*="w-btn"] {
+  @extend .w-btn;
 }
