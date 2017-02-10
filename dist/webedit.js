@@ -9847,10 +9847,6 @@ var _createButton = require('./createButton');
 
 var _createButton2 = _interopRequireDefault(_createButton);
 
-var _clickBtnExport = require('../events/clickBtnExport');
-
-var _clickBtnExport2 = _interopRequireDefault(_clickBtnExport);
-
 var _clickBtnViewPort = require('../events/clickBtnViewPort');
 
 var _clickBtnViewPort2 = _interopRequireDefault(_clickBtnViewPort);
@@ -9878,10 +9874,6 @@ function createBarActions() {
     container.appendChild(btnViewPort);
   });
 
-  var btnExport = (0, _createButton2.default)('', 'w-btn-export fa fa-code');
-  (0, _clickBtnExport2.default)(btnExport);
-  container.appendChild(btnExport);
-
   buttons.forEach(function (button) {
     var btn = (0, _createButton2.default)(button.label, 'w-btn ' + (button.class || ''), button.id);
 
@@ -9892,7 +9884,7 @@ function createBarActions() {
   document.body.appendChild(container);
 }
 
-},{"../events/clickBtnExport":28,"../events/clickBtnViewPort":30,"./createButton":19}],19:[function(require,module,exports){
+},{"../events/clickBtnViewPort":31,"./createButton":19}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -9948,13 +9940,13 @@ function createContentActions(editorOptions) {
   return barActions;
 }
 
-},{"../events/clickBtnDelete":26,"../events/clickBtnDuplicate":27,"./createButton":19}],21:[function(require,module,exports){
+},{"../events/clickBtnDelete":27,"../events/clickBtnDuplicate":28,"./createButton":19}],21:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = createEditContainer;
+exports.default = createContentContainer;
 
 var _createContentActions = require('./createContentActions');
 
@@ -9966,7 +9958,7 @@ var _clickContent2 = _interopRequireDefault(_clickContent);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function createEditContainer(content, editorOptions) {
+function createContentContainer(content, editorOptions) {
   var container = document.createElement('div');
   var contentActions = (0, _createContentActions2.default)(editorOptions);
 
@@ -9979,7 +9971,36 @@ function createEditContainer(content, editorOptions) {
   return container;
 }
 
-},{"../events/clickContent":31,"./createContentActions":20}],22:[function(require,module,exports){
+},{"../events/clickContent":32,"./createContentActions":20}],22:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = createContentsContainer;
+
+var _createButton = require('./createButton');
+
+var _createButton2 = _interopRequireDefault(_createButton);
+
+var _clickBtnExport = require('../events/clickBtnExport');
+
+var _clickBtnExport2 = _interopRequireDefault(_clickBtnExport);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function createContentsContainer(container) {
+  var bar = document.createElement('div');
+  var btnExport = (0, _createButton2.default)('', 'w-btn-export fa fa-code');
+
+  container.classList.add('w-contents-container');
+  bar.classList.add('w-contents-bar');
+  (0, _clickBtnExport2.default)(btnExport, container);
+  bar.appendChild(btnExport);
+  container.appendChild(bar);
+}
+
+},{"../events/clickBtnExport":29,"./createButton":19}],23:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10009,7 +10030,7 @@ function createSelectorSnippets(urls, container) {
   container.appendChild(select);
 }
 
-},{"../events/changeSnippetsList":25}],23:[function(require,module,exports){
+},{"../events/changeSnippetsList":26}],24:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10059,7 +10080,7 @@ function createSnippetContainer(snippets, urls) {
   document.body.appendChild(primaryContainer);
 }
 
-},{"../events/clickBtnOpen":29,"./createButton":19,"./createSelectorSnippets":22}],24:[function(require,module,exports){
+},{"../events/clickBtnOpen":30,"./createButton":19,"./createSelectorSnippets":23}],25:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10067,9 +10088,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = dragNdrop;
 
-var _createEditContainer = require('./components/createEditContainer');
+var _createContentContainer = require('./components/createContentContainer');
 
-var _createEditContainer2 = _interopRequireDefault(_createEditContainer);
+var _createContentContainer2 = _interopRequireDefault(_createContentContainer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10111,7 +10132,7 @@ function dragNdrop(primaryContainer, editorOptions) {
 
       if (content) {
         content.className += ' editable';
-        parent.replaceChild((0, _createEditContainer2.default)(content, editorOptions), el);
+        parent.replaceChild((0, _createContentContainer2.default)(content, editorOptions), el);
         new MediumEditor(content, editorOptions);
       }
     }
@@ -10122,7 +10143,7 @@ function dragNdrop(primaryContainer, editorOptions) {
   });
 }
 
-},{"./components/createEditContainer":21,"dragula":9,"medium-editor":12}],25:[function(require,module,exports){
+},{"./components/createContentContainer":21,"dragula":9,"medium-editor":12}],26:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10144,7 +10165,7 @@ function changeSnippetsList(elem) {
   });
 }
 
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10182,7 +10203,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var basicModal = require('basicmodal');
 
-},{"../utils/getClosest":36,"basicmodal":2}],27:[function(require,module,exports){
+},{"../utils/getClosest":37,"basicmodal":2}],28:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10199,15 +10220,15 @@ exports.default = function (elem, editorOptions) {
 
     divSnippet.className = 'w-snippet editable';
     divSnippet.innerHTML = html;
-    newParent = (0, _createEditContainer2.default)(divSnippet, editorOptions);
+    newParent = (0, _createContentContainer2.default)(divSnippet, editorOptions);
     (0, _insertAfter2.default)(newParent, parent);
     new MediumEditor(divSnippet, editorOptions);
   });
 };
 
-var _createEditContainer = require('../components/createEditContainer');
+var _createContentContainer = require('../components/createContentContainer');
 
-var _createEditContainer2 = _interopRequireDefault(_createEditContainer);
+var _createContentContainer2 = _interopRequireDefault(_createContentContainer);
 
 var _getClosest = require('../utils/getClosest');
 
@@ -10221,16 +10242,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var MediumEditor = require('medium-editor');
 
-},{"../components/createEditContainer":21,"../utils/getClosest":36,"../utils/insertAfter":38,"medium-editor":12}],28:[function(require,module,exports){
+},{"../components/createContentContainer":21,"../utils/getClosest":37,"../utils/insertAfter":39,"medium-editor":12}],29:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-exports.default = function (elem) {
-  var container = document.body;
-
+exports.default = function (elem, container) {
   elem.addEventListener('click', function (e) {
     var content = (0, _getContents2.default)(container);
 
@@ -10259,7 +10278,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var basicModal = require('basicmodal');
 
-},{"../utils/getClosest":36,"../utils/getContents":37,"basicmodal":2}],29:[function(require,module,exports){
+},{"../utils/getClosest":37,"../utils/getContents":38,"basicmodal":2}],30:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10283,7 +10302,7 @@ exports.default = function (elem, container) {
   });
 };
 
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10306,7 +10325,7 @@ function clickBtnViewPort(elem, settings) {
   });
 }
 
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10324,7 +10343,7 @@ exports.default = function (elem) {
   });
 };
 
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10339,7 +10358,7 @@ exports.default = function (elem) {
   });
 };
 
-},{}],33:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10361,12 +10380,6 @@ exports.default = function (containerId) {
   var editorOptions = options.editorOptions || editorOptionsDefault;
   var snippetsPath = options.snippetsPath;
 
-  (0, _clickDocument2.default)(document);
-
-  primaryContainer.forEach(function (elem) {
-    return elem.classList.add('w-contents-container');
-  });
-
   if (snippetsPath) {
     snippetsUrls = Array.isArray(snippetsPath) ? snippetsPath : [snippetsPath];
     urls = snippetsUrls.map(function (u) {
@@ -10379,6 +10392,8 @@ exports.default = function (containerId) {
       Promise.all(responses.map(function (res) {
         return res.text();
       })).then(function (snippets) {
+        (0, _clickDocument2.default)(document);
+        primaryContainer.forEach(_createContentsContainer2.default);
         (0, _createSnippetContainer2.default)(snippets, urls);
         (0, _createBarActions2.default)(options.viewports, options.buttons);
       }).then(function () {
@@ -10399,6 +10414,10 @@ exports.default = function (containerId) {
     new Error('snippets path missing');
   }
 };
+
+var _createContentsContainer = require('./components/createContentsContainer');
+
+var _createContentsContainer2 = _interopRequireDefault(_createContentsContainer);
 
 var _createBarActions = require('./components/createBarActions');
 
@@ -10422,7 +10441,7 @@ var _clickDocument2 = _interopRequireDefault(_clickDocument);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./components/createBarActions":18,"./components/createSnippetContainer":23,"./dragNDrop":24,"./events/clickDocument":32,"./utils/getContents":37}],34:[function(require,module,exports){
+},{"./components/createBarActions":18,"./components/createContentsContainer":22,"./components/createSnippetContainer":24,"./dragNDrop":25,"./events/clickDocument":33,"./utils/getContents":38}],35:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10449,7 +10468,7 @@ var _getContents2 = _interopRequireDefault(_getContents);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./utils/getContents":37}],35:[function(require,module,exports){
+},{"./utils/getContents":38}],36:[function(require,module,exports){
 'use strict';
 
 var _initEdit = require('./initEdit');
@@ -10466,7 +10485,7 @@ if (window) {
   window.WebEdit = window.opener ? _initRender2.default : _initEdit2.default;
 }
 
-},{"./initEdit":33,"./initRender":34}],36:[function(require,module,exports){
+},{"./initEdit":34,"./initRender":35}],37:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10500,7 +10519,7 @@ function getClosest(elem, selector) {
     return null;
 };
 
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10522,7 +10541,7 @@ function getContents(primaryContainer) {
   return encoded ? htmlEncode(result) : result;
 }
 
-},{"htmlencode":11}],38:[function(require,module,exports){
+},{"htmlencode":11}],39:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10533,4 +10552,4 @@ function insertAfter(newNode, referenceNode) {
   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 
-},{}]},{},[35]);
+},{}]},{},[36]);

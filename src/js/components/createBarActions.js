@@ -1,5 +1,4 @@
 import createButton from './createButton';
-import clickBtnExport from '../events/clickBtnExport';
 import clickBtnViewPort from '../events/clickBtnViewPort';
 
 export default function createBarActions(viewports = [], buttons = []) {
@@ -19,10 +18,6 @@ export default function createBarActions(viewports = [], buttons = []) {
     clickBtnViewPort(btnViewPort, settings);
     container.appendChild(btnViewPort);
   });
-
-  const btnExport = createButton('', 'w-btn-export fa fa-code');
-  clickBtnExport(btnExport);
-  container.appendChild(btnExport);
 
   buttons.forEach(button => {
     const btn = createButton(button.label, 'w-btn ' + (button.class || ''), button.id);

@@ -1,3 +1,4 @@
+import createContentsContainer from './components/createContentsContainer';
 import createBarActions from './components/createBarActions';
 import createSnippetContainer from './components/createSnippetContainer';
 import dragNDrop from './dragNDrop';
@@ -17,10 +18,6 @@ export default function(containerId, options = {}) {
   const editorOptions = options.editorOptions || editorOptionsDefault;
   const snippetsPath = options.snippetsPath;
 
-  clickDocument(document);
-
-  primaryContainer.forEach(elem => elem.classList.add('w-contents-container'));
-
   if (snippetsPath) {
     snippetsUrls = Array.isArray(snippetsPath) ? snippetsPath : [snippetsPath];
     urls = snippetsUrls.map(u => ({url: u.url || u, label: u.label || ''}));
@@ -28,6 +25,8 @@ export default function(containerId, options = {}) {
     Promise.all(urls.map(u => fetch(u.url, { method: 'GET', mode: 'cors' }))).then(responses => {
       Promise.all(responses.map(res => res.text()))
         .then((snippets) => {
+          clickDocument(document);
+          primaryContainer.forEach(createContentsContainer);
           createSnippetContainer(snippets, urls);
           createBarActions(options.viewports, options.buttons);
         }).then(() => {

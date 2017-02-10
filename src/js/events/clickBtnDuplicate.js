@@ -1,5 +1,5 @@
 const MediumEditor = require('medium-editor');
-import createEditContainer from '../components/createEditContainer';
+import createContentContainer from '../components/createContentContainer';
 import getClosest from'../utils/getClosest';
 import insertAfter from'../utils/insertAfter';
 
@@ -14,7 +14,7 @@ export default function(elem, editorOptions) {
 
     divSnippet.className = 'w-snippet editable';
     divSnippet.innerHTML = html;
-    newParent = createEditContainer(divSnippet, editorOptions);
+    newParent = createContentContainer(divSnippet, editorOptions);
     insertAfter(newParent, parent);
     new MediumEditor(divSnippet, editorOptions);
   });

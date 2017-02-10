@@ -1,6 +1,32 @@
-.w-contents-container {
-  margin: 0 auto;
-  display: block;
-  min-height: 200px;
-  transition: all .3s ease-out;
+.w-contents {
+  &-container {
+    position: relative;
+    margin: 0 auto;
+    display: block;
+    min-height: 200px;
+    transition: all .3s ease-out;
+
+    &:hover {
+      border: 1px solid #7ec0ee;
+
+      .w-contents-bar {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+  }
+
+  &-bar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    visibility: hidden;
+    opacity: 0;
+    transition: all .3s ease-out;
+    z-index: 999;
+
+    [class*="w-btn"] {
+      background-color: #fff;
+    }
+  }
 }

@@ -2923,10 +2923,25 @@
     display: block; }
 
 .w-contents-container {
+  position: relative;
   margin: 0 auto;
   display: block;
   min-height: 200px;
   transition: all .3s ease-out; }
+  .w-contents-container:hover .w-contents-bar {
+    visibility: visible;
+    opacity: 1; }
+
+.w-contents-bar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: all .3s ease-out;
+  z-index: 999; }
+  .w-contents-bar [class*="w-btn"] {
+    background-color: #fff; }
 
 .basicModal__buttons, .basicModal__content {
   font-family: Arial; }
