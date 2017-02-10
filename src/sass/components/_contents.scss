@@ -6,8 +6,22 @@
     min-height: 200px;
     transition: all .3s ease-out;
 
+    &:before {
+      content: ' ';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: -1;
+      transition: all .3s ease-out;
+    }
+
     &:hover {
-      border: 1px solid #7ec0ee;
+      &:before {
+        opacity: .2;
+        background-color: #ddd;
+      }
 
       .w-contents-bar {
         visibility: visible;
@@ -18,8 +32,8 @@
 
   &-bar {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 2px;
+    right: 2px;
     visibility: hidden;
     opacity: 0;
     transition: all .3s ease-out;
