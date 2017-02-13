@@ -24,11 +24,8 @@
     width: 800px;
   }
 
-  pre {
-    padding: 9.5px;
-    white-space: pre-wrap;
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+  .CodeMirror {
+    height: 250px;
+    border: 1px solid #ddd;
   }
 }

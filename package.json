@@ -20,6 +20,7 @@
     "babelify": "^7.3.0",
     "basicmodal": "^3.3.8",
     "browserify": "^14.0.0",
+    "codemirror": "^5.23.0",
     "dragula": "^3.7.2",
     "font-awesome": "^4.7.0",
     "htmlencode": "0.0.4",
