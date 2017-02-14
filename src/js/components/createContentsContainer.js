@@ -1,13 +1,13 @@
 import createButton from './createButton';
-import clickBtnExport from '../events/clickBtnExport';
+import clickBtnEditContents from '../events/clickBtnEditContents';
 
 export default function createContentsContainer(container) {
   const bar = document.createElement('div');
-  const btnExport = createButton('', 'w-btn-export fa fa-code');
+  const btnEditContents = createButton('', 'w-btn-edit fa fa-code');
 
   container.classList.add('w-contents-container');
   bar.classList.add('w-contents-bar');
-  clickBtnExport(btnExport, container);
-  bar.appendChild(btnExport);
+  clickBtnEditContents(btnEditContents, container);
+  bar.appendChild(btnEditContents);
   container.appendChild(bar);
 }
