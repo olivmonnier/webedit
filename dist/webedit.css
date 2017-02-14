@@ -3328,38 +3328,43 @@ span.CodeMirror-selectedtext {
   .w-content-container .w-snippet {
     display: block; }
 
-.w-contents-container {
-  position: relative;
-  margin: 0 auto;
-  display: block;
-  min-height: 200px;
-  transition: all .3s ease-out; }
-  .w-contents-container:before {
-    content: ' ';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    z-index: -1;
-    transition: all .3s ease-out; }
-  .w-contents-container:hover:before {
-    opacity: .2;
-    background-color: #ddd; }
-  .w-contents-container:hover .w-contents-bar {
-    visibility: visible;
-    opacity: 1; }
-
-.w-contents-bar {
+.w-contents {
   position: absolute;
-  top: 2px;
-  right: 2px;
-  visibility: hidden;
-  opacity: 0;
-  transition: all .3s ease-out;
-  z-index: 999; }
-  .w-contents-bar [class*="w-btn"] {
-    background-color: #fff; }
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; }
+  .w-contents-container {
+    position: relative;
+    margin: 0 auto;
+    display: block;
+    min-height: 200px;
+    transition: all .3s ease-out; }
+    .w-contents-container:before {
+      content: ' ';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: -1;
+      transition: all .3s ease-out; }
+    .w-contents-container:hover:before {
+      opacity: .2;
+      background-color: #ddd; }
+    .w-contents-container:hover .w-contents-bar {
+      visibility: visible;
+      opacity: 1; }
+  .w-contents-bar {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    visibility: hidden;
+    opacity: 0;
+    transition: all .3s ease-out;
+    z-index: 999; }
+    .w-contents-bar [class*="w-btn"] {
+      background-color: #fff; }
 
 .basicModal__buttons, .basicModal__content {
   font-family: Arial; }
@@ -3377,7 +3382,7 @@ span.CodeMirror-selectedtext {
     box-shadow: -1px -1px 5px 0 #ddd;
     background-color: rgba(204, 204, 204, 0.14); }
 
-.basicModal.modal-export {
+.basicModal.modal-edit-contents {
   width: 800px; }
 
 .basicModal .CodeMirror {

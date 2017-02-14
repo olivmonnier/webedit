@@ -21273,24 +21273,27 @@ var _createButton = require('./createButton');
 
 var _createButton2 = _interopRequireDefault(_createButton);
 
-var _clickBtnExport = require('../events/clickBtnExport');
+var _clickBtnEditContents = require('../events/clickBtnEditContents');
 
-var _clickBtnExport2 = _interopRequireDefault(_clickBtnExport);
+var _clickBtnEditContents2 = _interopRequireDefault(_clickBtnEditContents);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function createContentsContainer(container) {
   var bar = document.createElement('div');
-  var btnExport = (0, _createButton2.default)('', 'w-btn-export fa fa-code');
+  var contentsContainer = document.createElement('div');
+  var btnEditContents = (0, _createButton2.default)('', 'w-btn-edit fa fa-code');
 
   container.classList.add('w-contents-container');
   bar.classList.add('w-contents-bar');
-  (0, _clickBtnExport2.default)(btnExport, container);
-  bar.appendChild(btnExport);
+  contentsContainer.classList.add('w-contents');
+  (0, _clickBtnEditContents2.default)(btnEditContents, contentsContainer);
+  bar.appendChild(btnEditContents);
   container.appendChild(bar);
+  container.appendChild(contentsContainer);
 }
 
-},{"../events/clickBtnExport":34,"./createButton":24}],28:[function(require,module,exports){
+},{"../events/clickBtnEditContents":34,"./createButton":24}],28:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21389,7 +21392,7 @@ var dragula = require('dragula');
 function dragNdrop(primaryContainer, editorOptions) {
   var elems = [].slice.call(document.querySelectorAll('.w-list-snippets'));
 
-  elems = elems.concat(primaryContainer);
+  elems = elems.concat([].slice.call(document.querySelectorAll('.w-contents')));
 
   dragula(elems, {
     copy: function copy(el, source) {
@@ -21399,7 +21402,7 @@ function dragNdrop(primaryContainer, editorOptions) {
       return !target.classList.contains('w-list-snippets');
     },
     moves: function moves(e, container, handle) {
-      if (container.classList.contains('w-contents-container')) {
+      if (container.classList.contains('w-contents')) {
         return handle.classList.contains('w-btn-move');
       }
       return container.classList.contains('w-list-snippets');
@@ -21415,7 +21418,7 @@ function dragNdrop(primaryContainer, editorOptions) {
 
     if (el.querySelectorAll('.w-actions').length > 0) return;
 
-    if (container && container.classList.contains('w-contents-container')) {
+    if (container && container.classList.contains('w-contents')) {
       var parent = el.parentNode;
       var newEl = el.cloneNode(true);
       var content = newEl.querySelectorAll('.w-snippet')[0];
@@ -21541,26 +21544,37 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.default = function (elem, container) {
   elem.addEventListener('click', function (e) {
-    var content = (0, _getContents2.default)(container);
+    var content = (0, _getContents2.default)(container, true, true);
 
     basicModal.show({
       body: '<textarea>' + content + '</textarea>',
-      class: 'modal-export',
+      class: 'modal-edit-contents',
       buttons: {
-        action: {
-          title: 'Close',
+        cancel: {
+          title: 'Cancel',
           fn: basicModal.close
+        },
+        action: {
+          title: 'Save',
+          fn: saveEditContents
         }
       }
     });
 
     if (basicModal.visible()) {
-      var textarea = document.getElementsByTagName('textarea')[0];
-      var editor = _codemirror2.default.fromTextArea(textarea, {
-        lineNumbers: true,
-        lineWrapping: true,
-        mode: 'htmlmixed'
-      });
+      (function () {
+        var textarea = document.getElementsByTagName('textarea')[0];
+        var editor = _codemirror2.default.fromTextArea(textarea, {
+          lineNumbers: true,
+          lineWrapping: true,
+          mode: 'htmlmixed',
+          tabSize: '2'
+        });
+
+        document.getElementById('basicModal__action').addEventListener('replaceContents', function () {
+          container.innerHTML = editor.getValue();
+        });
+      })();
     }
   });
 };
@@ -21582,6 +21596,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var basicModal = require('basicmodal');
 
 require('codemirror/mode/htmlmixed/htmlmixed');
+
+function saveEditContents() {
+  var elem = document.getElementById('basicModal__action');
+  var event = new CustomEvent('replaceContents');
+
+  elem.dispatchEvent(event);
+  basicModal.close();
+}
 
 },{"../utils/getClosest":42,"../utils/getContents":43,"basicmodal":2,"codemirror":3,"codemirror/mode/htmlmixed/htmlmixed":5}],35:[function(require,module,exports){
 'use strict';
@@ -21835,12 +21857,13 @@ var htmlEncode = require('htmlencode').htmlEncode;
 
 function getContents(primaryContainer) {
   var encoded = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+  var editTag = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
   var result = '';
   var snippets = primaryContainer.querySelectorAll('.w-snippet.editable');
 
   snippets.forEach(function (snippet) {
-    result += snippet.innerHTML;
+    result += editTag ? '<div class="w-snippet editable">' + snippet.innerHTML + '</div>\n' : snippet.innerHTML;
   });
 
   return encoded ? htmlEncode(result) : result;

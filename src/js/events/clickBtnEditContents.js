@@ -4,17 +4,29 @@ import getClosest from '../utils/getClosest';
 import CodeMirror from 'codemirror';
 require('codemirror/mode/htmlmixed/htmlmixed');
 
+function saveEditContents() {
+  const elem = document.getElementById('basicModal__action');
+  const event = new CustomEvent('replaceContents');
+
+  elem.dispatchEvent(event);
+  basicModal.close();
+}
+
 export default function(elem, container) {
   elem.addEventListener('click', function(e) {
-    const content = getContents(container);
+    const content = getContents(container, true, true);
 
     basicModal.show({
       body: '<textarea>' + content + '</textarea>',
-      class: 'modal-export',
+      class: 'modal-edit-contents',
       buttons: {
-        action: {
-          title: 'Close',
+        cancel: {
+          title: 'Cancel',
           fn: basicModal.close
+        },
+        action: {
+          title: 'Save',
+          fn: saveEditContents
         }
       }
     });
@@ -26,6 +38,10 @@ export default function(elem, container) {
         lineWrapping: true,
         mode: 'htmlmixed',
         tabSize: '2'
+      });
+
+      document.getElementById('basicModal__action').addEventListener('replaceContents', () => {
+        container.innerHTML = editor.getValue();
       });
     }
   });

@@ -5,7 +5,7 @@ import createContentContainer from './components/createContentContainer';
 export default function dragNdrop(primaryContainer, editorOptions) {
   let elems = [].slice.call(document.querySelectorAll('.w-list-snippets'));
 
-  elems = elems.concat(primaryContainer);
+  elems = elems.concat([].slice.call(document.querySelectorAll('.w-contents')));
 
   dragula(elems, {
     copy: function (el, source) {
@@ -15,7 +15,7 @@ export default function dragNdrop(primaryContainer, editorOptions) {
       return !target.classList.contains('w-list-snippets')
     },
     moves: function (e, container, handle) {
-      if (container.classList.contains('w-contents-container')) {
+      if (container.classList.contains('w-contents')) {
         return handle.classList.contains('w-btn-move');
       }
       return container.classList.contains('w-list-snippets')
@@ -27,7 +27,7 @@ export default function dragNdrop(primaryContainer, editorOptions) {
 
     if (el.querySelectorAll('.w-actions').length > 0) return;
 
-    if (container && container.classList.contains('w-contents-container')) {
+    if (container && container.classList.contains('w-contents')) {
       const parent = el.parentNode;
       const newEl = el.cloneNode(true);
       const content = newEl.querySelectorAll('.w-snippet')[0];
