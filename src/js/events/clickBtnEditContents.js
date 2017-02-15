@@ -1,4 +1,5 @@
 const basicModal = require('basicmodal');
+const MediumEditor = require('medium-editor');
 import CodeMirror from 'codemirror';
 import createContentContainer from '../components/createContentContainer';
 import getContents from '../utils/getContents';
@@ -13,7 +14,7 @@ function saveEditContents() {
   basicModal.close();
 }
 
-export default function(elem, container) {
+export default function(elem, container, editorOptions) {
   elem.addEventListener('click', function(e) {
     const content = getContents(container, true, true);
 
@@ -53,7 +54,12 @@ export default function(elem, container) {
 
           elem.parentNode.replaceChild(newContent, elem);
         });
-        divTemp.childNodes.forEach(node => container.appendChild(node));
+        divTemp.childNodes.forEach(node => {
+          container.appendChild(node);
+          if (node.classList.contains('w-content-container')) {
+            new MediumEditor(node.querySelector('.w-snippet'), editorOptions);
+          }
+        });
       });
     }
   });

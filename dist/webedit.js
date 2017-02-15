@@ -21544,7 +21544,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-exports.default = function (elem, container) {
+exports.default = function (elem, container, editorOptions) {
   elem.addEventListener('click', function (e) {
     var content = (0, _getContents2.default)(container, true, true);
 
@@ -21586,7 +21586,10 @@ exports.default = function (elem, container) {
             elem.parentNode.replaceChild(newContent, elem);
           });
           divTemp.childNodes.forEach(function (node) {
-            return container.appendChild(node);
+            container.appendChild(node);
+            if (node.classList.contains('w-content-container')) {
+              new MediumEditor(node.querySelector('.w-snippet'), editorOptions);
+            }
           });
         });
       })();
@@ -21613,6 +21616,7 @@ var _getClosest2 = _interopRequireDefault(_getClosest);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var basicModal = require('basicmodal');
+var MediumEditor = require('medium-editor');
 
 require('codemirror/mode/htmlmixed/htmlmixed');
 
@@ -21624,7 +21628,7 @@ function saveEditContents() {
   basicModal.close();
 }
 
-},{"../components/createContentContainer":26,"../utils/getClosest":42,"../utils/getContents":43,"basicmodal":2,"codemirror":3,"codemirror/mode/htmlmixed/htmlmixed":5}],35:[function(require,module,exports){
+},{"../components/createContentContainer":26,"../utils/getClosest":42,"../utils/getContents":43,"basicmodal":2,"codemirror":3,"codemirror/mode/htmlmixed/htmlmixed":5,"medium-editor":17}],35:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
