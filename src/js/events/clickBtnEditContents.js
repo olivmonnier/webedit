@@ -1,7 +1,8 @@
 const basicModal = require('basicmodal');
+import CodeMirror from 'codemirror';
+import createContentContainer from '../components/createContentContainer';
 import getContents from '../utils/getContents';
 import getClosest from '../utils/getClosest';
-import CodeMirror from 'codemirror';
 require('codemirror/mode/htmlmixed/htmlmixed');
 
 function saveEditContents() {
@@ -41,7 +42,18 @@ export default function(elem, container) {
       });
 
       document.getElementById('basicModal__action').addEventListener('replaceContents', () => {
-        container.innerHTML = editor.getValue();
+        const editorContent = editor.getValue();
+        const divTemp = document.createElement('div');
+
+        container.innerHTML = '';
+        divTemp.innerHTML = editorContent;
+        divTemp.querySelectorAll('.w-snippet').forEach(elem => {
+          const newElem = elem.cloneNode(true);
+          const newContent = createContentContainer(newElem)
+
+          elem.parentNode.replaceChild(newContent, elem);
+        });
+        divTemp.childNodes.forEach(node => container.appendChild(node));
       });
     }
   });

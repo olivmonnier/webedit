@@ -26,7 +26,7 @@ export default function(containerId, options = {}) {
       Promise.all(responses.map(res => res.text()))
         .then((snippets) => {
           clickDocument(document);
-          primaryContainer.forEach(createContentsContainer);
+          primaryContainer.forEach(container => createContentsContainer(container, editorOptions));
           createSnippetContainer(snippets, urls);
           createBarActions(options.viewports, options.buttons);
         }).then(() => {
