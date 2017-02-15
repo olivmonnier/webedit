@@ -21808,7 +21808,7 @@ exports.default = function (containerId) {
   var containers = [].slice.call(document.querySelectorAll(containerId));
 
   containersParent.forEach(function (containerParent, i) {
-    var contents = (0, _getContents2.default)(containerParent, false);
+    var contents = (0, _getContents2.default)(containerParent.querySelector('.w-contents'), false, false);
 
     containers[i].innerHTML = contents;
   });

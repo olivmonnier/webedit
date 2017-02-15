@@ -6,7 +6,7 @@ export default function(containerId, options = {}) {
   const containers = [].slice.call(document.querySelectorAll(containerId));
 
   containersParent.forEach((containerParent, i) => {
-    const contents = getContents(containerParent, false);
+    const contents = getContents(containerParent.querySelector('.w-contents'), false, false);
 
     containers[i].innerHTML = contents;
   });
