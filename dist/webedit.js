@@ -21881,10 +21881,21 @@ function getContents(primaryContainer) {
   var editTag = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
   var result = '';
-  var snippets = primaryContainer.querySelectorAll('.w-snippet.editable');
 
-  snippets.forEach(function (snippet) {
-    result += editTag ? '<div class="w-snippet editable">' + snippet.innerHTML + '</div>\n' : snippet.innerHTML;
+  var primaryContainerClone = primaryContainer.cloneNode(true);
+
+  primaryContainerClone.childNodes.forEach(function (elem) {
+    if (elem.classList.contains('w-content-container')) {
+      var snippet = elem.querySelector('.w-snippet');
+
+      result += editTag ? '\n<div class="w-snippet editable">' + snippet.innerHTML + '</div>\n' : snippet.innerHTML;
+    } else {
+      var divTemp = document.createElement('div');
+      var newElem = elem.cloneNode(true);
+
+      divTemp.appendChild(newElem);
+      result += divTemp.innerHTML;
+    }
   });
 
   return encoded ? htmlEncode(result) : result;
