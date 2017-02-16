@@ -8,16 +8,24 @@ export default function(elem, container, editor, editorOptions) {
 
     container.innerHTML = '';
     divTemp.innerHTML = editorContent;
-    divTemp.querySelectorAll('.w-snippet').forEach(elem => {
-      const newElem = elem.cloneNode(true);
-      const newContent = createContentContainer(newElem)
-
-      elem.parentNode.replaceChild(newContent, elem);
-    });
     divTemp.childNodes.forEach(node => {
-      container.appendChild(node);
-      if (node.classList.contains('w-content-container')) {
-        new MediumEditor(node.querySelector('.w-snippet'), editorOptions);
+      let newElem = node.cloneNode(true);
+
+      if (newElem.tagName) {
+        if (node.tagName != 'DIV') {
+          const div = document.createElement('div');
+
+          div.appendChild(node);
+          newElem = div;
+        }
+        newElem.classList.add('w-snippet');
+        newElem.classList.add('editable');
+
+        const newContent = createContentContainer(newElem);
+
+        container.appendChild(newContent);
+
+        new MediumEditor(newContent.querySelector('.w-snippet'), editorOptions);
       }
     });
   });

@@ -21546,7 +21546,7 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.default = function (elem, container, editorOptions) {
   elem.addEventListener('click', function (e) {
-    var content = (0, _getContents2.default)(container, true, true);
+    var content = (0, _getContents2.default)(container, true);
 
     basicModal.show({
       body: '<textarea>' + content + '</textarea>',
@@ -21701,16 +21701,24 @@ exports.default = function (elem, container, editor, editorOptions) {
 
     container.innerHTML = '';
     divTemp.innerHTML = editorContent;
-    divTemp.querySelectorAll('.w-snippet').forEach(function (elem) {
-      var newElem = elem.cloneNode(true);
-      var newContent = (0, _createContentContainer2.default)(newElem);
-
-      elem.parentNode.replaceChild(newContent, elem);
-    });
     divTemp.childNodes.forEach(function (node) {
-      container.appendChild(node);
-      if (node.classList.contains('w-content-container')) {
-        new MediumEditor(node.querySelector('.w-snippet'), editorOptions);
+      var newElem = node.cloneNode(true);
+
+      if (newElem.tagName) {
+        if (node.tagName != 'DIV') {
+          var div = document.createElement('div');
+
+          div.appendChild(node);
+          newElem = div;
+        }
+        newElem.classList.add('w-snippet');
+        newElem.classList.add('editable');
+
+        var newContent = (0, _createContentContainer2.default)(newElem);
+
+        container.appendChild(newContent);
+
+        new MediumEditor(newContent.querySelector('.w-snippet'), editorOptions);
       }
     });
   });
@@ -21824,7 +21832,7 @@ exports.default = function (containerId) {
   var containers = [].slice.call(document.querySelectorAll(containerId));
 
   containersParent.forEach(function (containerParent, i) {
-    var contents = (0, _getContents2.default)(containerParent.querySelector('.w-contents'), false, false);
+    var contents = (0, _getContents2.default)(containerParent.querySelector('.w-contents'), false);
 
     containers[i].innerHTML = contents;
   });
@@ -21898,7 +21906,6 @@ var htmlEncode = require('htmlencode').htmlEncode;
 
 function getContents(primaryContainer) {
   var encoded = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-  var editTag = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
   var result = '';
 
@@ -21908,7 +21915,7 @@ function getContents(primaryContainer) {
     if (elem.classList.contains('w-content-container')) {
       var snippet = elem.querySelector('.w-snippet');
 
-      result += editTag ? '\n<div class="w-snippet editable">' + snippet.innerHTML + '</div>\n' : snippet.innerHTML;
+      result += '\n<div>\n' + snippet.innerHTML + '\n</div>\n';
     } else {
       var divTemp = document.createElement('div');
       var newElem = elem.cloneNode(true);

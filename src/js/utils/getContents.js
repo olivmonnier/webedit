@@ -1,6 +1,6 @@
 const htmlEncode = require('htmlencode').htmlEncode;
 
-export default function getContents(primaryContainer, encoded = true, editTag = false) {
+export default function getContents(primaryContainer, encoded = true) {
   let result = '';
 
   const primaryContainerClone = primaryContainer.cloneNode(true);
@@ -9,7 +9,7 @@ export default function getContents(primaryContainer, encoded = true, editTag = 
     if (elem.classList.contains('w-content-container')) {
       const snippet = elem.querySelector('.w-snippet');
 
-      result += (editTag) ? '\n<div class="w-snippet editable">' + snippet.innerHTML + '</div>\n' : snippet.innerHTML;
+      result += '\n<div>\n' + snippet.innerHTML + '\n</div>\n';
     } else {
       const divTemp = document.createElement('div');
       const newElem = elem.cloneNode(true);

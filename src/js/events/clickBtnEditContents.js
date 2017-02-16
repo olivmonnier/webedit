@@ -15,7 +15,7 @@ function saveEditContents() {
 
 export default function(elem, container, editorOptions) {
   elem.addEventListener('click', function(e) {
-    const content = getContents(container, true, true);
+    const content = getContents(container, true);
 
     basicModal.show({
       body: '<textarea>' + content + '</textarea>',
