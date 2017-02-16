@@ -21564,35 +21564,33 @@ exports.default = function (elem, container, editorOptions) {
     });
 
     if (basicModal.visible()) {
-      (function () {
-        var textarea = document.getElementsByTagName('textarea')[0];
-        var editor = _codemirror2.default.fromTextArea(textarea, {
-          lineNumbers: true,
-          lineWrapping: true,
-          mode: 'htmlmixed',
-          tabSize: '2'
+      var textarea = document.getElementsByTagName('textarea')[0];
+      var editor = _codemirror2.default.fromTextArea(textarea, {
+        lineNumbers: true,
+        lineWrapping: true,
+        mode: 'htmlmixed',
+        tabSize: '2'
+      });
+
+      document.getElementById('basicModal__action').addEventListener('replaceContents', function () {
+        var editorContent = editor.getValue();
+        var divTemp = document.createElement('div');
+
+        container.innerHTML = '';
+        divTemp.innerHTML = editorContent;
+        divTemp.querySelectorAll('.w-snippet').forEach(function (elem) {
+          var newElem = elem.cloneNode(true);
+          var newContent = (0, _createContentContainer2.default)(newElem);
+
+          elem.parentNode.replaceChild(newContent, elem);
         });
-
-        document.getElementById('basicModal__action').addEventListener('replaceContents', function () {
-          var editorContent = editor.getValue();
-          var divTemp = document.createElement('div');
-
-          container.innerHTML = '';
-          divTemp.innerHTML = editorContent;
-          divTemp.querySelectorAll('.w-snippet').forEach(function (elem) {
-            var newElem = elem.cloneNode(true);
-            var newContent = (0, _createContentContainer2.default)(newElem);
-
-            elem.parentNode.replaceChild(newContent, elem);
-          });
-          divTemp.childNodes.forEach(function (node) {
-            container.appendChild(node);
-            if (node.classList.contains('w-content-container')) {
-              new MediumEditor(node.querySelector('.w-snippet'), editorOptions);
-            }
-          });
+        divTemp.childNodes.forEach(function (node) {
+          container.appendChild(node);
+          if (node.classList.contains('w-content-container')) {
+            new MediumEditor(node.querySelector('.w-snippet'), editorOptions);
+          }
         });
-      })();
+      });
     }
   });
 };
