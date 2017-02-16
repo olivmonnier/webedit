@@ -21498,7 +21498,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var basicModal = require('basicmodal');
 
-},{"../utils/getClosest":42,"basicmodal":2}],33:[function(require,module,exports){
+},{"../utils/getClosest":43,"basicmodal":2}],33:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21537,7 +21537,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var MediumEditor = require('medium-editor');
 
-},{"../components/createContentContainer":26,"../utils/getClosest":42,"../utils/insertAfter":44,"medium-editor":17}],34:[function(require,module,exports){
+},{"../components/createContentContainer":26,"../utils/getClosest":43,"../utils/insertAfter":45,"medium-editor":17}],34:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21572,25 +21572,7 @@ exports.default = function (elem, container, editorOptions) {
         tabSize: '2'
       });
 
-      document.getElementById('basicModal__action').addEventListener('replaceContents', function () {
-        var editorContent = editor.getValue();
-        var divTemp = document.createElement('div');
-
-        container.innerHTML = '';
-        divTemp.innerHTML = editorContent;
-        divTemp.querySelectorAll('.w-snippet').forEach(function (elem) {
-          var newElem = elem.cloneNode(true);
-          var newContent = (0, _createContentContainer2.default)(newElem);
-
-          elem.parentNode.replaceChild(newContent, elem);
-        });
-        divTemp.childNodes.forEach(function (node) {
-          container.appendChild(node);
-          if (node.classList.contains('w-content-container')) {
-            new MediumEditor(node.querySelector('.w-snippet'), editorOptions);
-          }
-        });
-      });
+      (0, _replaceContent2.default)(document.getElementById('basicModal__action'), container, editor, editorOptions);
     }
   });
 };
@@ -21599,9 +21581,9 @@ var _codemirror = require('codemirror');
 
 var _codemirror2 = _interopRequireDefault(_codemirror);
 
-var _createContentContainer = require('../components/createContentContainer');
+var _replaceContent = require('./replaceContent');
 
-var _createContentContainer2 = _interopRequireDefault(_createContentContainer);
+var _replaceContent2 = _interopRequireDefault(_replaceContent);
 
 var _getContents = require('../utils/getContents');
 
@@ -21614,19 +21596,18 @@ var _getClosest2 = _interopRequireDefault(_getClosest);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var basicModal = require('basicmodal');
-var MediumEditor = require('medium-editor');
 
 require('codemirror/mode/htmlmixed/htmlmixed');
 
 function saveEditContents() {
   var elem = document.getElementById('basicModal__action');
-  var event = new CustomEvent('replaceContents');
+  var event = new CustomEvent('replaceContent');
 
   elem.dispatchEvent(event);
   basicModal.close();
 }
 
-},{"../components/createContentContainer":26,"../utils/getClosest":42,"../utils/getContents":43,"basicmodal":2,"codemirror":3,"codemirror/mode/htmlmixed/htmlmixed":5,"medium-editor":17}],35:[function(require,module,exports){
+},{"../utils/getClosest":43,"../utils/getContents":44,"./replaceContent":39,"basicmodal":2,"codemirror":3,"codemirror/mode/htmlmixed/htmlmixed":5}],35:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21713,6 +21694,43 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+exports.default = function (elem, container, editor, editorOptions) {
+  document.getElementById('basicModal__action').addEventListener('replaceContent', function () {
+    var editorContent = editor.getValue();
+    var divTemp = document.createElement('div');
+
+    container.innerHTML = '';
+    divTemp.innerHTML = editorContent;
+    divTemp.querySelectorAll('.w-snippet').forEach(function (elem) {
+      var newElem = elem.cloneNode(true);
+      var newContent = (0, _createContentContainer2.default)(newElem);
+
+      elem.parentNode.replaceChild(newContent, elem);
+    });
+    divTemp.childNodes.forEach(function (node) {
+      container.appendChild(node);
+      if (node.classList.contains('w-content-container')) {
+        new MediumEditor(node.querySelector('.w-snippet'), editorOptions);
+      }
+    });
+  });
+};
+
+var _createContentContainer = require('../components/createContentContainer');
+
+var _createContentContainer2 = _interopRequireDefault(_createContentContainer);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var MediumEditor = require('medium-editor');
+
+},{"../components/createContentContainer":26,"medium-editor":17}],40:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 exports.default = function (containerId) {
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
@@ -21791,7 +21809,7 @@ var _clickDocument2 = _interopRequireDefault(_clickDocument);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./components/createBarActions":23,"./components/createContentsContainer":27,"./components/createSnippetContainer":29,"./dragNDrop":30,"./events/clickDocument":38,"./utils/getContents":43}],40:[function(require,module,exports){
+},{"./components/createBarActions":23,"./components/createContentsContainer":27,"./components/createSnippetContainer":29,"./dragNDrop":30,"./events/clickDocument":38,"./utils/getContents":44}],41:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21818,7 +21836,7 @@ var _getContents2 = _interopRequireDefault(_getContents);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./utils/getContents":43}],41:[function(require,module,exports){
+},{"./utils/getContents":44}],42:[function(require,module,exports){
 'use strict';
 
 var _initEdit = require('./initEdit');
@@ -21835,7 +21853,7 @@ if (window) {
   window.WebEdit = window.opener ? _initRender2.default : _initEdit2.default;
 }
 
-},{"./initEdit":39,"./initRender":40}],42:[function(require,module,exports){
+},{"./initEdit":40,"./initRender":41}],43:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21869,7 +21887,7 @@ function getClosest(elem, selector) {
     return null;
 };
 
-},{}],43:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21903,7 +21921,7 @@ function getContents(primaryContainer) {
   return encoded ? htmlEncode(result) : result;
 }
 
-},{"htmlencode":16}],44:[function(require,module,exports){
+},{"htmlencode":16}],45:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21914,4 +21932,4 @@ function insertAfter(newNode, referenceNode) {
   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 
-},{}]},{},[41]);
+},{}]},{},[42]);

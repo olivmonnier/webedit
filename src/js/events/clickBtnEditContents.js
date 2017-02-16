@@ -1,14 +1,13 @@
 const basicModal = require('basicmodal');
-const MediumEditor = require('medium-editor');
 import CodeMirror from 'codemirror';
-import createContentContainer from '../components/createContentContainer';
+import replaceContent from './replaceContent';
 import getContents from '../utils/getContents';
 import getClosest from '../utils/getClosest';
 require('codemirror/mode/htmlmixed/htmlmixed');
 
 function saveEditContents() {
   const elem = document.getElementById('basicModal__action');
-  const event = new CustomEvent('replaceContents');
+  const event = new CustomEvent('replaceContent');
 
   elem.dispatchEvent(event);
   basicModal.close();
@@ -42,25 +41,7 @@ export default function(elem, container, editorOptions) {
         tabSize: '2'
       });
 
-      document.getElementById('basicModal__action').addEventListener('replaceContents', () => {
-        const editorContent = editor.getValue();
-        const divTemp = document.createElement('div');
-
-        container.innerHTML = '';
-        divTemp.innerHTML = editorContent;
-        divTemp.querySelectorAll('.w-snippet').forEach(elem => {
-          const newElem = elem.cloneNode(true);
-          const newContent = createContentContainer(newElem)
-
-          elem.parentNode.replaceChild(newContent, elem);
-        });
-        divTemp.childNodes.forEach(node => {
-          container.appendChild(node);
-          if (node.classList.contains('w-content-container')) {
-            new MediumEditor(node.querySelector('.w-snippet'), editorOptions);
-          }
-        });
-      });
+      replaceContent(document.getElementById('basicModal__action'), container, editor, editorOptions);
     }
   });
 }
