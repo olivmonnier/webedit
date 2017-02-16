@@ -21915,7 +21915,7 @@ function getContents(primaryContainer) {
     if (elem.classList.contains('w-content-container')) {
       var snippet = elem.querySelector('.w-snippet');
 
-      result += '\n<div>\n' + snippet.innerHTML + '\n</div>\n';
+      result += '\n<div>\n\t' + snippet.innerHTML + '\n</div>\n';
     } else {
       var divTemp = document.createElement('div');
       var newElem = elem.cloneNode(true);
