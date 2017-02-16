@@ -9,7 +9,7 @@ export default function getContents(primaryContainer, encoded = true) {
     if (elem.classList.contains('w-content-container')) {
       const snippet = elem.querySelector('.w-snippet');
 
-      result += '\n<div>\n\t' + snippet.innerHTML + '\n</div>\n';
+      result += '\n<div>\n\t' + snippet.innerHTML.trim() + '\n</div>\n';
     } else {
       const divTemp = document.createElement('div');
       const newElem = elem.cloneNode(true);
