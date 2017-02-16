@@ -1,7 +1,7 @@
 import createButton from './createButton';
 import clickBtnEditContents from '../events/clickBtnEditContents';
 
-export default function createContentsContainer(container, editorOptions) {
+export default function createContentsContainer(container, editor) {
   const bar = document.createElement('div');
   const contentsContainer = document.createElement('div');
   const btnEditContents = createButton('', 'w-btn-edit fa fa-code');
@@ -10,7 +10,7 @@ export default function createContentsContainer(container, editorOptions) {
   bar.classList.add('w-contents-bar');
   contentsContainer.classList.add('w-contents');
 
-  clickBtnEditContents(btnEditContents, contentsContainer, editorOptions);
+  clickBtnEditContents(btnEditContents, contentsContainer, editor);
 
   bar.appendChild(btnEditContents);
   container.appendChild(bar);

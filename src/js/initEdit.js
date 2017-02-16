@@ -1,3 +1,4 @@
+const MediumEditor = require('medium-editor');
 import createContentsContainer from './components/createContentsContainer';
 import createBarActions from './components/createBarActions';
 import createSnippetContainer from './components/createSnippetContainer';
@@ -17,6 +18,7 @@ export default function(containerId, options = {}) {
   }
   const editorOptions = options.editorOptions || editorOptionsDefault;
   const snippetsPath = options.snippetsPath;
+  const editorMedium = new MediumEditor('.w-snippet.editable', editorOptions);
 
   if (snippetsPath) {
     snippetsUrls = Array.isArray(snippetsPath) ? snippetsPath : [snippetsPath];
@@ -26,11 +28,11 @@ export default function(containerId, options = {}) {
       Promise.all(responses.map(res => res.text()))
         .then((snippets) => {
           clickDocument(document);
-          primaryContainer.forEach(container => createContentsContainer(container, editorOptions));
+          primaryContainer.forEach(container => createContentsContainer(container, editorMedium));
           createSnippetContainer(snippets, urls);
           createBarActions(options.viewports, options.buttons);
         }).then(() => {
-          dragNDrop(primaryContainer, editorOptions);
+          dragNDrop(primaryContainer, editorMedium);
         }).catch(response => console.log(response))
     })
 

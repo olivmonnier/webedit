@@ -1,9 +1,8 @@
-const MediumEditor = require('medium-editor');
 import createContentContainer from '../components/createContentContainer';
 
-export default function(elem, container, editor, editorOptions) {
+export default function(elem, container, editorHtml, editor) {
   document.getElementById('basicModal__action').addEventListener('replaceContent', () => {
-    const editorContent = editor.getValue();
+    const editorContent = editorHtml.getValue();
     const divTemp = document.createElement('div');
 
     container.innerHTML = '';
@@ -24,8 +23,8 @@ export default function(elem, container, editor, editorOptions) {
         const newContent = createContentContainer(newElem);
 
         container.appendChild(newContent);
-
-        new MediumEditor(newContent.querySelector('.w-snippet'), editorOptions);
+        editor.destroy()
+        editor.setup();
       }
     });
   });

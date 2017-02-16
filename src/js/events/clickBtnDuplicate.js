@@ -1,10 +1,9 @@
-const MediumEditor = require('medium-editor');
 import createContentContainer from '../components/createContentContainer';
 import getClosest from'../utils/getClosest';
 import insertAfter from'../utils/insertAfter';
 
 
-export default function(elem, editorOptions) {
+export default function(elem, editor) {
   elem.addEventListener('click', function(e) {
     let newParent = null;
     const parent = getClosest(elem, '.w-content-container');
@@ -16,6 +15,7 @@ export default function(elem, editorOptions) {
     divSnippet.innerHTML = html;
     newParent = createContentContainer(divSnippet, editorOptions);
     insertAfter(newParent, parent);
-    new MediumEditor(divSnippet, editorOptions);
+    editor.destroy()
+    editor.setup();
   });
 }

@@ -1,8 +1,7 @@
-const MediumEditor = require('medium-editor');
 const dragula = require('dragula');
 import createContentContainer from './components/createContentContainer';
 
-export default function dragNdrop(primaryContainer, editorOptions) {
+export default function dragNdrop(primaryContainer, editor) {
   let elems = [].slice.call(document.querySelectorAll('.w-list-snippets'));
 
   elems = elems.concat([].slice.call(document.querySelectorAll('.w-contents')));
@@ -34,8 +33,9 @@ export default function dragNdrop(primaryContainer, editorOptions) {
 
       if (content) {
         content.className += ' editable';
-        parent.replaceChild(createContentContainer(content, editorOptions), el);
-        new MediumEditor(content, editorOptions);
+        parent.replaceChild(createContentContainer(content, editor), el);
+        editor.destroy();
+        editor.setup();
       }
     }
   }).on('cancel', function(el, container) {

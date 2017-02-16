@@ -13,7 +13,7 @@ function saveEditContents() {
   basicModal.close();
 }
 
-export default function(elem, container, editorOptions) {
+export default function(elem, container, editor) {
   elem.addEventListener('click', function(e) {
     const content = getContents(container, true);
 
@@ -34,14 +34,14 @@ export default function(elem, container, editorOptions) {
 
     if (basicModal.visible()) {
       const textarea = document.getElementsByTagName('textarea')[0];
-      const editor = CodeMirror.fromTextArea(textarea, {
+      const editorHtml = CodeMirror.fromTextArea(textarea, {
         lineNumbers: true,
         lineWrapping: true,
         mode: 'htmlmixed',
         tabSize: '2'
       });
 
-      replaceContent(document.getElementById('basicModal__action'), container, editor, editorOptions);
+      replaceContent(document.getElementById('basicModal__action'), container, editorHtml, editor);
     }
   });
 }

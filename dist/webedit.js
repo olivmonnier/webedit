@@ -21279,7 +21279,7 @@ var _clickBtnEditContents2 = _interopRequireDefault(_clickBtnEditContents);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function createContentsContainer(container, editorOptions) {
+function createContentsContainer(container, editor) {
   var bar = document.createElement('div');
   var contentsContainer = document.createElement('div');
   var btnEditContents = (0, _createButton2.default)('', 'w-btn-edit fa fa-code');
@@ -21288,7 +21288,7 @@ function createContentsContainer(container, editorOptions) {
   bar.classList.add('w-contents-bar');
   contentsContainer.classList.add('w-contents');
 
-  (0, _clickBtnEditContents2.default)(btnEditContents, contentsContainer, editorOptions);
+  (0, _clickBtnEditContents2.default)(btnEditContents, contentsContainer, editor);
 
   bar.appendChild(btnEditContents);
   container.appendChild(bar);
@@ -21389,9 +21389,8 @@ var _createContentContainer2 = _interopRequireDefault(_createContentContainer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var MediumEditor = require('medium-editor');
 var dragula = require('dragula');
-function dragNdrop(primaryContainer, editorOptions) {
+function dragNdrop(primaryContainer, editor) {
   var elems = [].slice.call(document.querySelectorAll('.w-list-snippets'));
 
   elems = elems.concat([].slice.call(document.querySelectorAll('.w-contents')));
@@ -21427,8 +21426,9 @@ function dragNdrop(primaryContainer, editorOptions) {
 
       if (content) {
         content.className += ' editable';
-        parent.replaceChild((0, _createContentContainer2.default)(content, editorOptions), el);
-        new MediumEditor(content, editorOptions);
+        parent.replaceChild((0, _createContentContainer2.default)(content, editor), el);
+        editor.destroy();
+        editor.setup();
       }
     }
   }).on('cancel', function (el, container) {
@@ -21438,7 +21438,7 @@ function dragNdrop(primaryContainer, editorOptions) {
   });
 }
 
-},{"./components/createContentContainer":26,"dragula":14,"medium-editor":17}],31:[function(require,module,exports){
+},{"./components/createContentContainer":26,"dragula":14}],31:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21505,7 +21505,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-exports.default = function (elem, editorOptions) {
+exports.default = function (elem, editor) {
   elem.addEventListener('click', function (e) {
     var newParent = null;
     var parent = (0, _getClosest2.default)(elem, '.w-content-container');
@@ -21517,7 +21517,8 @@ exports.default = function (elem, editorOptions) {
     divSnippet.innerHTML = html;
     newParent = (0, _createContentContainer2.default)(divSnippet, editorOptions);
     (0, _insertAfter2.default)(newParent, parent);
-    new MediumEditor(divSnippet, editorOptions);
+    editor.destroy();
+    editor.setup();
   });
 };
 
@@ -21535,16 +21536,14 @@ var _insertAfter2 = _interopRequireDefault(_insertAfter);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var MediumEditor = require('medium-editor');
-
-},{"../components/createContentContainer":26,"../utils/getClosest":43,"../utils/insertAfter":45,"medium-editor":17}],34:[function(require,module,exports){
+},{"../components/createContentContainer":26,"../utils/getClosest":43,"../utils/insertAfter":45}],34:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-exports.default = function (elem, container, editorOptions) {
+exports.default = function (elem, container, editor) {
   elem.addEventListener('click', function (e) {
     var content = (0, _getContents2.default)(container, true);
 
@@ -21565,14 +21564,14 @@ exports.default = function (elem, container, editorOptions) {
 
     if (basicModal.visible()) {
       var textarea = document.getElementsByTagName('textarea')[0];
-      var editor = _codemirror2.default.fromTextArea(textarea, {
+      var editorHtml = _codemirror2.default.fromTextArea(textarea, {
         lineNumbers: true,
         lineWrapping: true,
         mode: 'htmlmixed',
         tabSize: '2'
       });
 
-      (0, _replaceContent2.default)(document.getElementById('basicModal__action'), container, editor, editorOptions);
+      (0, _replaceContent2.default)(document.getElementById('basicModal__action'), container, editorHtml, editor);
     }
   });
 };
@@ -21694,9 +21693,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-exports.default = function (elem, container, editor, editorOptions) {
+exports.default = function (elem, container, editorHtml, editor) {
   document.getElementById('basicModal__action').addEventListener('replaceContent', function () {
-    var editorContent = editor.getValue();
+    var editorContent = editorHtml.getValue();
     var divTemp = document.createElement('div');
 
     container.innerHTML = '';
@@ -21717,8 +21716,8 @@ exports.default = function (elem, container, editor, editorOptions) {
         var newContent = (0, _createContentContainer2.default)(newElem);
 
         container.appendChild(newContent);
-
-        new MediumEditor(newContent.querySelector('.w-snippet'), editorOptions);
+        editor.destroy();
+        editor.setup();
       }
     });
   });
@@ -21730,9 +21729,7 @@ var _createContentContainer2 = _interopRequireDefault(_createContentContainer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var MediumEditor = require('medium-editor');
-
-},{"../components/createContentContainer":26,"medium-editor":17}],40:[function(require,module,exports){
+},{"../components/createContentContainer":26}],40:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21753,6 +21750,7 @@ exports.default = function (containerId) {
   };
   var editorOptions = options.editorOptions || editorOptionsDefault;
   var snippetsPath = options.snippetsPath;
+  var editorMedium = new MediumEditor('.w-snippet.editable', editorOptions);
 
   if (snippetsPath) {
     snippetsUrls = Array.isArray(snippetsPath) ? snippetsPath : [snippetsPath];
@@ -21768,12 +21766,12 @@ exports.default = function (containerId) {
       })).then(function (snippets) {
         (0, _clickDocument2.default)(document);
         primaryContainer.forEach(function (container) {
-          return (0, _createContentsContainer2.default)(container, editorOptions);
+          return (0, _createContentsContainer2.default)(container, editorMedium);
         });
         (0, _createSnippetContainer2.default)(snippets, urls);
         (0, _createBarActions2.default)(options.viewports, options.buttons);
       }).then(function () {
-        (0, _dragNDrop2.default)(primaryContainer, editorOptions);
+        (0, _dragNDrop2.default)(primaryContainer, editorMedium);
       }).catch(function (response) {
         return console.log(response);
       });
@@ -21817,7 +21815,9 @@ var _clickDocument2 = _interopRequireDefault(_clickDocument);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./components/createBarActions":23,"./components/createContentsContainer":27,"./components/createSnippetContainer":29,"./dragNDrop":30,"./events/clickDocument":38,"./utils/getContents":44}],41:[function(require,module,exports){
+var MediumEditor = require('medium-editor');
+
+},{"./components/createBarActions":23,"./components/createContentsContainer":27,"./components/createSnippetContainer":29,"./dragNDrop":30,"./events/clickDocument":38,"./utils/getContents":44,"medium-editor":17}],41:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
