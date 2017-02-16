@@ -21248,9 +21248,9 @@ var _clickContent2 = _interopRequireDefault(_clickContent);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function createContentContainer(content, editorOptions) {
+function createContentContainer(content, editor) {
   var container = document.createElement('div');
-  var contentActions = (0, _createContentActions2.default)(editorOptions);
+  var contentActions = (0, _createContentActions2.default)(editor);
 
   (0, _clickContent2.default)(container);
 
@@ -21515,7 +21515,7 @@ exports.default = function (elem, editor) {
 
     divSnippet.className = 'w-snippet editable';
     divSnippet.innerHTML = html;
-    newParent = (0, _createContentContainer2.default)(divSnippet, editorOptions);
+    newParent = (0, _createContentContainer2.default)(divSnippet, editor);
     (0, _insertAfter2.default)(newParent, parent);
     editor.destroy();
     editor.setup();

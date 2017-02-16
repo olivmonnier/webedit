@@ -1,9 +1,9 @@
 import createContentActions from './createContentActions';
 import clickContent from '../events/clickContent';
 
-export default function createContentContainer(content, editorOptions) {
+export default function createContentContainer(content, editor) {
   const container = document.createElement('div');
-  const contentActions = createContentActions(editorOptions);
+  const contentActions = createContentActions(editor);
 
   clickContent(container);
 

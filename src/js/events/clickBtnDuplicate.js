@@ -13,7 +13,7 @@ export default function(elem, editor) {
 
     divSnippet.className = 'w-snippet editable';
     divSnippet.innerHTML = html;
-    newParent = createContentContainer(divSnippet, editorOptions);
+    newParent = createContentContainer(divSnippet, editor);
     insertAfter(newParent, parent);
     editor.destroy()
     editor.setup();
