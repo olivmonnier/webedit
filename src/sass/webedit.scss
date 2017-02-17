@@ -13,6 +13,10 @@
 @import "./components/contents";
 @import "./components/modal";
 
+body {
+  padding-top: 50px;
+}
+
 [class*="w-"] {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
