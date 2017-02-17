@@ -3268,6 +3268,12 @@ span.CodeMirror-selectedtext {
   height: 44px;
   justify-content: flex-start;
   background-color: #0F0F0F; }
+  .w-bar-container [class*="w-btn"] {
+    padding: inherit;
+    margin: inherit;
+    box-shadow: none;
+    border: none;
+    font-size: inherit; }
   .w-bar-container > ul {
     float: left;
     margin: 0;
@@ -3278,18 +3284,25 @@ span.CodeMirror-selectedtext {
       float: left;
       display: block;
       color: #fff; }
+      .w-bar-container > ul > li.w-btn-focus > ul {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        display: block;
+        min-width: 160px; }
       .w-bar-container > ul > li > a, .w-bar-container > ul > li > button {
-        padding: 15px 20px;
+        padding: 15px 20px !important;
         display: inline-block;
         box-shadow: none;
         background-color: transparent;
         border: none;
         font-family: Arial;
-        font-size: 12px;
+        font-size: 12px !important;
         color: #fff;
         text-decoration: none; }
       .w-bar-container > ul > li > ul {
         display: none;
+        float: left;
         margin: 0;
         padding-left: 0;
         list-style: none; }

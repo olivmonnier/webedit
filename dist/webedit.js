@@ -21563,7 +21563,7 @@ exports.default = function (elem) {
   elem.addEventListener('click', function (e) {
     e.preventDefault();
 
-    elem.classList.toggle('w-btn-focus');
+    elem.parentNode.classList.toggle('w-btn-focus');
   });
 };
 
