@@ -1,10 +1,11 @@
 const dragula = require('dragula');
 import createContentContainer from './components/createContentContainer';
+import slice from './utils/slice';
 
 export default function dragNdrop(primaryContainer, editor) {
-  let elems = [].slice.call(document.querySelectorAll('.w-list-snippets'));
+  let elems = slice(document.querySelectorAll('.w-list-snippets'));
 
-  elems = elems.concat([].slice.call(document.querySelectorAll('.w-contents')));
+  elems = elems.concat(slice(document.querySelectorAll('.w-contents')));
 
   dragula(elems, {
     copy: function (el, source) {

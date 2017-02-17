@@ -21213,14 +21213,14 @@ var _clickBtnDuplicate2 = _interopRequireDefault(_clickBtnDuplicate);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function createContentActions(editorOptions) {
+function createContentActions(editor) {
   var barActions = document.createElement('div');
   var btnMove = (0, _createButton2.default)('', 'w-btn-move fa fa-arrows');
   var btnDelete = (0, _createButton2.default)('', 'w-btn-delete fa fa-trash');
   var btnDuplicate = (0, _createButton2.default)('', 'w-btn-duplicate fa fa-plus');
 
   (0, _clickBtnDelete2.default)(btnDelete);
-  (0, _clickBtnDuplicate2.default)(btnDuplicate, editorOptions);
+  (0, _clickBtnDuplicate2.default)(btnDuplicate, editor);
 
   barActions.className = 'w-actions';
   barActions.appendChild(btnMove);
@@ -21387,13 +21387,17 @@ var _createContentContainer = require('./components/createContentContainer');
 
 var _createContentContainer2 = _interopRequireDefault(_createContentContainer);
 
+var _slice = require('./utils/slice');
+
+var _slice2 = _interopRequireDefault(_slice);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var dragula = require('dragula');
 function dragNdrop(primaryContainer, editor) {
-  var elems = [].slice.call(document.querySelectorAll('.w-list-snippets'));
+  var elems = (0, _slice2.default)(document.querySelectorAll('.w-list-snippets'));
 
-  elems = elems.concat([].slice.call(document.querySelectorAll('.w-contents')));
+  elems = elems.concat((0, _slice2.default)(document.querySelectorAll('.w-contents')));
 
   dragula(elems, {
     copy: function copy(el, source) {
@@ -21438,17 +21442,24 @@ function dragNdrop(primaryContainer, editor) {
   });
 }
 
-},{"./components/createContentContainer":26,"dragula":14}],31:[function(require,module,exports){
+},{"./components/createContentContainer":26,"./utils/slice":46,"dragula":14}],31:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = changeSnippetsList;
+
+var _slice = require('../utils/slice');
+
+var _slice2 = _interopRequireDefault(_slice);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function changeSnippetsList(elem) {
   elem.addEventListener('change', function () {
     var index = this.value;
-    var lists = [].slice.call(document.querySelectorAll('.w-list-snippets'));
+    var lists = (0, _slice2.default)(document.querySelectorAll('.w-list-snippets'));
 
     lists.forEach(function (list) {
       if (list.getAttribute('data-index') == index) {
@@ -21460,7 +21471,7 @@ function changeSnippetsList(elem) {
   });
 }
 
-},{}],32:[function(require,module,exports){
+},{"../utils/slice":46}],32:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21664,14 +21675,22 @@ exports.default = function (elem) {
   elem.addEventListener('click', function (e) {
     e.stopPropagation();
 
-    document.querySelectorAll('.w-focus').forEach(function (elFocus) {
-      elFocus.classList.remove('w-focus');
+    var elemsFocus = (0, _slice2.default)(document.querySelectorAll('.w-focus'));
+
+    elemsFocus.forEach(function (elemFocus) {
+      elemFocus.classList.remove('w-focus');
     });
     elem.classList.add('w-focus');
   });
 };
 
-},{}],38:[function(require,module,exports){
+var _slice = require('../utils/slice');
+
+var _slice2 = _interopRequireDefault(_slice);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+},{"../utils/slice":46}],38:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21680,13 +21699,21 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.default = function (elem) {
   elem.addEventListener('click', function () {
-    document.querySelectorAll('.w-focus').forEach(function (elFocus) {
-      elFocus.classList.remove('w-focus');
+    var elemsFocus = (0, _slice2.default)(document.querySelectorAll('.w-focus'));
+
+    elemsFocus.forEach(function (elemFocus) {
+      elemFocus.classList.remove('w-focus');
     });
   });
 };
 
-},{}],39:[function(require,module,exports){
+var _slice = require('../utils/slice');
+
+var _slice2 = _interopRequireDefault(_slice);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+},{"../utils/slice":46}],39:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21741,7 +21768,7 @@ exports.default = function (containerId) {
 
   var urls = [];var snippetsUrls = [];
 
-  var primaryContainer = [].slice.call(document.querySelectorAll(containerId));
+  var primaryContainer = (0, _slice2.default)(document.querySelectorAll(containerId));
   var editorOptionsDefault = {
     buttonLabels: 'fontawesome',
     toolbar: {
@@ -21809,6 +21836,10 @@ var _getContents = require('./utils/getContents');
 
 var _getContents2 = _interopRequireDefault(_getContents);
 
+var _slice = require('./utils/slice');
+
+var _slice2 = _interopRequireDefault(_slice);
+
 var _clickDocument = require('./events/clickDocument');
 
 var _clickDocument2 = _interopRequireDefault(_clickDocument);
@@ -21817,7 +21848,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var MediumEditor = require('medium-editor');
 
-},{"./components/createBarActions":23,"./components/createContentsContainer":27,"./components/createSnippetContainer":29,"./dragNDrop":30,"./events/clickDocument":38,"./utils/getContents":44,"medium-editor":17}],41:[function(require,module,exports){
+},{"./components/createBarActions":23,"./components/createContentsContainer":27,"./components/createSnippetContainer":29,"./dragNDrop":30,"./events/clickDocument":38,"./utils/getContents":44,"./utils/slice":46,"medium-editor":17}],41:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21828,8 +21859,8 @@ exports.default = function (containerId) {
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
   var documentParent = window.opener.document;
-  var containersParent = [].slice.call(documentParent.querySelectorAll(containerId));
-  var containers = [].slice.call(document.querySelectorAll(containerId));
+  var containersParent = (0, _slice2.default)(documentParent.querySelectorAll(containerId));
+  var containers = (0, _slice2.default)(document.querySelectorAll(containerId));
 
   containersParent.forEach(function (containerParent, i) {
     var contents = (0, _getContents2.default)(containerParent.querySelector('.w-contents'), false);
@@ -21842,9 +21873,13 @@ var _getContents = require('./utils/getContents');
 
 var _getContents2 = _interopRequireDefault(_getContents);
 
+var _slice = require('./utils/slice');
+
+var _slice2 = _interopRequireDefault(_slice);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./utils/getContents":44}],42:[function(require,module,exports){
+},{"./utils/getContents":44,"./utils/slice":46}],42:[function(require,module,exports){
 'use strict';
 
 var _initEdit = require('./initEdit');
@@ -21937,6 +21972,17 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = insertAfter;
 function insertAfter(newNode, referenceNode) {
   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+
+},{}],46:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = slice;
+function slice(arr) {
+  return [].slice.call(arr);
 }
 
 },{}]},{},[42]);

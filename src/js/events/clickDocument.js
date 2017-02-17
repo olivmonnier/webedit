@@ -1,7 +1,11 @@
+import slice from '../utils/slice';
+
 export default function(elem) {
   elem.addEventListener('click', function() {
-    document.querySelectorAll('.w-focus').forEach(elFocus => {
-      elFocus.classList.remove('w-focus');
+    const elemsFocus = slice(document.querySelectorAll('.w-focus'));
+
+    elemsFocus.forEach(elemFocus => {
+      elemFocus.classList.remove('w-focus');
     });
   });
 }

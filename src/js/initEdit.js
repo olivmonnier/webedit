@@ -4,12 +4,13 @@ import createBarActions from './components/createBarActions';
 import createSnippetContainer from './components/createSnippetContainer';
 import dragNDrop from './dragNDrop';
 import getContents from './utils/getContents';
+import slice from './utils/slice';
 import clickDocument from './events/clickDocument';
 
 export default function(containerId, options = {}) {
   let urls = []; let snippetsUrls = [];
 
-  const primaryContainer = [].slice.call(document.querySelectorAll(containerId));
+  const primaryContainer = slice(document.querySelectorAll(containerId));
   const editorOptionsDefault = {
     buttonLabels: 'fontawesome',
     toolbar: {
