@@ -21562,12 +21562,29 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = function (elem) {
   elem.addEventListener('click', function (e) {
     e.preventDefault();
+    var isFocused = elem.parentNode.classList.contains('w-btn-focus');
+    var btnFocus = (0, _slice2.default)(document.querySelectorAll('.w-btn-focus'));
 
-    elem.parentNode.classList.toggle('w-btn-focus');
+    btnFocus.forEach(function (btn) {
+      return btn.classList.remove('w-btn-focus');
+    });
+    elem.parentNode.classList[isFocused ? 'remove' : 'add']('w-btn-focus');
+  });
+
+  elem.addEventListener('blur', function (e) {
+    setTimeout(function () {
+      elem.parentNode.classList.remove('w-btn-focus');
+    }, 300);
   });
 };
 
-},{}],34:[function(require,module,exports){
+var _slice = require('../utils/slice');
+
+var _slice2 = _interopRequireDefault(_slice);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+},{"../utils/slice":47}],34:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

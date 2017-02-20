@@ -3267,13 +3267,8 @@ span.CodeMirror-selectedtext {
   display: flex;
   height: 44px;
   justify-content: flex-start;
-  background-color: #0F0F0F; }
-  .w-bar-container [class*="w-btn"] {
-    padding: inherit;
-    margin: inherit;
-    box-shadow: none;
-    border: none;
-    font-size: inherit; }
+  background-color: #2F2F2F;
+  box-shadow: 2px 2px 6px 0px #0f0f0f; }
   .w-bar-container > ul {
     float: left;
     margin: 0;
@@ -3284,20 +3279,25 @@ span.CodeMirror-selectedtext {
       float: left;
       display: block;
       color: #fff; }
-      .w-bar-container > ul > li.w-btn-focus > ul {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        display: block;
-        min-width: 160px; }
-      .w-bar-container > ul > li > a, .w-bar-container > ul > li > button {
-        padding: 15px 20px !important;
+      .w-bar-container > ul > li.w-btn-focus {
+        padding: 0;
+        background-color: #222222;
+        box-shadow: none;
+        border: none; }
+        .w-bar-container > ul > li.w-btn-focus > ul {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          display: block;
+          background-color: #222222; }
+      .w-bar-container > ul > li a, .w-bar-container > ul > li button {
+        padding: 15px 20px;
         display: inline-block;
         box-shadow: none;
         background-color: transparent;
         border: none;
         font-family: Arial;
-        font-size: 12px !important;
+        font-size: 12px;
         color: #fff;
         text-decoration: none; }
       .w-bar-container > ul > li > ul {
@@ -3305,7 +3305,14 @@ span.CodeMirror-selectedtext {
         float: left;
         margin: 0;
         padding-left: 0;
+        min-width: 160px;
         list-style: none; }
+        .w-bar-container > ul > li > ul a, .w-bar-container > ul > li > ul button {
+          display: block;
+          width: 100%;
+          text-align: left; }
+          .w-bar-container > ul > li > ul a:hover, .w-bar-container > ul > li > ul button:hover {
+            background-color: #2F2F2F; }
 
 .w-btn, [class*="w-btn"] {
   padding: 4px 8px;
