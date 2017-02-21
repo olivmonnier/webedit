@@ -21255,10 +21255,13 @@ var _clickBtnDuplicate = require('../events/clickBtnDuplicate');
 
 var _clickBtnDuplicate2 = _interopRequireDefault(_clickBtnDuplicate);
 
+var _createElement = require('../utils/createElement');
+
+var _createElement2 = _interopRequireDefault(_createElement);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function createContentActions(editor) {
-  var barActions = document.createElement('div');
   var btnMove = (0, _createButton2.default)('', 'w-btn-move fa fa-arrows');
   var btnDelete = (0, _createButton2.default)('', 'w-btn-delete fa fa-trash');
   var btnDuplicate = (0, _createButton2.default)('', 'w-btn-duplicate fa fa-plus');
@@ -21266,15 +21269,14 @@ function createContentActions(editor) {
   (0, _clickBtnDelete2.default)(btnDelete);
   (0, _clickBtnDuplicate2.default)(btnDuplicate, editor);
 
-  barActions.className = 'w-actions';
-  barActions.appendChild(btnMove);
-  barActions.appendChild(btnDelete);
-  barActions.appendChild(btnDuplicate);
-
-  return barActions;
+  return (0, _createElement2.default)({
+    tagName: 'div',
+    className: 'w-actions',
+    childs: [btnMove, btnDelete, btnDuplicate]
+  });
 }
 
-},{"../events/clickBtnDelete":32,"../events/clickBtnDuplicate":34,"./createButton":24}],26:[function(require,module,exports){
+},{"../events/clickBtnDelete":32,"../events/clickBtnDuplicate":34,"../utils/createElement":44,"./createButton":24}],26:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21290,22 +21292,25 @@ var _clickContent = require('../events/clickContent');
 
 var _clickContent2 = _interopRequireDefault(_clickContent);
 
+var _createElement = require('../utils/createElement');
+
+var _createElement2 = _interopRequireDefault(_createElement);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function createContentContainer(content, editor) {
-  var container = document.createElement('div');
-  var contentActions = (0, _createContentActions2.default)(editor);
+  var container = (0, _createElement2.default)({
+    tagName: 'div',
+    className: 'w-content-container',
+    childs: [(0, _createContentActions2.default)(editor), content]
+  });
 
   (0, _clickContent2.default)(container);
-
-  container.className = 'w-content-container';
-  container.appendChild(contentActions);
-  container.appendChild(content);
 
   return container;
 }
 
-},{"../events/clickContent":38,"./createContentActions":25}],27:[function(require,module,exports){
+},{"../events/clickContent":38,"../utils/createElement":44,"./createContentActions":25}],27:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

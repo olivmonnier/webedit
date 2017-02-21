@@ -1,15 +1,18 @@
 import createContentActions from './createContentActions';
 import clickContent from '../events/clickContent';
+import createElement from '../utils/createElement';
 
 export default function createContentContainer(content, editor) {
-  const container = document.createElement('div');
-  const contentActions = createContentActions(editor);
+  const container = createElement({
+    tagName: 'div',
+    className: 'w-content-container',
+    childs: [
+      createContentActions(editor),
+      content
+    ]
+  });
 
   clickContent(container);
-
-  container.className = 'w-content-container';
-  container.appendChild(contentActions);
-  container.appendChild(content);
 
   return container;
 }
