@@ -1,70 +1,78 @@
 import createButton from './createButton';
 import clickBtnViewPort from '../events/clickBtnViewPort';
 import clickBtnDropdown from '../events/clickBtnDropdown';
+import createElement from '../utils/createElement';
 
 export default function createBarActions(viewports = [], actions = []) {
-  const container = document.createElement('div');
-  const ul = document.createElement('ul');
-
-  container.className = 'w-bar-container';
-
-  createListViewports(viewports, ul);
-  createListActions(actions, ul);
-
-  container.appendChild(ul);
-  document.body.appendChild(container);
+  document.body.appendChild(createElement({
+    tagName: 'div',
+    className: 'w-bar-container',
+    childs: [{
+      tagName: 'ul',
+      childs: [
+        createListViewports(viewports),
+        createListActions(actions)
+      ]
+    }]
+  }))
 }
 
-function createListViewports(viewports, container) {
+function createListViewports(viewports) {
   if (viewports.length > 0) {
-    const elementContainerBarAction = createElementLabelBarAction(container, 'Viewports');
-
-    viewports.forEach(viewport => {
-      const li = document.createElement('li');
-      const widthInt = viewport.width.replace('px', '') || '';
-      const heightInt = viewport.height.replace('px', '') || '';
-      const label = viewport.label || widthInt + 'x' + heightInt;
-      const btnViewPort = createButton(label, 'w-btn-viewport');
+    const elViewports = viewports.map(viewport => {
+      const btnViewPort = createButton(viewport.label, 'w-btn-viewport');
       const settings = {
-        width: widthInt,
-        height: heightInt
+        width: viewport.width.replace('px', '') || '',
+        height: viewport.height.replace('px', '') || ''
       }
-
       clickBtnViewPort(btnViewPort, settings);
-      li.appendChild(btnViewPort);
-      elementContainerBarAction.appendChild(li);
+      return createElement({
+        tagName: 'li',
+        childs: [
+          btnViewPort
+        ]
+      })
     });
+
+    return createElementLabelBarAction('Viewports', elViewports);
   }
 }
 
 function createListActions(actions, container) {
   if (actions.length > 0) {
-    const elementContainerBarAction = createElementLabelBarAction(container, 'Actions');
-
-    actions.forEach(action => {
-      const li = document.createElement('li');
+    const elActions = actions.map(action => {
       const btn = createButton(action.label, 'w-btn ' + (action.class || ''), action.id);
 
       btn.addEventListener('click', action.fn);
-      li.appendChild(btn);
-      elementContainerBarAction.appendChild(li);
+      return createElement({
+        tagName: 'li',
+        childs: [
+          btn
+        ]
+      })
     });
+
+    return createElementLabelBarAction('Actions', elActions);
   }
 }
 
-function createElementLabelBarAction(container, label) {
-  const li = document.createElement('li');
-  const elementLabel = document.createElement('button');
-  const elementContainer = document.createElement('ul');
-
-  elementLabel.classList.add('w-btn-dropdown');
-  elementLabel.innerHTML = label;
+function createElementLabelBarAction(label, nodes) {
+  const elementLabel = createElement({
+    tagName: 'button',
+    className: 'w-btn-dropdown',
+    html: label
+  });
 
   clickBtnDropdown(elementLabel);
 
-  li.appendChild(elementLabel)
-  li.appendChild(elementContainer);
-  container.appendChild(li);
-
-  return elementContainer;
+  return createElement({
+    tagName: 'li',
+    childs: [
+      elementLabel,
+      {
+        tagName: 'ul',
+        childs: nodes
+      }
+    ]
+  });
 }
