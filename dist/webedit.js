@@ -21326,25 +21326,32 @@ var _clickBtnEditContents = require('../events/clickBtnEditContents');
 
 var _clickBtnEditContents2 = _interopRequireDefault(_clickBtnEditContents);
 
+var _createElement = require('../utils/createElement');
+
+var _createElement2 = _interopRequireDefault(_createElement);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function createContentsContainer(container, editor) {
-  var bar = document.createElement('div');
-  var contentsContainer = document.createElement('div');
   var btnEditContents = (0, _createButton2.default)('', 'w-btn-edit fa fa-code');
-
-  container.classList.add('w-contents-container');
-  bar.classList.add('w-contents-bar');
-  contentsContainer.classList.add('w-contents');
+  var bar = (0, _createElement2.default)({
+    tagName: 'div',
+    className: 'w-contents-bar',
+    childs: [btnEditContents]
+  });
+  var contentsContainer = (0, _createElement2.default)({
+    tagName: 'div',
+    className: 'w-contents'
+  });
 
   (0, _clickBtnEditContents2.default)(btnEditContents, contentsContainer, editor);
 
-  bar.appendChild(btnEditContents);
+  container.classList.add('w-contents-container');
   container.appendChild(bar);
   container.appendChild(contentsContainer);
 }
 
-},{"../events/clickBtnEditContents":35,"./createButton":24}],28:[function(require,module,exports){
+},{"../events/clickBtnEditContents":35,"../utils/createElement":44,"./createButton":24}],28:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21356,17 +21363,24 @@ var _changeSnippetsList = require('../events/changeSnippetsList');
 
 var _changeSnippetsList2 = _interopRequireDefault(_changeSnippetsList);
 
+var _createElement = require('../utils/createElement');
+
+var _createElement2 = _interopRequireDefault(_createElement);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function createSelectorSnippets(urls, container) {
-  var select = document.createElement('select');
-
-  urls.forEach(function (url, n) {
-    var option = document.createElement('option');
-
-    option.setAttribute('value', n);
-    option.textContent = url.label || 'List ' + n;
-    select.appendChild(option);
+  var select = (0, _createElement2.default)({
+    tagName: 'select',
+    childs: urls.map(function (url, n) {
+      return (0, _createElement2.default)({
+        tagName: 'option',
+        attributes: {
+          value: n
+        },
+        text: url.label || 'List ' + n
+      });
+    })
   });
 
   (0, _changeSnippetsList2.default)(select);
@@ -21374,7 +21388,7 @@ function createSelectorSnippets(urls, container) {
   container.appendChild(select);
 }
 
-},{"../events/changeSnippetsList":31}],29:[function(require,module,exports){
+},{"../events/changeSnippetsList":31,"../utils/createElement":44}],29:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

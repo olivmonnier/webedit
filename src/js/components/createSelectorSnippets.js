@@ -1,14 +1,18 @@
 import changeSnippetsList from '../events/changeSnippetsList';
+import createElement from '../utils/createElement';
 
 export default function createSelectorSnippets(urls, container) {
-  const select = document.createElement('select');
-
-  urls.forEach((url, n) => {
-    const option = document.createElement('option');
-
-    option.setAttribute('value', n);
-    option.textContent = url.label || 'List ' + n;
-    select.appendChild(option);
+  const select = createElement({
+    tagName: 'select',
+    childs: urls.map((url, n) => {
+      return createElement({
+        tagName: 'option',
+        attributes: {
+          value: n
+        },
+        text: url.label || 'List ' + n
+      })
+    })
   });
 
   changeSnippetsList(select);
