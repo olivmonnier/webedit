@@ -2,8 +2,11 @@ import changeSnippetsList from '../events/changeSnippetsList';
 import createElement from '../utils/createElement';
 
 export default function createSelectorSnippets(urls) {
-  const select = createElement({
+  return createElement({
     tagName: 'select',
+    on: {
+      change: changeSnippetsList
+    },
     childs: urls.map((url, n) => {
       return createElement({
         tagName: 'option',
@@ -14,8 +17,4 @@ export default function createSelectorSnippets(urls) {
       })
     })
   });
-
-  changeSnippetsList(select);
-
-  return select;
 }

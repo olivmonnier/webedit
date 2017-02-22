@@ -1,6 +1,6 @@
 export default function createElement(options) {
   let el;
-  const { tagName, className, attributes, html, text, childs } = options;
+  const { tagName, className, attributes, on, html, text, childs } = options;
 
   if (!tagName) {
     el = document.createDocumentFragment()
@@ -19,6 +19,12 @@ export default function createElement(options) {
 
     if (html !== undefined) {
       el.innerHTML = html
+    }
+  }
+
+  if (on) {
+    for (let e in on) {
+      el.addEventListener(e, on[e])
     }
   }
 

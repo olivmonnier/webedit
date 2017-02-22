@@ -4,13 +4,18 @@ import clickBtnOpen from '../events/clickBtnOpen';
 import createElement from '../utils/createElement';
 
 export default function createSnippetContainer(snippets, urls) {
-  const btnOpen = createButton('', 'w-btn-open fa fa-angle-left');
-  const primaryContainer = createElement({
+  document.body.appendChild(createElement({
     tagName: 'div',
     className: 'w-aside-container',
     childs: [
       (snippets.length > 1) ? createSelectorSnippets(urls) : '',
-      btnOpen,
+      {
+        tagName: 'button',
+        className: 'w-btn-open fa fa-angle-left',
+        on: {
+          click: clickBtnOpen
+        }
+      },
       {
         tagName: 'div',
         className: 'w-snippets-container',
@@ -26,9 +31,5 @@ export default function createSnippetContainer(snippets, urls) {
         })
       }
     ]
-  });
-
-  clickBtnOpen(btnOpen, primaryContainer);
-
-  document.body.appendChild(primaryContainer);
+  }));
 }

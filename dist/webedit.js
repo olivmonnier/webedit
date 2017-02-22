@@ -21370,8 +21370,11 @@ var _createElement2 = _interopRequireDefault(_createElement);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function createSelectorSnippets(urls) {
-  var select = (0, _createElement2.default)({
+  return (0, _createElement2.default)({
     tagName: 'select',
+    on: {
+      change: _changeSnippetsList2.default
+    },
     childs: urls.map(function (url, n) {
       return (0, _createElement2.default)({
         tagName: 'option',
@@ -21382,10 +21385,6 @@ function createSelectorSnippets(urls) {
       });
     })
   });
-
-  (0, _changeSnippetsList2.default)(select);
-
-  return select;
 }
 
 },{"../events/changeSnippetsList":31,"../utils/createElement":44}],29:[function(require,module,exports){
@@ -21415,11 +21414,16 @@ var _createElement2 = _interopRequireDefault(_createElement);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function createSnippetContainer(snippets, urls) {
-  var btnOpen = (0, _createButton2.default)('', 'w-btn-open fa fa-angle-left');
-  var primaryContainer = (0, _createElement2.default)({
+  document.body.appendChild((0, _createElement2.default)({
     tagName: 'div',
     className: 'w-aside-container',
-    childs: [snippets.length > 1 ? (0, _createSelectorSnippets2.default)(urls) : '', btnOpen, {
+    childs: [snippets.length > 1 ? (0, _createSelectorSnippets2.default)(urls) : '', {
+      tagName: 'button',
+      className: 'w-btn-open fa fa-angle-left',
+      on: {
+        click: _clickBtnOpen2.default
+      }
+    }, {
       tagName: 'div',
       className: 'w-snippets-container',
       childs: snippets.map(function (snippet, i) {
@@ -21433,11 +21437,7 @@ function createSnippetContainer(snippets, urls) {
         });
       })
     }]
-  });
-
-  (0, _clickBtnOpen2.default)(btnOpen, primaryContainer);
-
-  document.body.appendChild(primaryContainer);
+  }));
 }
 
 },{"../events/clickBtnOpen":36,"../utils/createElement":44,"./createButton":24,"./createSelectorSnippets":28}],30:[function(require,module,exports){
@@ -21521,18 +21521,16 @@ var _slice2 = _interopRequireDefault(_slice);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function changeSnippetsList(elem) {
-  elem.addEventListener('change', function () {
-    var index = this.value;
-    var lists = (0, _slice2.default)(document.querySelectorAll('.w-list-snippets'));
+function changeSnippetsList() {
+  var index = this.value;
+  var lists = (0, _slice2.default)(document.querySelectorAll('.w-list-snippets'));
 
-    lists.forEach(function (list) {
-      if (list.getAttribute('data-index') == index) {
-        list.classList.remove('w-hide');
-      } else {
-        list.classList.add('w-hide');
-      }
-    });
+  lists.forEach(function (list) {
+    if (list.getAttribute('data-index') == index) {
+      list.classList.remove('w-hide');
+    } else {
+      list.classList.add('w-hide');
+    }
   });
 }
 
@@ -21721,21 +21719,20 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-exports.default = function (elem, container) {
-  elem.addEventListener('click', function (e) {
-    var btnOpenClass = elem.classList;
+exports.default = function () {
+  var btnOpenClass = this.classList;
+  var container = this.parentNode;
 
-    btnOpenClass.toggle('in');
-    container.classList.toggle('in');
+  btnOpenClass.toggle('in');
+  container.classList.toggle('in');
 
-    if (btnOpenClass.contains('in')) {
-      btnOpenClass.remove('fa-angle-left');
-      btnOpenClass.add('fa-angle-right');
-    } else {
-      btnOpenClass.remove('fa-angle-right');
-      btnOpenClass.add('fa-angle-left');
-    }
-  });
+  if (btnOpenClass.contains('in')) {
+    btnOpenClass.remove('fa-angle-left');
+    btnOpenClass.add('fa-angle-right');
+  } else {
+    btnOpenClass.remove('fa-angle-right');
+    btnOpenClass.add('fa-angle-left');
+  }
 };
 
 },{}],37:[function(require,module,exports){
@@ -22005,6 +22002,7 @@ function createElement(options) {
   var tagName = options.tagName,
       className = options.className,
       attributes = options.attributes,
+      on = options.on,
       html = options.html,
       text = options.text,
       childs = options.childs;
@@ -22027,6 +22025,12 @@ function createElement(options) {
 
     if (html !== undefined) {
       el.innerHTML = html;
+    }
+  }
+
+  if (on) {
+    for (var e in on) {
+      el.addEventListener(e, on[e]);
     }
   }
 
