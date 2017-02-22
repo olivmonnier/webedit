@@ -1,14 +1,13 @@
 import slice from '../utils/slice';
+import getClosest from '../utils/getClosest';
 
-export default function(elem) {
-  elem.addEventListener('click', function(e) {
-    e.stopPropagation();
+export default function(e) {
+  e.stopPropagation();
+  const parent = getClosest(e.target, '.w-content-container');
+  const elemsFocus = slice(document.querySelectorAll('.w-focus'));
 
-    const elemsFocus = slice(document.querySelectorAll('.w-focus'));
-
-    elemsFocus.forEach(elemFocus => {
-      elemFocus.classList.remove('w-focus');
-    });
-    elem.classList.add('w-focus');
+  elemsFocus.forEach(elemFocus => {
+    elemFocus.classList.remove('w-focus');
   });
+  parent.classList.add('w-focus');
 }

@@ -13,8 +13,10 @@ function saveEditContents() {
   basicModal.close();
 }
 
-export default function(elem, container, editor) {
-  elem.addEventListener('click', function(e) {
+export default function(editor) {
+  return function(e) {
+    const parent = getClosest(e.target, '.w-contents-container');
+    const container = parent.querySelector('.w-contents')
     const content = getContents(container, true);
 
     basicModal.show({
@@ -43,5 +45,5 @@ export default function(elem, container, editor) {
 
       replaceContent(document.getElementById('basicModal__action'), container, editorHtml, editor);
     }
-  });
+  }
 }

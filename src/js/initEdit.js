@@ -10,7 +10,7 @@ import clickDocument from './events/clickDocument';
 export default function(containerId, options = {}) {
   let urls = []; let snippetsUrls = [];
 
-  const primaryContainer = slice(document.querySelectorAll(containerId));
+  const primaryContainers = slice(document.querySelectorAll(containerId));
   const editorOptionsDefault = {
     buttonLabels: 'fontawesome',
     toolbar: {
@@ -28,12 +28,12 @@ export default function(containerId, options = {}) {
     Promise.all(urls.map(u => fetch(u.url, { method: 'GET', mode: 'cors' }))).then(responses => {
       Promise.all(responses.map(res => res.text()))
         .then((snippets) => {
-          clickDocument(document);
-          primaryContainer.forEach(container => createContentsContainer(container, editorMedium));
+          document.addEventListener('click', clickDocument);
+          createContentsContainer(primaryContainers, editorMedium);
           createSnippetContainer(snippets, urls);
           createBarActions(options.viewports, options.buttons);
         }).then(() => {
-          dragNDrop(primaryContainer, editorMedium);
+          dragNDrop(primaryContainers, editorMedium);
         }).catch(response => console.log(response))
     })
 

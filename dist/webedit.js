@@ -21133,10 +21133,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = createBarActions;
 
-var _createButton = require('./createButton');
-
-var _createButton2 = _interopRequireDefault(_createButton);
-
 var _clickBtnViewPort = require('../events/clickBtnViewPort');
 
 var _clickBtnViewPort2 = _interopRequireDefault(_clickBtnViewPort);
@@ -21144,6 +21140,10 @@ var _clickBtnViewPort2 = _interopRequireDefault(_clickBtnViewPort);
 var _clickBtnDropdown = require('../events/clickBtnDropdown');
 
 var _clickBtnDropdown2 = _interopRequireDefault(_clickBtnDropdown);
+
+var _blurBtnDropdown = require('../events/blurBtnDropdown');
+
+var _blurBtnDropdown2 = _interopRequireDefault(_blurBtnDropdown);
 
 var _createElement = require('../utils/createElement');
 
@@ -21168,15 +21168,20 @@ function createBarActions() {
 function createListViewports(viewports) {
   if (viewports.length > 0) {
     var elViewports = viewports.map(function (viewport) {
-      var btnViewPort = (0, _createButton2.default)(viewport.label, 'w-btn-viewport');
       var settings = {
         width: viewport.width.replace('px', '') || '',
         height: viewport.height.replace('px', '') || ''
       };
-      (0, _clickBtnViewPort2.default)(btnViewPort, settings);
       return (0, _createElement2.default)({
         tagName: 'li',
-        childs: [btnViewPort]
+        childs: [{
+          tagName: 'button',
+          html: viewport.label,
+          className: 'w-btn-viewport',
+          on: {
+            click: (0, _clickBtnViewPort2.default)(settings)
+          }
+        }]
       });
     });
 
@@ -21187,12 +21192,19 @@ function createListViewports(viewports) {
 function createListActions(actions, container) {
   if (actions.length > 0) {
     var elActions = actions.map(function (action) {
-      var btn = (0, _createButton2.default)(action.label, 'w-btn ' + (action.class || ''), action.id);
-
-      btn.addEventListener('click', action.fn);
       return (0, _createElement2.default)({
         tagName: 'li',
-        childs: [btn]
+        childs: [{
+          tagName: 'button',
+          className: 'w-btn ' + (action.class || ''),
+          html: action.label,
+          attributes: {
+            id: action.id
+          },
+          on: {
+            click: action.fn
+          }
+        }]
       });
     });
 
@@ -21201,51 +21213,30 @@ function createListActions(actions, container) {
 }
 
 function createElementLabelBarAction(label, nodes) {
-  var elementLabel = (0, _createElement2.default)({
-    tagName: 'button',
-    className: 'w-btn-dropdown',
-    html: label
-  });
-
-  (0, _clickBtnDropdown2.default)(elementLabel);
-
   return (0, _createElement2.default)({
     tagName: 'li',
-    childs: [elementLabel, {
+    childs: [{
+      tagName: 'button',
+      className: 'w-btn-dropdown',
+      html: label,
+      on: {
+        click: _clickBtnDropdown2.default,
+        blur: _blurBtnDropdown2.default
+      }
+    }, {
       tagName: 'ul',
       childs: nodes
     }]
   });
 }
 
-},{"../events/clickBtnDropdown":33,"../events/clickBtnViewPort":37,"../utils/createElement":44,"./createButton":24}],24:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = createButton;
-function createButton(text, className, id) {
-  var button = document.createElement('button');
-  button.textContent = text;
-
-  if (className) button.className = className;
-  if (id) button.id = id;
-
-  return button;
-}
-
-},{}],25:[function(require,module,exports){
+},{"../events/blurBtnDropdown":30,"../events/clickBtnDropdown":33,"../events/clickBtnViewPort":37,"../utils/createElement":44}],24:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = createContentActions;
-
-var _createButton = require('./createButton');
-
-var _createButton2 = _interopRequireDefault(_createButton);
 
 var _clickBtnDelete = require('../events/clickBtnDelete');
 
@@ -21262,21 +21253,29 @@ var _createElement2 = _interopRequireDefault(_createElement);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function createContentActions(editor) {
-  var btnMove = (0, _createButton2.default)('', 'w-btn-move fa fa-arrows');
-  var btnDelete = (0, _createButton2.default)('', 'w-btn-delete fa fa-trash');
-  var btnDuplicate = (0, _createButton2.default)('', 'w-btn-duplicate fa fa-plus');
-
-  (0, _clickBtnDelete2.default)(btnDelete);
-  (0, _clickBtnDuplicate2.default)(btnDuplicate, editor);
-
   return (0, _createElement2.default)({
     tagName: 'div',
     className: 'w-actions',
-    childs: [btnMove, btnDelete, btnDuplicate]
+    childs: [{
+      tagName: 'button',
+      className: 'w-btn-move fa fa-arrows'
+    }, {
+      tagName: 'button',
+      className: 'w-btn-delete fa fa-trash',
+      on: {
+        click: _clickBtnDelete2.default
+      }
+    }, {
+      tagName: 'button',
+      className: 'w-btn-duplicate fa fa-plus',
+      on: {
+        click: (0, _clickBtnDuplicate2.default)(editor)
+      }
+    }]
   });
 }
 
-},{"../events/clickBtnDelete":32,"../events/clickBtnDuplicate":34,"../utils/createElement":44,"./createButton":24}],26:[function(require,module,exports){
+},{"../events/clickBtnDelete":32,"../events/clickBtnDuplicate":34,"../utils/createElement":44}],25:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21299,28 +21298,23 @@ var _createElement2 = _interopRequireDefault(_createElement);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function createContentContainer(content, editor) {
-  var container = (0, _createElement2.default)({
+  return (0, _createElement2.default)({
     tagName: 'div',
     className: 'w-content-container',
+    on: {
+      click: _clickContent2.default
+    },
     childs: [(0, _createContentActions2.default)(editor), content]
   });
-
-  (0, _clickContent2.default)(container);
-
-  return container;
 }
 
-},{"../events/clickContent":38,"../utils/createElement":44,"./createContentActions":25}],27:[function(require,module,exports){
+},{"../events/clickContent":38,"../utils/createElement":44,"./createContentActions":24}],26:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = createContentsContainer;
-
-var _createButton = require('./createButton');
-
-var _createButton2 = _interopRequireDefault(_createButton);
 
 var _clickBtnEditContents = require('../events/clickBtnEditContents');
 
@@ -21332,26 +21326,28 @@ var _createElement2 = _interopRequireDefault(_createElement);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function createContentsContainer(container, editor) {
-  var btnEditContents = (0, _createButton2.default)('', 'w-btn-edit fa fa-code');
-  var bar = (0, _createElement2.default)({
-    tagName: 'div',
-    className: 'w-contents-bar',
-    childs: [btnEditContents]
+function createContentsContainer(containers, editor) {
+  containers.forEach(function (container) {
+    container.classList.add('w-contents-container');
+    container.appendChild((0, _createElement2.default)({
+      tagName: 'div',
+      className: 'w-contents-bar',
+      childs: [{
+        tagName: 'button',
+        className: 'w-btn-edit fa fa-code',
+        on: {
+          click: (0, _clickBtnEditContents2.default)(editor)
+        }
+      }]
+    }));
+    container.appendChild((0, _createElement2.default)({
+      tagName: 'div',
+      className: 'w-contents'
+    }));
   });
-  var contentsContainer = (0, _createElement2.default)({
-    tagName: 'div',
-    className: 'w-contents'
-  });
-
-  (0, _clickBtnEditContents2.default)(btnEditContents, contentsContainer, editor);
-
-  container.classList.add('w-contents-container');
-  container.appendChild(bar);
-  container.appendChild(contentsContainer);
 }
 
-},{"../events/clickBtnEditContents":35,"../utils/createElement":44,"./createButton":24}],28:[function(require,module,exports){
+},{"../events/clickBtnEditContents":35,"../utils/createElement":44}],27:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21387,17 +21383,13 @@ function createSelectorSnippets(urls) {
   });
 }
 
-},{"../events/changeSnippetsList":31,"../utils/createElement":44}],29:[function(require,module,exports){
+},{"../events/changeSnippetsList":31,"../utils/createElement":44}],28:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = createSnippetContainer;
-
-var _createButton = require('./createButton');
-
-var _createButton2 = _interopRequireDefault(_createButton);
 
 var _createSelectorSnippets = require('./createSelectorSnippets');
 
@@ -21440,7 +21432,7 @@ function createSnippetContainer(snippets, urls) {
   }));
 }
 
-},{"../events/clickBtnOpen":36,"../utils/createElement":44,"./createButton":24,"./createSelectorSnippets":28}],30:[function(require,module,exports){
+},{"../events/clickBtnOpen":36,"../utils/createElement":44,"./createSelectorSnippets":27}],29:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21507,7 +21499,20 @@ function dragNdrop(primaryContainer, editor) {
   });
 }
 
-},{"./components/createContentContainer":26,"./utils/slice":48,"dragula":14}],31:[function(require,module,exports){
+},{"./components/createContentContainer":25,"./utils/slice":48,"dragula":14}],30:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function (e) {
+  setTimeout(function () {
+    e.target.parentNode.classList.remove('w-btn-focus');
+  }, 300);
+};
+
+},{}],31:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21541,26 +21546,24 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-exports.default = function (elem) {
-  elem.addEventListener('click', function (e) {
-    var parent = (0, _getClosest2.default)(elem, '.w-content-container');
+exports.default = function (e) {
+  var parent = (0, _getClosest2.default)(e.target, '.w-content-container');
 
-    basicModal.show({
-      body: '<p><strong>Are you sure ?</strong></p>',
-      buttons: {
-        cancel: {
-          title: 'Cancel',
-          fn: basicModal.close
-        },
-        action: {
-          title: 'Continue',
-          fn: function fn() {
-            parent.remove();
-            basicModal.close();
-          }
+  basicModal.show({
+    body: '<p><strong>Are you sure ?</strong></p>',
+    buttons: {
+      cancel: {
+        title: 'Cancel',
+        fn: basicModal.close
+      },
+      action: {
+        title: 'Continue',
+        fn: function fn() {
+          parent.remove();
+          basicModal.close();
         }
       }
-    });
+    }
   });
 };
 
@@ -21579,23 +21582,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-exports.default = function (elem) {
-  elem.addEventListener('click', function (e) {
-    e.preventDefault();
-    var isFocused = elem.parentNode.classList.contains('w-btn-focus');
-    var btnFocus = (0, _slice2.default)(document.querySelectorAll('.w-btn-focus'));
+exports.default = function (e) {
+  e.preventDefault();
+  var parent = e.target.parentNode;
+  var isFocused = parent.classList.contains('w-btn-focus');
+  var btnFocus = (0, _slice2.default)(document.querySelectorAll('.w-btn-focus'));
 
-    btnFocus.forEach(function (btn) {
-      return btn.classList.remove('w-btn-focus');
-    });
-    elem.parentNode.classList[isFocused ? 'remove' : 'add']('w-btn-focus');
+  btnFocus.forEach(function (btn) {
+    return btn.classList.remove('w-btn-focus');
   });
-
-  elem.addEventListener('blur', function (e) {
-    setTimeout(function () {
-      elem.parentNode.classList.remove('w-btn-focus');
-    }, 300);
-  });
+  parent.classList[isFocused ? 'remove' : 'add']('w-btn-focus');
 };
 
 var _slice = require('../utils/slice');
@@ -21611,10 +21607,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-exports.default = function (elem, editor) {
-  elem.addEventListener('click', function (e) {
+exports.default = function (editor) {
+  return function (e) {
     var newParent = null;
-    var parent = (0, _getClosest2.default)(elem, '.w-content-container');
+    var parent = (0, _getClosest2.default)(e.target, '.w-content-container');
     var content = parent.querySelectorAll('.w-snippet')[0];
     var html = content.innerHTML;
     var divSnippet = document.createElement('div');
@@ -21625,7 +21621,7 @@ exports.default = function (elem, editor) {
     (0, _insertAfter2.default)(newParent, parent);
     editor.destroy();
     editor.setup();
-  });
+  };
 };
 
 var _createContentContainer = require('../components/createContentContainer');
@@ -21642,15 +21638,17 @@ var _insertAfter2 = _interopRequireDefault(_insertAfter);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"../components/createContentContainer":26,"../utils/getClosest":45,"../utils/insertAfter":47}],35:[function(require,module,exports){
+},{"../components/createContentContainer":25,"../utils/getClosest":45,"../utils/insertAfter":47}],35:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-exports.default = function (elem, container, editor) {
-  elem.addEventListener('click', function (e) {
+exports.default = function (editor) {
+  return function (e) {
+    var parent = (0, _getClosest2.default)(e.target, '.w-contents-container');
+    var container = parent.querySelector('.w-contents');
     var content = (0, _getContents2.default)(container, true);
 
     basicModal.show({
@@ -21679,7 +21677,7 @@ exports.default = function (elem, container, editor) {
 
       (0, _replaceContent2.default)(document.getElementById('basicModal__action'), container, editorHtml, editor);
     }
-  });
+  };
 };
 
 var _codemirror = require('codemirror');
@@ -21748,14 +21746,14 @@ function popupSettings(width) {
   return 'height=' + height + ', width=' + width + ', top=100, left=' + width / 2 + ', toolbar=no, menubar=no, location=no, resizable=no, scrollbars=yes, status=no';
 }
 
-function clickBtnViewPort(elem, settings) {
+function clickBtnViewPort(settings) {
   var width = settings.width,
       height = settings.height;
 
 
-  elem.addEventListener('click', function () {
+  return function (e) {
     var pop = window.open(document.location.href, 'viewRender', popupSettings(width, height));
-  });
+  };
 }
 
 },{}],38:[function(require,module,exports){
@@ -21765,39 +21763,39 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-exports.default = function (elem) {
-  elem.addEventListener('click', function (e) {
-    e.stopPropagation();
+exports.default = function (e) {
+  e.stopPropagation();
+  var parent = (0, _getClosest2.default)(e.target, '.w-content-container');
+  var elemsFocus = (0, _slice2.default)(document.querySelectorAll('.w-focus'));
 
-    var elemsFocus = (0, _slice2.default)(document.querySelectorAll('.w-focus'));
-
-    elemsFocus.forEach(function (elemFocus) {
-      elemFocus.classList.remove('w-focus');
-    });
-    elem.classList.add('w-focus');
+  elemsFocus.forEach(function (elemFocus) {
+    elemFocus.classList.remove('w-focus');
   });
+  parent.classList.add('w-focus');
 };
 
 var _slice = require('../utils/slice');
 
 var _slice2 = _interopRequireDefault(_slice);
 
+var _getClosest = require('../utils/getClosest');
+
+var _getClosest2 = _interopRequireDefault(_getClosest);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"../utils/slice":48}],39:[function(require,module,exports){
+},{"../utils/getClosest":45,"../utils/slice":48}],39:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-exports.default = function (elem) {
-  elem.addEventListener('click', function () {
-    var elemsFocus = (0, _slice2.default)(document.querySelectorAll('.w-focus'));
+exports.default = function (e) {
+  var elemsFocus = (0, _slice2.default)(document.querySelectorAll('.w-focus'));
 
-    elemsFocus.forEach(function (elemFocus) {
-      elemFocus.classList.remove('w-focus');
-    });
+  elemsFocus.forEach(function (elemFocus) {
+    elemFocus.classList.remove('w-focus');
   });
 };
 
@@ -21850,7 +21848,7 @@ var _createContentContainer2 = _interopRequireDefault(_createContentContainer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"../components/createContentContainer":26}],41:[function(require,module,exports){
+},{"../components/createContentContainer":25}],41:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21862,7 +21860,7 @@ exports.default = function (containerId) {
 
   var urls = [];var snippetsUrls = [];
 
-  var primaryContainer = (0, _slice2.default)(document.querySelectorAll(containerId));
+  var primaryContainers = (0, _slice2.default)(document.querySelectorAll(containerId));
   var editorOptionsDefault = {
     buttonLabels: 'fontawesome',
     toolbar: {
@@ -21885,14 +21883,12 @@ exports.default = function (containerId) {
       Promise.all(responses.map(function (res) {
         return res.text();
       })).then(function (snippets) {
-        (0, _clickDocument2.default)(document);
-        primaryContainer.forEach(function (container) {
-          return (0, _createContentsContainer2.default)(container, editorMedium);
-        });
+        document.addEventListener('click', _clickDocument2.default);
+        (0, _createContentsContainer2.default)(primaryContainers, editorMedium);
         (0, _createSnippetContainer2.default)(snippets, urls);
         (0, _createBarActions2.default)(options.viewports, options.buttons);
       }).then(function () {
-        (0, _dragNDrop2.default)(primaryContainer, editorMedium);
+        (0, _dragNDrop2.default)(primaryContainers, editorMedium);
       }).catch(function (response) {
         return console.log(response);
       });
@@ -21942,7 +21938,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var MediumEditor = require('medium-editor');
 
-},{"./components/createBarActions":23,"./components/createContentsContainer":27,"./components/createSnippetContainer":29,"./dragNDrop":30,"./events/clickDocument":39,"./utils/getContents":46,"./utils/slice":48,"medium-editor":17}],42:[function(require,module,exports){
+},{"./components/createBarActions":23,"./components/createContentsContainer":26,"./components/createSnippetContainer":28,"./dragNDrop":29,"./events/clickDocument":39,"./utils/getContents":46,"./utils/slice":48,"medium-editor":17}],42:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

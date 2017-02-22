@@ -1,12 +1,12 @@
 import createContentContainer from '../components/createContentContainer';
-import getClosest from'../utils/getClosest';
-import insertAfter from'../utils/insertAfter';
+import getClosest from '../utils/getClosest';
+import insertAfter from '../utils/insertAfter';
 
 
-export default function(elem, editor) {
-  elem.addEventListener('click', function(e) {
+export default function(editor) {
+  return function(e) {
     let newParent = null;
-    const parent = getClosest(elem, '.w-content-container');
+    const parent = getClosest(e.target, '.w-content-container');
     const content = parent.querySelectorAll('.w-snippet')[0];
     const html = content.innerHTML;
     const divSnippet = document.createElement('div');
@@ -17,5 +17,5 @@ export default function(elem, editor) {
     insertAfter(newParent, parent);
     editor.destroy()
     editor.setup();
-  });
+  }
 }

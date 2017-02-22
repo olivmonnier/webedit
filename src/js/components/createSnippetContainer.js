@@ -1,4 +1,3 @@
-import createButton from './createButton';
 import createSelectorSnippets from './createSelectorSnippets';
 import clickBtnOpen from '../events/clickBtnOpen';
 import createElement from '../utils/createElement';
