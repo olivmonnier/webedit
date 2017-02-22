@@ -21369,7 +21369,7 @@ var _createElement2 = _interopRequireDefault(_createElement);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function createSelectorSnippets(urls, container) {
+function createSelectorSnippets(urls) {
   var select = (0, _createElement2.default)({
     tagName: 'select',
     childs: urls.map(function (url, n) {
@@ -21385,7 +21385,7 @@ function createSelectorSnippets(urls, container) {
 
   (0, _changeSnippetsList2.default)(select);
 
-  container.appendChild(select);
+  return select;
 }
 
 },{"../events/changeSnippetsList":31,"../utils/createElement":44}],29:[function(require,module,exports){
@@ -21408,37 +21408,39 @@ var _clickBtnOpen = require('../events/clickBtnOpen');
 
 var _clickBtnOpen2 = _interopRequireDefault(_clickBtnOpen);
 
+var _createElement = require('../utils/createElement');
+
+var _createElement2 = _interopRequireDefault(_createElement);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function createSnippetContainer(snippets, urls) {
-  var primaryContainer = document.createElement('div');
-  var container = document.createElement('div');
   var btnOpen = (0, _createButton2.default)('', 'w-btn-open fa fa-angle-left');
+  var primaryContainer = (0, _createElement2.default)({
+    tagName: 'div',
+    className: 'w-aside-container',
+    childs: [snippets.length > 1 ? (0, _createSelectorSnippets2.default)(urls) : '', btnOpen, {
+      tagName: 'div',
+      className: 'w-snippets-container',
+      childs: snippets.map(function (snippet, i) {
+        return (0, _createElement2.default)({
+          tagName: 'div',
+          className: 'w-list-snippets' + (i !== 0 ? ' w-hide' : ''),
+          html: snippet,
+          attributes: {
+            'data-index': i
+          }
+        });
+      })
+    }]
+  });
 
   (0, _clickBtnOpen2.default)(btnOpen, primaryContainer);
 
-  snippets.forEach(function (snippet, i) {
-    var list = document.createElement('div');
-
-    list.className = 'w-list-snippets';
-    if (i !== 0) list.className += ' w-hide';
-    list.setAttribute('data-index', i);
-    list.innerHTML = snippet;
-    container.appendChild(list);
-  });
-
-  if (snippets.length > 1) {
-    (0, _createSelectorSnippets2.default)(urls, primaryContainer);
-  }
-
-  primaryContainer.className = 'w-aside-container';
-  container.className = 'w-snippets-container';
-  primaryContainer.appendChild(btnOpen);
-  primaryContainer.appendChild(container);
   document.body.appendChild(primaryContainer);
 }
 
-},{"../events/clickBtnOpen":36,"./createButton":24,"./createSelectorSnippets":28}],30:[function(require,module,exports){
+},{"../events/clickBtnOpen":36,"../utils/createElement":44,"./createButton":24,"./createSelectorSnippets":28}],30:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

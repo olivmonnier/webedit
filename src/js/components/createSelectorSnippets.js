@@ -1,7 +1,7 @@
 import changeSnippetsList from '../events/changeSnippetsList';
 import createElement from '../utils/createElement';
 
-export default function createSelectorSnippets(urls, container) {
+export default function createSelectorSnippets(urls) {
   const select = createElement({
     tagName: 'select',
     childs: urls.map((url, n) => {
@@ -17,5 +17,5 @@ export default function createSelectorSnippets(urls, container) {
 
   changeSnippetsList(select);
 
-  container.appendChild(select);
+  return select;
 }
