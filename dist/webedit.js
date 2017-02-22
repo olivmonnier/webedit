@@ -21451,7 +21451,7 @@ var _slice2 = _interopRequireDefault(_slice);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var dragula = require('dragula');
-function dragNdrop(primaryContainer, editor) {
+function dragNdrop(primaryContainers, editor) {
   var elems = (0, _slice2.default)(document.querySelectorAll('.w-list-snippets'));
 
   elems = elems.concat((0, _slice2.default)(document.querySelectorAll('.w-contents')));
@@ -21470,11 +21470,11 @@ function dragNdrop(primaryContainer, editor) {
       return container.classList.contains('w-list-snippets');
     }
   }).on('drag', function (el, container) {
-    primaryContainer.forEach(function (elem) {
+    primaryContainers.forEach(function (elem) {
       return elem.classList.add('w-hover');
     });
   }).on('drop', function (el, container) {
-    primaryContainer.forEach(function (elem) {
+    primaryContainers.forEach(function (elem) {
       return elem.classList.remove('w-hover');
     });
 
@@ -21493,7 +21493,7 @@ function dragNdrop(primaryContainer, editor) {
       }
     }
   }).on('cancel', function (el, container) {
-    primaryContainer.forEach(function (elem) {
+    primaryContainers.forEach(function (elem) {
       return elem.classList.remove('w-hover');
     });
   });

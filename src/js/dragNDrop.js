@@ -2,7 +2,7 @@ const dragula = require('dragula');
 import createContentContainer from './components/createContentContainer';
 import slice from './utils/slice';
 
-export default function dragNdrop(primaryContainer, editor) {
+export default function dragNdrop(primaryContainers, editor) {
   let elems = slice(document.querySelectorAll('.w-list-snippets'));
 
   elems = elems.concat(slice(document.querySelectorAll('.w-contents')));
@@ -21,9 +21,9 @@ export default function dragNdrop(primaryContainer, editor) {
       return container.classList.contains('w-list-snippets')
     }
   }).on('drag', function(el, container) {
-    primaryContainer.forEach(elem => elem.classList.add('w-hover'));
+    primaryContainers.forEach(elem => elem.classList.add('w-hover'));
   }).on('drop', function (el, container) {
-    primaryContainer.forEach(elem => elem.classList.remove('w-hover'));
+    primaryContainers.forEach(elem => elem.classList.remove('w-hover'));
 
     if (el.querySelectorAll('.w-actions').length > 0) return;
 
@@ -40,6 +40,6 @@ export default function dragNdrop(primaryContainer, editor) {
       }
     }
   }).on('cancel', function(el, container) {
-    primaryContainer.forEach(elem => elem.classList.remove('w-hover'));
+    primaryContainers.forEach(elem => elem.classList.remove('w-hover'));
   });
 }
