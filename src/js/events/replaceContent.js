@@ -1,21 +1,24 @@
 import createContentContainer from '../components/createContentContainer';
+import createElement from '../utils/createElement';
 
-export default function(elem, container, editorHtml, editor) {
-  document.getElementById('basicModal__action').addEventListener('replaceContent', () => {
+export default function(container, editorHtml, editor) {
+  return function () {
     const editorContent = editorHtml.getValue();
-    const divTemp = document.createElement('div');
+    const divTemp = createElement({
+      tagName: 'div',
+      html: editorContent
+    });
 
     container.innerHTML = '';
-    divTemp.innerHTML = editorContent;
     divTemp.childNodes.forEach(node => {
       let newElem = node.cloneNode(true);
 
       if (newElem.tagName) {
         if (node.tagName != 'DIV') {
-          const div = document.createElement('div');
-
-          div.appendChild(node);
-          newElem = div;
+          newElem = createElement({
+            tagName: 'div',
+            childs: [node]
+          });
         }
         newElem.classList.add('w-snippet');
         newElem.classList.add('editable');
@@ -27,5 +30,5 @@ export default function(elem, container, editorHtml, editor) {
         editor.setup();
       }
     });
-  });
+  }
 }

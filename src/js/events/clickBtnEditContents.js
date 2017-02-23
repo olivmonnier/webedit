@@ -43,7 +43,7 @@ export default function(editor) {
         tabSize: '2'
       });
 
-      replaceContent(document.getElementById('basicModal__action'), container, editorHtml, editor);
+      document.getElementById('basicModal__action').addEventListener('replaceContent', replaceContent(container, editorHtml, editor));
     }
   }
 }

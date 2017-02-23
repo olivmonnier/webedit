@@ -21675,7 +21675,7 @@ exports.default = function (editor) {
         tabSize: '2'
       });
 
-      (0, _replaceContent2.default)(document.getElementById('basicModal__action'), container, editorHtml, editor);
+      document.getElementById('basicModal__action').addEventListener('replaceContent', (0, _replaceContent2.default)(container, editorHtml, editor));
     }
   };
 };
@@ -21812,22 +21812,24 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-exports.default = function (elem, container, editorHtml, editor) {
-  document.getElementById('basicModal__action').addEventListener('replaceContent', function () {
+exports.default = function (container, editorHtml, editor) {
+  return function () {
     var editorContent = editorHtml.getValue();
-    var divTemp = document.createElement('div');
+    var divTemp = (0, _createElement2.default)({
+      tagName: 'div',
+      html: editorContent
+    });
 
     container.innerHTML = '';
-    divTemp.innerHTML = editorContent;
     divTemp.childNodes.forEach(function (node) {
       var newElem = node.cloneNode(true);
 
       if (newElem.tagName) {
         if (node.tagName != 'DIV') {
-          var div = document.createElement('div');
-
-          div.appendChild(node);
-          newElem = div;
+          newElem = (0, _createElement2.default)({
+            tagName: 'div',
+            childs: [node]
+          });
         }
         newElem.classList.add('w-snippet');
         newElem.classList.add('editable');
@@ -21839,16 +21841,20 @@ exports.default = function (elem, container, editorHtml, editor) {
         editor.setup();
       }
     });
-  });
+  };
 };
 
 var _createContentContainer = require('../components/createContentContainer');
 
 var _createContentContainer2 = _interopRequireDefault(_createContentContainer);
 
+var _createElement = require('../utils/createElement');
+
+var _createElement2 = _interopRequireDefault(_createElement);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"../components/createContentContainer":25}],41:[function(require,module,exports){
+},{"../components/createContentContainer":25,"../utils/createElement":44}],41:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
