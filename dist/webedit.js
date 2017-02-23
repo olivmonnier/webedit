@@ -21483,7 +21483,7 @@ function dragNdrop(primaryContainers, editor) {
     if (container && container.classList.contains('w-contents')) {
       var parent = el.parentNode;
       var newEl = el.cloneNode(true);
-      var content = newEl.querySelectorAll('.w-snippet')[0];
+      var content = newEl.querySelector('.w-snippet');
 
       if (content) {
         content.className += ' editable';
@@ -21611,12 +21611,14 @@ exports.default = function (editor) {
   return function (e) {
     var newParent = null;
     var parent = (0, _getClosest2.default)(e.target, '.w-content-container');
-    var content = parent.querySelectorAll('.w-snippet')[0];
+    var content = parent.querySelector('.w-snippet');
     var html = content.innerHTML;
-    var divSnippet = document.createElement('div');
+    var divSnippet = (0, _createElement2.default)({
+      tagName: 'div',
+      className: 'w-snippet editable',
+      html: html
+    });
 
-    divSnippet.className = 'w-snippet editable';
-    divSnippet.innerHTML = html;
     newParent = (0, _createContentContainer2.default)(divSnippet, editor);
     (0, _insertAfter2.default)(newParent, parent);
     editor.destroy();
@@ -21636,9 +21638,13 @@ var _insertAfter = require('../utils/insertAfter');
 
 var _insertAfter2 = _interopRequireDefault(_insertAfter);
 
+var _createElement = require('../utils/createElement');
+
+var _createElement2 = _interopRequireDefault(_createElement);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"../components/createContentContainer":25,"../utils/getClosest":45,"../utils/insertAfter":47}],35:[function(require,module,exports){
+},{"../components/createContentContainer":25,"../utils/createElement":44,"../utils/getClosest":45,"../utils/insertAfter":47}],35:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

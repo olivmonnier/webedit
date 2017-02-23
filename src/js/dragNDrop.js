@@ -30,7 +30,7 @@ export default function dragNdrop(primaryContainers, editor) {
     if (container && container.classList.contains('w-contents')) {
       const parent = el.parentNode;
       const newEl = el.cloneNode(true);
-      const content = newEl.querySelectorAll('.w-snippet')[0];
+      const content = newEl.querySelector('.w-snippet');
 
       if (content) {
         content.className += ' editable';

@@ -1,18 +1,20 @@
 import createContentContainer from '../components/createContentContainer';
 import getClosest from '../utils/getClosest';
 import insertAfter from '../utils/insertAfter';
-
+import createElement from '../utils/createElement';
 
 export default function(editor) {
   return function(e) {
     let newParent = null;
     const parent = getClosest(e.target, '.w-content-container');
-    const content = parent.querySelectorAll('.w-snippet')[0];
+    const content = parent.querySelector('.w-snippet');
     const html = content.innerHTML;
-    const divSnippet = document.createElement('div');
-
-    divSnippet.className = 'w-snippet editable';
-    divSnippet.innerHTML = html;
+    const divSnippet = createElement({
+      tagName: 'div',
+      className: 'w-snippet editable',
+      html
+    });
+    
     newParent = createContentContainer(divSnippet, editor);
     insertAfter(newParent, parent);
     editor.destroy()
