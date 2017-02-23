@@ -39,7 +39,7 @@ function createListViewports(viewports) {
       })
     });
 
-    return createElementLabelBarAction('Viewports', elViewports);
+    return createElementLabelBarAction('Viewports <i class="fa fa-angle-down"></i>', elViewports);
   }
 }
 
@@ -64,7 +64,7 @@ function createListActions(actions, container) {
       })
     });
 
-    return createElementLabelBarAction('Actions', elActions);
+    return createElementLabelBarAction('Actions <i class="fa fa-angle-down"></i>', elActions);
   }
 }
 
