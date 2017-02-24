@@ -1,4 +1,3 @@
-const MediumEditor = require('medium-editor');
 import createContentsContainer from './components/createContentsContainer';
 import createBarActions from './components/createBarActions';
 import createSnippetContainer from './components/createSnippetContainer';

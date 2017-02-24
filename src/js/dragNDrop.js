@@ -1,4 +1,3 @@
-const dragula = require('dragula');
 import createContentContainer from './components/createContentContainer';
 import slice from './utils/slice';
 

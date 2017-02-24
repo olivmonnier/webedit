@@ -4,10 +4,23 @@ const sass = require('gulp-sass');
 const uglify = require('gulp-uglify');
 const uglifycss = require('gulp-uglifycss');
 const connect = require('gulp-connect');
+const concat = require('gulp-concat');
 const runSequence = require('run-sequence');
 const browserify = require('browserify');
 const babelify = require('babelify');
 const source = require('vinyl-source-stream');
+
+gulp.task('vendor:js', () => {
+  return gulp.src([
+    './node_modules/basicmodal/dist/basicModal.min.js',
+    './node_modules/codemirror/lib/codemirror.js',
+    './node_modules/codemirror/mode/htmlmixed/htmlmixed.js',
+    './node_modules/dragula/dist/dragula.js',
+    './node_modules/medium-editor/dist/js/medium-editor.js'
+  ])
+  .pipe(concat('webedit.vendors.js'))
+  .pipe(gulp.dest('./dist'));
+});
 
 gulp.task('babelify', () => {
   return browserify('src/js/main.js')
@@ -17,8 +30,8 @@ gulp.task('babelify', () => {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('uglify', () => {
-  return gulp.src('dist/webedit.js')
+gulp.task('uglify:js', () => {
+  return gulp.src(['dist/webedit.vendors.js', 'dist/webedit.js'])
     .pipe(uglify())
     .pipe(rename({
       suffix: '.min'
@@ -27,7 +40,7 @@ gulp.task('uglify', () => {
 });
 
 gulp.task('seq:js', () => {
-  runSequence('babelify', 'uglify')
+  runSequence('babelify', 'uglify:js')
 });
 
 gulp.task('sass', () => {
@@ -36,7 +49,7 @@ gulp.task('sass', () => {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('uglifycss', () => {
+gulp.task('uglify:css', () => {
   return gulp.src('dist/webedit.css')
     .pipe(uglifycss())
     .pipe(rename({
@@ -46,7 +59,7 @@ gulp.task('uglifycss', () => {
 });
 
 gulp.task('seq:css', () => {
-  runSequence('sass', 'uglifycss')
+  runSequence('sass', 'uglify:css')
 });
 
 gulp.task('server', () => {
@@ -56,7 +69,7 @@ gulp.task('server', () => {
 });
 
 gulp.task('build', () => {
-  runSequence(['seq:css', 'seq:js']);
+  runSequence(['vendor:js','seq:css', 'seq:js']);
 });
 
 gulp.task('dev', ['build', 'server'], () => {

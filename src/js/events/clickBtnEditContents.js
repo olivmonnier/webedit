@@ -1,9 +1,6 @@
-const basicModal = require('basicmodal');
-import CodeMirror from 'codemirror';
 import replaceContent from './replaceContent';
 import getContents from '../utils/getContents';
 import getClosest from '../utils/getClosest';
-require('codemirror/mode/htmlmixed/htmlmixed');
 
 function saveEditContents() {
   const elem = document.getElementById('basicModal__action');
