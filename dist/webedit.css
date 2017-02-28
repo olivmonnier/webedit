@@ -3201,9 +3201,9 @@ span.CodeMirror-selectedtext {
 
 .w-aside-container {
   position: fixed;
-  top: 44px;
+  top: 45px;
   right: -350px;
-  z-index: 200;
+  z-index: 300;
   display: inline-block;
   padding: 20px;
   height: 100%;
