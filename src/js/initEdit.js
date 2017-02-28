@@ -2,23 +2,17 @@ import createContentsContainer from './components/createContentsContainer';
 import createBarActions from './components/createBarActions';
 import createSnippetContainer from './components/createSnippetContainer';
 import dragNDrop from './dragNDrop';
+import initMediumEditor from './initMediumEditor';
 import getContents from './utils/getContents';
 import slice from './utils/slice';
 import clickDocument from './events/clickDocument';
 
 export default function(containerId, options = {}) {
   let urls = []; let snippetsUrls = [];
-
+  let {editorOptions, snippetsPath, viewports, buttons} = options;
+  
   const primaryContainers = slice(document.querySelectorAll(containerId));
-  const editorOptionsDefault = {
-    buttonLabels: 'fontawesome',
-    toolbar: {
-      buttons: ['bold', 'italic', 'underline', 'strikethrough', 'fontsize', 'fontname', 'anchor', 'image', 'quote', 'justifyLeft', 'justifyRight', 'justifyCenter', 'h1', 'h2', 'h3', 'h4', 'orderedlist', 'unorderedlist', 'indent', 'outdent', 'removeFormat']
-    }
-  }
-  const editorOptions = options.editorOptions || editorOptionsDefault;
-  const snippetsPath = options.snippetsPath;
-  const editorMedium = new MediumEditor('.w-snippet.editable', editorOptions);
+  const editorMedium = initMediumEditor(editorOptions);
 
   if (snippetsPath) {
     snippetsUrls = Array.isArray(snippetsPath) ? snippetsPath : [snippetsPath];
@@ -30,7 +24,7 @@ export default function(containerId, options = {}) {
           document.addEventListener('click', clickDocument);
           createContentsContainer(primaryContainers, editorMedium);
           createSnippetContainer(snippets, urls);
-          createBarActions(options.viewports, options.buttons);
+          createBarActions(viewports, buttons);
         }).then(() => {
           dragNDrop(primaryContainers, editorMedium);
         }).catch(response => console.log(response))
