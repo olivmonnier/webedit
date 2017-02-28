@@ -13,7 +13,7 @@ export default function(containerId, options = {}) {
   const editorOptionsDefault = {
     buttonLabels: 'fontawesome',
     toolbar: {
-      buttons: ['bold', 'italic', 'underline', 'strikethrough', 'anchor', 'image', 'quote', 'justifyLeft', 'justifyRight', 'justifyCenter', 'h1', 'h2', 'h3', 'h4', 'orderedlist', 'unorderedlist', 'indent', 'outdent', 'colorPicker', 'removeFormat']
+      buttons: ['bold', 'italic', 'underline', 'strikethrough', 'fontsize', 'fontname', 'anchor', 'image', 'quote', 'justifyLeft', 'justifyRight', 'justifyCenter', 'h1', 'h2', 'h3', 'h4', 'orderedlist', 'unorderedlist', 'indent', 'outdent', 'removeFormat']
     }
   }
   const editorOptions = options.editorOptions || editorOptionsDefault;
