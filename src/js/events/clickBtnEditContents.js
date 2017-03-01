@@ -12,7 +12,7 @@ function saveEditContents() {
 
 export default function(editor) {
   return function(e) {
-    const parent = getClosest(e.target, '.w-contents-container');
+    const parent = getClosest(e.target, '.w-structure');
     const container = parent.querySelector('.w-contents')
     const content = getContents(container, true);
 

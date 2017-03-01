@@ -1,22 +1,20 @@
-import createSelectorContents from './createSelectorContents';
 import createElement from '../utils/createElement';
 
-export default function createAsideContentsContainer(contents, urls) {
+export default function createAsideStructuresContainer(structures, urls) {
   const asideContainer = document.querySelector('.w-aside-container');
 
   asideContainer.appendChild(createElement({
     tagName: 'div',
     className: 'w-tab-content',
     childs: [
-      (contents.length > 1) ? createSelectorContents(urls) : '',
       {
         tagName: 'div',
-        className: 'w-contents-container',
-        childs: contents.map((content, i) => {
+        className: 'w-structures-container',
+        childs: structures.map((structure, i) => {
           return createElement({
             tagName: 'div',
-            className: 'w-list-contents' + ((i !== 0) ? ' w-hide' : ''),
-            html: content,
+            className: 'w-list-structures' + ((i !== 0) ? ' w-hide' : ''),
+            html: structure,
             attributes: {
               'data-index': i
             }
@@ -30,8 +28,8 @@ export default function createAsideContentsContainer(contents, urls) {
     tagName: 'a',
     className:'w-tab-link',
     attributes: {
-      id: 'wTabContents'
+      id: 'wTabStructures'
     },
-    text: 'Contents'
+    text: 'Structures'
   }));
 }

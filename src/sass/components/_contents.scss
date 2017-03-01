@@ -1,37 +1,35 @@
-.w-contents {
-  min-height: 200px;
+.w-structure {
+  position: relative;
+  transition: all .3s ease-out;
 
-  &-container {
-    position: relative;
-    margin: 0 auto;
-    display: block;
+  &:before {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
     transition: all .3s ease-out;
+  }
 
+  &:hover {
     &:before {
-      content: ' ';
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      z-index: -1;
-      transition: all .3s ease-out;
+      opacity: .2;
+      background-color: #ddd;
     }
 
-    &:hover {
-      &:before {
-        opacity: .2;
-        background-color: #ddd;
-      }
-
-      .w-contents-bar {
-        visibility: visible;
-        opacity: 1;
-      }
+    .w-contents-bar {
+      visibility: visible;
+      opacity: 1;
     }
   }
 
-  &-bar {
+  .w-contents {
+    min-height: 50px;
+  }
+
+  .w-contents-bar {
     position: absolute;
     top: 2px;
     right: 2px;

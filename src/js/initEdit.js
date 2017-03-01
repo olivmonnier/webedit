@@ -1,6 +1,7 @@
 import createContentsContainer from './components/createContentsContainer';
 import createBarActions from './components/createBarActions';
 import createAsideContentsContainer from './components/createAsideContentsContainer';
+import createAsideStructuresContainer from './components/createAsideStructuresContainer';
 import createAsideContainer from './components/createAsideContainer';
 import dragNDrop from './dragNDrop';
 import initMediumEditor from './initMediumEditor';
@@ -23,10 +24,10 @@ export default function(containerId, options = {}) {
     structuresUrls = Array.isArray(structuresPath) ? structuresPath : [structuresPath];
     structuresUrls = structuresUrls.map(u => ({url: u.url || u, label: u.label || ''}));
 
-    const snippetsPromise = Promise.all(contentsUrls.map(u => fetch(u.url, { method: 'GET', mode: 'cors' }))).then(responses => {
+    const contentsPromise = Promise.all(contentsUrls.map(u => fetch(u.url, { method: 'GET', mode: 'cors' }))).then(responses => {
       return Promise.all(responses.map(res => res.text()))
         .then((contents) => {
-          createContentsContainer(primaryContainers, editorMedium);
+          //createContentsContainer(primaryContainers, editorMedium);
           createAsideContentsContainer(contents, contentsUrls);
         }).catch(response => console.log(response))
     });
@@ -34,14 +35,14 @@ export default function(containerId, options = {}) {
     const structuresPromise = Promise.all(structuresUrls.map(u => fetch(u.url, { method: 'GET', mode: 'cors' }))).then(responses => {
       return Promise.all(responses.map(res => res.text()))
         .then((structures) => {
-
+          createAsideStructuresContainer(structures, structuresUrls);
         }).catch(response => console.log(response))
     });
 
-    Promise.all([snippetsPromise]).then(() => {
+    Promise.all([contentsPromise, structuresPromise]).then(() => {
       createBarActions(viewports, buttons);
-      document.addEventListener('click', clickDocument);
       dragNDrop(primaryContainers, editorMedium);
+      document.addEventListener('click', clickDocument);
     });
 
     return {
