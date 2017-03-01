@@ -1,11 +1,11 @@
-import changeSnippetsList from '../events/changeSnippetsList';
+import changeListContents from '../events/changeListContents';
 import createElement from '../utils/createElement';
 
-export default function createSelectorSnippets(urls) {
+export default function createSelectorContentss(urls) {
   return createElement({
     tagName: 'select',
     on: {
-      change: changeSnippetsList
+      change: changeListContents
     },
     childs: urls.map((url, n) => {
       return createElement({

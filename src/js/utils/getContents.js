@@ -7,7 +7,7 @@ export default function getContents(primaryContainer, encoded = true) {
 
   primaryContainerClone.childNodes.forEach(elem => {
     if (elem.classList.contains('w-content-container')) {
-      const snippet = elem.querySelector('.w-snippet');
+      const snippet = elem.querySelector('.w-content');
 
       result += '\n<div>\n\t' + snippet.innerHTML.trim() + '\n</div>\n';
     } else {

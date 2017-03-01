@@ -20,7 +20,7 @@ export default function(container, editorHtml, editor) {
             childs: [node]
           });
         }
-        newElem.classList.add('w-snippet');
+        newElem.classList.add('w-content');
         newElem.classList.add('editable');
 
         const newContent = createContentContainer(newElem);

@@ -23,6 +23,12 @@ body {
   box-sizing: border-box;
 }
 
+.gu-mirror, .gu-transit {
+  .w-content {
+    display: none;
+  }
+}
+
 .w-hover {
   border: 1px solid #7ec0ee;
 }

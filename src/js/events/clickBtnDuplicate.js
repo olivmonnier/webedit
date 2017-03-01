@@ -7,14 +7,14 @@ export default function(editor) {
   return function(e) {
     let newParent = null;
     const parent = getClosest(e.target, '.w-content-container');
-    const content = parent.querySelector('.w-snippet');
+    const content = parent.querySelector('.w-content');
     const html = content.innerHTML;
     const divSnippet = createElement({
       tagName: 'div',
-      className: 'w-snippet editable',
+      className: 'w-content editable',
       html
     });
-    
+
     newParent = createContentContainer(divSnippet, editor);
     insertAfter(newParent, parent);
     editor.destroy()

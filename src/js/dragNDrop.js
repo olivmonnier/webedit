@@ -2,22 +2,22 @@ import createContentContainer from './components/createContentContainer';
 import slice from './utils/slice';
 
 export default function dragNdrop(primaryContainers, editor) {
-  let elems = slice(document.querySelectorAll('.w-list-snippets'));
+  let elems = slice(document.querySelectorAll('.w-list-contents'));
 
   elems = elems.concat(slice(document.querySelectorAll('.w-contents')));
 
   dragula(elems, {
     copy: function (el, source) {
-      return source.classList.contains('w-list-snippets')
+      return source.classList.contains('w-list-contents')
     },
     accepts: function (el, target) {
-      return !target.classList.contains('w-list-snippets')
+      return !target.classList.contains('w-list-contents')
     },
     moves: function (e, container, handle) {
       if (container.classList.contains('w-contents')) {
         return handle.classList.contains('w-btn-move');
       }
-      return container.classList.contains('w-list-snippets')
+      return container.classList.contains('w-list-contents')
     }
   }).on('drag', function(el, container) {
     primaryContainers.forEach(elem => elem.classList.add('w-hover'));
@@ -29,7 +29,7 @@ export default function dragNdrop(primaryContainers, editor) {
     if (container && container.classList.contains('w-contents')) {
       const parent = el.parentNode;
       const newEl = el.cloneNode(true);
-      const content = newEl.querySelector('.w-snippet');
+      const content = newEl.querySelector('.w-content');
 
       if (content) {
         content.className += ' editable';

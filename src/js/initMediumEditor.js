@@ -6,5 +6,5 @@ const editorOptionsDefault = {
 }
 
 export default function(options) {
-  return new MediumEditor('.w-snippet.editable', options || editorOptionsDefault)
+  return new MediumEditor('.w-content.editable', options || editorOptionsDefault)
 }
