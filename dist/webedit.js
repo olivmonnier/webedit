@@ -1828,9 +1828,10 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = function (containerId) {
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-  var urls = [];var snippetsUrls = [];
+  var urls = [];var snippetsUrls = [];var structuresUrls = [];
   var editorOptions = options.editorOptions,
       snippetsPath = options.snippetsPath,
+      structuresPath = options.structuresPath,
       viewports = options.viewports,
       buttons = options.buttons;
 
@@ -1838,27 +1839,45 @@ exports.default = function (containerId) {
   var primaryContainers = (0, _slice2.default)(document.querySelectorAll(containerId));
   var editorMedium = (0, _initMediumEditor2.default)(editorOptions);
 
-  if (snippetsPath) {
+  if (snippetsPath && structuresPath) {
     snippetsUrls = Array.isArray(snippetsPath) ? snippetsPath : [snippetsPath];
-    urls = snippetsUrls.map(function (u) {
+    snippetsUrls = snippetsUrls.map(function (u) {
+      return { url: u.url || u, label: u.label || '' };
+    });
+    structuresUrls = Array.isArray(structuresPath) ? structuresPath : [structuresPath];
+    structuresUrls = structuresUrls.map(function (u) {
       return { url: u.url || u, label: u.label || '' };
     });
 
-    Promise.all(urls.map(function (u) {
+    var snippetsPromise = Promise.all(snippetsUrls.map(function (u) {
       return fetch(u.url, { method: 'GET', mode: 'cors' });
     })).then(function (responses) {
-      Promise.all(responses.map(function (res) {
+      return Promise.all(responses.map(function (res) {
         return res.text();
       })).then(function (snippets) {
-        document.addEventListener('click', _clickDocument2.default);
         (0, _createContentsContainer2.default)(primaryContainers, editorMedium);
-        (0, _createSnippetContainer2.default)(snippets, urls);
-        (0, _createBarActions2.default)(viewports, buttons);
-      }).then(function () {
-        (0, _dragNDrop2.default)(primaryContainers, editorMedium);
+        (0, _createSnippetContainer2.default)(snippets, snippetsUrls);
       }).catch(function (response) {
         return console.log(response);
       });
+    });
+
+    var structuresPromise = Promise.all(structuresUrls.map(function (u) {
+      return fetch(u.url, { method: 'GET', mode: 'cors' });
+    })).then(function (responses) {
+      return Promise.all(responses.map(function (res) {
+        return res.text();
+      })).then(function (structures) {
+        console.log(structures);
+      }).catch(function (response) {
+        return console.log(response);
+      });
+    });
+
+    Promise.all([snippetsPromise]).then(function () {
+      (0, _createBarActions2.default)(viewports, buttons);
+      document.addEventListener('click', _clickDocument2.default);
+      (0, _dragNDrop2.default)(primaryContainers, editorMedium);
     });
 
     return {
