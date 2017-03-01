@@ -14,6 +14,7 @@ gulp.task('vendor:js', () => {
   return gulp.src([
     './node_modules/basicmodal/dist/basicModal.min.js',
     './node_modules/codemirror/lib/codemirror.js',
+    './node_modules/codemirror/mode/xml/xml.js',
     './node_modules/codemirror/mode/htmlmixed/htmlmixed.js',
     './node_modules/dragula/dist/dragula.js',
     './node_modules/medium-editor/dist/js/medium-editor.js'

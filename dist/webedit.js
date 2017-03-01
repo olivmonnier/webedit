@@ -1574,12 +1574,16 @@ function dragNdrop(primaryContainers, editor) {
     if (container) {
       var parent = el.parentNode;
       var newEl = el.cloneNode(true);
-      var content = newEl.querySelector('.w-structure');
+      var structure = newEl.querySelector('.w-structure');
 
-      if (content) {
-        parent.replaceChild(content, el);
-        (0, _createContentsContainer2.default)(content, editor);
-        dragContents.containers.push(content.querySelector('.w-contents'));
+      if (structure) {
+        var contents = (0, _slice2.default)(structure.querySelectorAll('.w-contents'));
+
+        parent.replaceChild(structure, el);
+        (0, _createContentsContainer2.default)(structure, editor);
+        contents.forEach(function (content) {
+          return dragContents.containers.push(content);
+        });
       }
     }
   }).on('cancel', function (el, container) {

@@ -70,12 +70,14 @@ export default function dragNdrop(primaryContainers, editor) {
     if (container) {
       const parent = el.parentNode;
       const newEl = el.cloneNode(true);
-      const content = newEl.querySelector('.w-structure');
+      const structure = newEl.querySelector('.w-structure');
 
-      if (content) {
-        parent.replaceChild(content, el);
-        createContentsContainer(content, editor);
-        dragContents.containers.push(content.querySelector('.w-contents'));
+      if (structure) {
+        const contents = slice(structure.querySelectorAll('.w-contents'));
+
+        parent.replaceChild(structure, el);
+        createContentsContainer(structure, editor);
+        contents.forEach(content => dragContents.containers.push(content));
       }
     }
   }).on('cancel', function(el, container) {
