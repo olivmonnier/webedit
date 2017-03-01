@@ -1434,6 +1434,9 @@ function createContentsContainer(container, editor) {
     className: 'w-contents-bar',
     childs: [{
       tagName: 'button',
+      className: 'w-btn-move fa fa-arrows'
+    }, {
+      tagName: 'button',
       className: 'w-btn-edit fa fa-code',
       on: {
         click: (0, _clickBtnEditContents2.default)(editor)
@@ -1522,7 +1525,7 @@ function dragNdrop(primaryContainers, editor) {
       return !target.classList.contains('w-list-contents');
     },
     moves: function moves(e, container, handle) {
-      if (container.classList.contains('w-contents')) {
+      if (e.classList.contains('w-content-container')) {
         return handle.classList.contains('w-btn-move');
       }
       return container.classList.contains('w-list-contents');
@@ -1570,6 +1573,9 @@ function dragNdrop(primaryContainers, editor) {
       return !target.classList.contains('w-list-structures');
     },
     moves: function moves(e, container, handle) {
+      if (e.classList.contains('w-structure') && !document.querySelector('.w-content-container.w-focus')) {
+        return handle.classList.contains('w-btn-move');
+      }
       return container.classList.contains('w-list-structures');
     }
   }).on('drag', function (el, container) {

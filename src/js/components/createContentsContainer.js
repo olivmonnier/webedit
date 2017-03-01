@@ -8,6 +8,10 @@ export default function createContentsContainer(container, editor) {
     className: 'w-contents-bar',
     childs: [
       {
+        tagName: 'button',
+        className: 'w-btn-move fa fa-arrows'
+      },
+      {
         tagName:'button',
         className: 'w-btn-edit fa fa-code',
         on: {

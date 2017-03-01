@@ -18,7 +18,7 @@ export default function dragNdrop(primaryContainers, editor) {
       return !target.classList.contains('w-list-contents')
     },
     moves: function (e, container, handle) {
-      if (container.classList.contains('w-contents')) {
+      if (e.classList.contains('w-content-container')) {
         return handle.classList.contains('w-btn-move');
       }
       return container.classList.contains('w-list-contents')
@@ -57,9 +57,12 @@ export default function dragNdrop(primaryContainers, editor) {
       return source.classList.contains('w-list-structures')
     },
     accepts: function (el, target) {
-      return !target.classList.contains('w-list-structures')
+      return !target.classList.contains('w-list-structures');
     },
     moves: function (e, container, handle) {
+      if (e.classList.contains('w-structure') && !document.querySelector('.w-content-container.w-focus')) {
+        return handle.classList.contains('w-btn-move');
+      }
       return container.classList.contains('w-list-structures')
     }
   }).on('drag', function(el, container) {
