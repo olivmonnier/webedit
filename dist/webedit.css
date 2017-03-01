@@ -3340,6 +3340,8 @@ span.CodeMirror-selectedtext {
     background-color: #337ab7;
     border: 1px solid #337ab7;
     color: #fff; }
+  .w-btn-edit {
+    background-color: #fff; }
 
 .w-content-container {
   position: relative;
@@ -3399,8 +3401,6 @@ span.CodeMirror-selectedtext {
     opacity: 0;
     transition: all .3s ease-out;
     z-index: 100; }
-    .w-structure .w-contents-bar [class*="w-btn"] {
-      background-color: #fff; }
 
 .basicModal__buttons, .basicModal__content {
   font-family: Arial; }

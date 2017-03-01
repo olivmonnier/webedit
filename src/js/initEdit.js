@@ -10,7 +10,7 @@ import slice from './utils/slice';
 import clickDocument from './events/clickDocument';
 
 export default function(containerId, options = {}) {
-  let urls = []; let contentsUrls = []; let structuresUrls = [];
+  let urls = []; let contentsUrls = []; let structuresUrls = []; let instanceWebEdit = {};
   let {editorOptions, contentsPath, structuresPath, viewports, buttons} = options;
 
   const primaryContainers = slice(document.querySelectorAll(containerId));
@@ -27,7 +27,6 @@ export default function(containerId, options = {}) {
     const contentsPromise = Promise.all(contentsUrls.map(u => fetch(u.url, { method: 'GET', mode: 'cors' }))).then(responses => {
       return Promise.all(responses.map(res => res.text()))
         .then((contents) => {
-          //createContentsContainer(primaryContainers, editorMedium);
           createAsideContentsContainer(contents, contentsUrls);
         }).catch(response => console.log(response))
     });
@@ -41,17 +40,19 @@ export default function(containerId, options = {}) {
 
     Promise.all([contentsPromise, structuresPromise]).then(() => {
       createBarActions(viewports, buttons);
-      dragNDrop(primaryContainers, editorMedium);
+      instanceWebEdit = Object.assign(instanceWebEdit, dragNDrop(primaryContainers, editorMedium));
       document.addEventListener('click', clickDocument);
     });
 
-    return {
+    window.instanceWebEdit = instanceWebEdit;
+
+    return Object.assign(instanceWebEdit, {
       exportHtml: function() {
         const container = document.body;
 
         return getContents(container);
       }
-    }
+    });
   } else {
     new Error('snippets path missing')
   }

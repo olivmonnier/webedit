@@ -37,9 +37,5 @@
     opacity: 0;
     transition: all .3s ease-out;
     z-index: 100;
-
-    [class*="w-btn"] {
-      background-color: #fff;
-    }
   }
 }

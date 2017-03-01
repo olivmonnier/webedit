@@ -1127,7 +1127,7 @@ function createAsideContainer() {
   }));
 }
 
-},{"../events/clickBtnOpen":23,"../utils/createElement":32}],9:[function(require,module,exports){
+},{"../events/clickBtnOpen":24,"../utils/createElement":33}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1177,7 +1177,7 @@ function createAsideContentsContainer(contents, urls) {
   }));
 }
 
-},{"../utils/createElement":32,"./createSelectorContents":15}],10:[function(require,module,exports){
+},{"../utils/createElement":33,"./createSelectorContents":15}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1223,7 +1223,7 @@ function createAsideStructuresContainer(structures, urls) {
   }));
 }
 
-},{"../utils/createElement":32}],11:[function(require,module,exports){
+},{"../utils/createElement":33}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1328,7 +1328,7 @@ function createElementLabelBarAction(label, nodes) {
   });
 }
 
-},{"../events/blurBtnDropdown":17,"../events/clickBtnDropdown":20,"../events/clickBtnViewPort":24,"../utils/createElement":32}],12:[function(require,module,exports){
+},{"../events/blurBtnDropdown":17,"../events/clickBtnDropdown":21,"../events/clickBtnViewPort":25,"../utils/createElement":33}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1373,7 +1373,7 @@ function createContentActions(editor) {
   });
 }
 
-},{"../events/clickBtnDelete":19,"../events/clickBtnDuplicate":21,"../utils/createElement":32}],13:[function(require,module,exports){
+},{"../events/clickBtnDelete":19,"../events/clickBtnDuplicate":22,"../utils/createElement":33}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1406,7 +1406,7 @@ function createContentContainer(content, editor) {
   });
 }
 
-},{"../events/clickContent":25,"../utils/createElement":32,"./createContentActions":12}],14:[function(require,module,exports){
+},{"../events/clickContent":26,"../utils/createElement":33,"./createContentActions":12}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1417,6 +1417,10 @@ exports.default = createContentsContainer;
 var _clickBtnEditContents = require('../events/clickBtnEditContents');
 
 var _clickBtnEditContents2 = _interopRequireDefault(_clickBtnEditContents);
+
+var _clickBtnDeleteContents = require('../events/clickBtnDeleteContents');
+
+var _clickBtnDeleteContents2 = _interopRequireDefault(_clickBtnDeleteContents);
 
 var _createElement = require('../utils/createElement');
 
@@ -1434,11 +1438,17 @@ function createContentsContainer(container, editor) {
       on: {
         click: (0, _clickBtnEditContents2.default)(editor)
       }
+    }, {
+      tagName: 'button',
+      className: 'w-btn-delete fa fa-trash',
+      on: {
+        click: _clickBtnDeleteContents2.default
+      }
     }]
   }));
 }
 
-},{"../events/clickBtnEditContents":22,"../utils/createElement":32}],15:[function(require,module,exports){
+},{"../events/clickBtnDeleteContents":20,"../events/clickBtnEditContents":23,"../utils/createElement":33}],15:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1474,7 +1484,7 @@ function createSelectorContentss(urls) {
   });
 }
 
-},{"../events/changeListContents":18,"../utils/createElement":32}],16:[function(require,module,exports){
+},{"../events/changeListContents":18,"../utils/createElement":33}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1591,9 +1601,14 @@ function dragNdrop(primaryContainers, editor) {
       return elem.classList.remove('w-hover');
     });
   });
+
+  return {
+    dragContents: dragContents,
+    dragStructures: dragStructures
+  };
 }
 
-},{"./components/createContentContainer":13,"./components/createContentsContainer":14,"./utils/slice":36}],17:[function(require,module,exports){
+},{"./components/createContentContainer":13,"./components/createContentsContainer":14,"./utils/slice":37}],17:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1633,7 +1648,7 @@ function changeSnippetsList() {
   });
 }
 
-},{"../utils/slice":36}],19:[function(require,module,exports){
+},{"../utils/slice":37}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1669,7 +1684,43 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var basicModal = require('basicmodal');
 
-},{"../utils/getClosest":33,"basicmodal":1}],20:[function(require,module,exports){
+},{"../utils/getClosest":34,"basicmodal":1}],20:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function (e) {
+  var parent = (0, _getClosest2.default)(e.target, '.w-structure');
+
+  basicModal.show({
+    body: '<p><strong>Are you sure ?</strong></p>',
+    buttons: {
+      cancel: {
+        title: 'Cancel',
+        fn: basicModal.close
+      },
+      action: {
+        title: 'Continue',
+        fn: function fn() {
+          parent.remove();
+          basicModal.close();
+        }
+      }
+    }
+  });
+};
+
+var _getClosest = require('../utils/getClosest');
+
+var _getClosest2 = _interopRequireDefault(_getClosest);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var basicModal = require('basicmodal');
+
+},{"../utils/getClosest":34,"basicmodal":1}],21:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1694,7 +1745,7 @@ var _slice2 = _interopRequireDefault(_slice);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"../utils/slice":36}],21:[function(require,module,exports){
+},{"../utils/slice":37}],22:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1738,7 +1789,7 @@ var _createElement2 = _interopRequireDefault(_createElement);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"../components/createContentContainer":13,"../utils/createElement":32,"../utils/getClosest":33,"../utils/insertAfter":35}],22:[function(require,module,exports){
+},{"../components/createContentContainer":13,"../utils/createElement":33,"../utils/getClosest":34,"../utils/insertAfter":36}],23:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1802,7 +1853,7 @@ function saveEditContents() {
   basicModal.close();
 }
 
-},{"../utils/getClosest":33,"../utils/getContents":34,"./replaceContent":27}],23:[function(require,module,exports){
+},{"../utils/getClosest":34,"../utils/getContents":35,"./replaceContent":28}],24:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1825,7 +1876,7 @@ exports.default = function () {
   }
 };
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1848,7 +1899,7 @@ function clickBtnViewPort(settings) {
   };
 }
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1876,7 +1927,7 @@ var _getClosest2 = _interopRequireDefault(_getClosest);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"../utils/getClosest":33,"../utils/slice":36}],26:[function(require,module,exports){
+},{"../utils/getClosest":34,"../utils/slice":37}],27:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1897,7 +1948,7 @@ var _slice2 = _interopRequireDefault(_slice);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"../utils/slice":36}],27:[function(require,module,exports){
+},{"../utils/slice":37}],28:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1946,7 +1997,7 @@ var _createElement2 = _interopRequireDefault(_createElement);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"../components/createContentContainer":13,"../utils/createElement":32}],28:[function(require,module,exports){
+},{"../components/createContentContainer":13,"../utils/createElement":33}],29:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1956,7 +2007,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = function (containerId) {
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-  var urls = [];var contentsUrls = [];var structuresUrls = [];
+  var urls = [];var contentsUrls = [];var structuresUrls = [];var instanceWebEdit = {};
   var editorOptions = options.editorOptions,
       contentsPath = options.contentsPath,
       structuresPath = options.structuresPath,
@@ -1985,7 +2036,6 @@ exports.default = function (containerId) {
       return Promise.all(responses.map(function (res) {
         return res.text();
       })).then(function (contents) {
-        //createContentsContainer(primaryContainers, editorMedium);
         (0, _createAsideContentsContainer2.default)(contents, contentsUrls);
       }).catch(function (response) {
         return console.log(response);
@@ -2006,17 +2056,19 @@ exports.default = function (containerId) {
 
     Promise.all([contentsPromise, structuresPromise]).then(function () {
       (0, _createBarActions2.default)(viewports, buttons);
-      (0, _dragNDrop2.default)(primaryContainers, editorMedium);
+      instanceWebEdit = Object.assign(instanceWebEdit, (0, _dragNDrop2.default)(primaryContainers, editorMedium));
       document.addEventListener('click', _clickDocument2.default);
     });
 
-    return {
+    window.instanceWebEdit = instanceWebEdit;
+
+    return Object.assign(instanceWebEdit, {
       exportHtml: function exportHtml() {
         var container = document.body;
 
         return (0, _getContents2.default)(container);
       }
-    };
+    });
   } else {
     new Error('snippets path missing');
   }
@@ -2064,7 +2116,7 @@ var _clickDocument2 = _interopRequireDefault(_clickDocument);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./components/createAsideContainer":8,"./components/createAsideContentsContainer":9,"./components/createAsideStructuresContainer":10,"./components/createBarActions":11,"./components/createContentsContainer":14,"./dragNDrop":16,"./events/clickDocument":26,"./initMediumEditor":29,"./utils/getContents":34,"./utils/slice":36}],29:[function(require,module,exports){
+},{"./components/createAsideContainer":8,"./components/createAsideContentsContainer":9,"./components/createAsideStructuresContainer":10,"./components/createBarActions":11,"./components/createContentsContainer":14,"./dragNDrop":16,"./events/clickDocument":27,"./initMediumEditor":30,"./utils/getContents":35,"./utils/slice":37}],30:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2082,7 +2134,7 @@ var editorOptionsDefault = {
   }
 };
 
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2113,7 +2165,7 @@ var _slice2 = _interopRequireDefault(_slice);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./utils/getContents":34,"./utils/slice":36}],31:[function(require,module,exports){
+},{"./utils/getContents":35,"./utils/slice":37}],32:[function(require,module,exports){
 'use strict';
 
 var _initEdit = require('./initEdit');
@@ -2130,7 +2182,7 @@ if (window) {
   window.WebEdit = window.opener ? _initRender2.default : _initEdit2.default;
 }
 
-},{"./initEdit":28,"./initRender":30}],32:[function(require,module,exports){
+},{"./initEdit":29,"./initRender":31}],33:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2191,7 +2243,7 @@ function createElement(options) {
   return el;
 }
 
-},{}],33:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2225,7 +2277,7 @@ function getClosest(elem, selector) {
     return null;
 };
 
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2258,7 +2310,7 @@ function getContents(primaryContainer) {
   return encoded ? htmlEncode(result) : result;
 }
 
-},{"htmlencode":3}],35:[function(require,module,exports){
+},{"htmlencode":3}],36:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2269,7 +2321,7 @@ function insertAfter(newNode, referenceNode) {
   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2280,4 +2332,4 @@ function slice(arr) {
   return [].slice.call(arr);
 }
 
-},{}]},{},[31]);
+},{}]},{},[32]);

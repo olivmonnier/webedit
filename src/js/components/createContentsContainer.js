@@ -1,4 +1,5 @@
 import clickBtnEditContents from '../events/clickBtnEditContents';
+import clickBtnDeleteContents from '../events/clickBtnDeleteContents';
 import createElement from '../utils/createElement';
 
 export default function createContentsContainer(container, editor) {
@@ -11,6 +12,13 @@ export default function createContentsContainer(container, editor) {
         className: 'w-btn-edit fa fa-code',
         on: {
           click: clickBtnEditContents(editor)
+        }
+      },
+      {
+        tagName: 'button',
+        className: 'w-btn-delete fa fa-trash',
+        on: {
+          click: clickBtnDeleteContents
         }
       }
     ]

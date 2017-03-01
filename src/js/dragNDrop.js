@@ -83,4 +83,9 @@ export default function dragNdrop(primaryContainers, editor) {
   }).on('cancel', function(el, container) {
     primaryContainers.forEach(elem => elem.classList.remove('w-hover'));
   });
+
+  return {
+    dragContents,
+    dragStructures
+  }
 }
