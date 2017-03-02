@@ -39,3 +39,9 @@ body {
   opacity: 0;
   overflow: hidden;
 }
+
+.w-content-focused {
+  .w-contents-bar {
+    display: none;
+  }
+}

@@ -1,5 +1,6 @@
-import createSelectorContents from './createSelectorContents';
 import createElement from '../utils/createElement';
+import createSelectorContents from './createSelectorContents';
+import clickTabAside from '../events/clickTabAside';
 
 export default function createAsideContentsContainer(contents, urls) {
   const asideContainer = document.querySelector('.w-aside-container');
@@ -7,6 +8,9 @@ export default function createAsideContentsContainer(contents, urls) {
   asideContainer.appendChild(createElement({
     tagName: 'div',
     className: 'w-tab-content',
+    attributes: {
+      'data-tab': 'wTabContents'
+    },
     childs: [
       (contents.length > 1) ? createSelectorContents(urls) : '',
       {
@@ -15,7 +19,7 @@ export default function createAsideContentsContainer(contents, urls) {
         childs: contents.map((content, i) => {
           return createElement({
             tagName: 'div',
-            className: 'w-list-contents' + ((i !== 0) ? ' w-hide' : ''),
+            className: 'w-list-snippets w-list-contents' + ((i !== 0) ? ' w-hide' : ''),
             html: content,
             attributes: {
               'data-index': i
@@ -31,6 +35,9 @@ export default function createAsideContentsContainer(contents, urls) {
     className:'w-tab-link',
     attributes: {
       id: 'wTabContents'
+    },
+    on: {
+      click: clickTabAside
     },
     text: 'Contents'
   }));

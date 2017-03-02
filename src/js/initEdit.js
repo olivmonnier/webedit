@@ -19,17 +19,8 @@ export default function(containerId, options = {}) {
   if (contentsPath && structuresPath) {
     createAsideContainer();
 
-    contentsUrls = Array.isArray(contentsPath) ? contentsPath : [contentsPath];
-    contentsUrls = contentsUrls.map(u => ({url: u.url || u, label: u.label || ''}));
-    structuresUrls = Array.isArray(structuresPath) ? structuresPath : [structuresPath];
-    structuresUrls = structuresUrls.map(u => ({url: u.url || u, label: u.label || ''}));
-
-    const contentsPromise = Promise.all(contentsUrls.map(u => fetch(u.url, { method: 'GET', mode: 'cors' }))).then(responses => {
-      return Promise.all(responses.map(res => res.text()))
-        .then((contents) => {
-          createAsideContentsContainer(contents, contentsUrls);
-        }).catch(response => console.log(response))
-    });
+    contentsUrls = formatSnippetsUrls(contentsPath);
+    structuresUrls = formatSnippetsUrls(structuresPath);
 
     const structuresPromise = Promise.all(structuresUrls.map(u => fetch(u.url, { method: 'GET', mode: 'cors' }))).then(responses => {
       return Promise.all(responses.map(res => res.text()))
@@ -38,7 +29,14 @@ export default function(containerId, options = {}) {
         }).catch(response => console.log(response))
     });
 
-    Promise.all([contentsPromise, structuresPromise]).then(() => {
+    const contentsPromise = Promise.all(contentsUrls.map(u => fetch(u.url, { method: 'GET', mode: 'cors' }))).then(responses => {
+      return Promise.all(responses.map(res => res.text()))
+        .then((contents) => {
+          createAsideContentsContainer(contents, contentsUrls);
+        }).catch(response => console.log(response))
+    });
+
+    Promise.all([structuresPromise, contentsPromise]).then(() => {
       createBarActions(viewports, buttons);
       instanceWebEdit = Object.assign(instanceWebEdit, dragNDrop(primaryContainers, editorMedium));
       document.addEventListener('click', clickDocument);
@@ -56,4 +54,10 @@ export default function(containerId, options = {}) {
   } else {
     new Error('snippets path missing')
   }
+}
+
+function formatSnippetsUrls (paths) {
+  var urls = Array.isArray(paths) ? paths : [paths];
+
+  return urls.map(u => ({url: u.url || u, label: u.label || ''}));
 }

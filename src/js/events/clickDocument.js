@@ -6,4 +6,5 @@ export default function(e) {
   elemsFocus.forEach(elemFocus => {
     elemFocus.classList.remove('w-focus');
   });
+  document.body.classList.remove('w-content-focused');
 }

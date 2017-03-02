@@ -10,4 +10,5 @@ export default function(e) {
     elemFocus.classList.remove('w-focus');
   });
   parent.classList.add('w-focus');
+  document.body.classList.add('w-content-focused');
 }

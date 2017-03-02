@@ -25,6 +25,14 @@
     }
   }
 
+  &.gu-mirror, &.gu-transit {
+    .w-contents-bar, .w-content {
+      display: block;
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
   .w-contents {
     min-height: 50px;
   }
@@ -37,5 +45,12 @@
     opacity: 0;
     transition: all .3s ease-out;
     z-index: 100;
+
+    [class*="w-btn"] {
+      margin-left: 2px;
+      margin-right: 2px;
+      padding: 4px;
+      font-size: 12px;
+    }
   }
 }
