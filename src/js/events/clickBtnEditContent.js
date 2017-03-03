@@ -12,8 +12,8 @@ function saveEditContents() {
 
 export default function(editor) {
   return function(e) {
-    const parent = getClosest(e.target, '.w-structure');
-    const container = parent.querySelector('.w-contents')
+    const parent = getClosest(e.target, '.w-content-container');
+    const container = parent.querySelector('.w-content')
     const content = getContents(container, true);
 
     basicModal.show({

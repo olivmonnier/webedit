@@ -1368,6 +1368,10 @@ var _clickBtnDuplicate = require('../events/clickBtnDuplicate');
 
 var _clickBtnDuplicate2 = _interopRequireDefault(_clickBtnDuplicate);
 
+var _clickBtnEditContent = require('../events/clickBtnEditContent');
+
+var _clickBtnEditContent2 = _interopRequireDefault(_clickBtnEditContent);
+
 var _createElement = require('../utils/createElement');
 
 var _createElement2 = _interopRequireDefault(_createElement);
@@ -1393,11 +1397,17 @@ function createContentActions(editor) {
       on: {
         click: (0, _clickBtnDuplicate2.default)(editor)
       }
+    }, {
+      tagName: 'button',
+      className: 'w-btn-edit fa fa-code',
+      on: {
+        click: (0, _clickBtnEditContent2.default)(editor)
+      }
     }]
   });
 }
 
-},{"../events/clickBtnDelete":19,"../events/clickBtnDuplicate":22,"../utils/createElement":34}],13:[function(require,module,exports){
+},{"../events/clickBtnDelete":19,"../events/clickBtnDuplicate":22,"../events/clickBtnEditContent":23,"../utils/createElement":34}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1438,10 +1448,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = createContentsContainer;
 
-var _clickBtnEditContents = require('../events/clickBtnEditContents');
-
-var _clickBtnEditContents2 = _interopRequireDefault(_clickBtnEditContents);
-
 var _clickBtnDeleteContents = require('../events/clickBtnDeleteContents');
 
 var _clickBtnDeleteContents2 = _interopRequireDefault(_clickBtnDeleteContents);
@@ -1475,17 +1481,11 @@ function createContentsContainer(container, editor) {
       on: {
         click: (0, _clickBtnDuplicate2.default)(editor)
       }
-    }, {
-      tagName: 'button',
-      className: 'w-btn-edit fa fa-code',
-      on: {
-        click: (0, _clickBtnEditContents2.default)(editor)
-      }
     }]
   }));
 }
 
-},{"../events/clickBtnDeleteContents":20,"../events/clickBtnDuplicate":22,"../events/clickBtnEditContents":23,"../utils/createElement":34}],15:[function(require,module,exports){
+},{"../events/clickBtnDeleteContents":20,"../events/clickBtnDuplicate":22,"../utils/createElement":34}],15:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1878,8 +1878,8 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.default = function (editor) {
   return function (e) {
-    var parent = (0, _getClosest2.default)(e.target, '.w-structure');
-    var container = parent.querySelector('.w-contents');
+    var parent = (0, _getClosest2.default)(e.target, '.w-content-container');
+    var container = parent.querySelector('.w-content');
     var content = (0, _getContents2.default)(container, true);
 
     basicModal.show({
@@ -2070,32 +2070,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = function (container, editorHtml, editor) {
   return function () {
     var editorContent = editorHtml.getValue();
-    var divTemp = (0, _createElement2.default)({
-      tagName: 'div',
-      html: editorContent
-    });
 
-    container.innerHTML = '';
-    divTemp.childNodes.forEach(function (node) {
-      var newElem = node.cloneNode(true);
-
-      if (newElem.tagName) {
-        if (node.tagName != 'DIV') {
-          newElem = (0, _createElement2.default)({
-            tagName: 'div',
-            childs: [node]
-          });
-        }
-        newElem.classList.add('w-content');
-        newElem.classList.add('editable');
-
-        var newContent = (0, _createContentContainer2.default)(newElem);
-
-        container.appendChild(newContent);
-        editor.destroy();
-        editor.setup();
-      }
-    });
+    container.innerHTML = editorContent;
   };
 };
 

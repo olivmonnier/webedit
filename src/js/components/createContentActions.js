@@ -1,5 +1,6 @@
 import clickBtnDelete from '../events/clickBtnDelete';
 import clickBtnDuplicate from '../events/clickBtnDuplicate';
+import clickBtnEditContent from '../events/clickBtnEditContent';
 import createElement from '../utils/createElement';
 
 export default function createContentActions(editor) {
@@ -23,6 +24,13 @@ export default function createContentActions(editor) {
         className: 'w-btn-duplicate fa fa-plus',
         on: {
           click: clickBtnDuplicate(editor)
+        }
+      },
+      {
+        tagName:'button',
+        className: 'w-btn-edit fa fa-code',
+        on: {
+          click: clickBtnEditContent(editor)
         }
       }
     ]
