@@ -31,14 +31,19 @@ export default function createAsideContentsContainer(contents, urls) {
   }));
 
   asideContainer.querySelector('.w-tabs').appendChild(createElement({
-    tagName: 'a',
-    className:'w-tab-link',
-    attributes: {
-      id: 'wTabContents'
-    },
-    on: {
-      click: clickTabAside
-    },
-    text: 'Contents'
+    tagName: 'li',
+    childs: [
+      {
+        tagName: 'a',
+        className:'w-tab-link',
+        attributes: {
+          id: 'wTabContents'
+        },
+        on: {
+          click: clickTabAside
+        },
+        text: 'Contents'
+      }
+    ]
   }));
 }

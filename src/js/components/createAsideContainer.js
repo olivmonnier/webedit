@@ -14,7 +14,7 @@ export default function createAsideContainer() {
         }
       },
       {
-        tagName: 'div',
+        tagName: 'ul',
         className: 'w-tabs'
       }
     ]

@@ -8,15 +8,33 @@
   height: 100%;
   width: 350px;
   transition: all .3s ease-out;
-  background-color: #F8F8F8;
+  background-color: #f8f8f8;
+  box-shadow: -1px 0px 2px #ccc;
 
   &.in {
     right:0;
   }
 
   .w-tabs {
+    margin-top: 0;
     margin-bottom: 10px;
+    padding-left: 0;
     border-bottom: 1px solid #ddd;
+    list-style: none;
+
+    &:before, &:after {
+      display: table;
+      content: ' ';
+    }
+
+    &:after {
+      clear: both;
+    }
+
+    > li {
+      float: left;
+      margin-bottom: -1px;
+    }
 
     .w-tab-link {
       padding: 8px 16px;
@@ -35,6 +53,7 @@
       &.active {
         background-color: #fff;
         border: 1px solid #ddd;
+        border-bottom-color: transparent;
       }
     }
   }
@@ -92,7 +111,7 @@
 
   .w-btn-open {
     position: absolute;
-    top: 30px;
+    top: 20px;
     left: -32px;
   }
 }

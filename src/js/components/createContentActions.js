@@ -30,7 +30,7 @@ export default function createContentActions(editor) {
         tagName:'button',
         className: 'w-btn-edit fa fa-code',
         on: {
-          click: clickBtnEditContent(editor)
+          click: clickBtnEditContent
         }
       }
     ]
