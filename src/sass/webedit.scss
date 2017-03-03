@@ -1,6 +1,6 @@
 @import "../../node_modules/font-awesome/scss/font-awesome";
 @import "../../node_modules/medium-editor/src/sass/medium-editor";
-@import "../../node_modules/medium-editor/src/sass/themes/beagle";
+@import "../../node_modules/medium-editor/src/sass/themes/default";
 @import "../../node_modules/basicmodal/src/styles/main";
 @import "./dragula";
 @import "./codemirror";
@@ -36,6 +36,19 @@ body {
   .w-contents, .w-structure, .w-content {
     display:block;
   }
+}
+
+.medium-editor-toolbar {
+  li {
+    button {
+      min-width: 45px;
+      height: 40px;
+      font-size: 10px;
+    }
+  }
+}
+.medium-toolbar-arrow-under:after {
+  top: 40px;
 }
 
 .w-hover {
