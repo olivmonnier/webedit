@@ -23,14 +23,23 @@ body {
   box-sizing: border-box;
 }
 
-.gu-mirror, .gu-transit {
+.gu-mirror {
   .w-content, .w-structure {
     display: none;
   }
 }
 
+.gu-transit {
+  > strong {
+      display: none;
+  }
+  .w-contents, .w-structure, .w-content {
+    display:block;
+  }
+}
+
 .w-hover {
-  border: 1px solid #7ec0ee;
+  border: 1px dashed #7ec0ee;
 }
 
 .w-hide {

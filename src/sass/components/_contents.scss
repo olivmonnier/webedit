@@ -1,23 +1,10 @@
 .w-structure {
   position: relative;
   transition: all .3s ease-out;
-
-  &:before {
-    content: ' ';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    z-index: -1;
-    transition: all .3s ease-out;
-  }
+  border: 1px solid transparent;
 
   &:hover {
-    &:before {
-      opacity: .2;
-      background-color: #ddd;
-    }
+    border: 1px dashed #7ec0ee;
 
     .w-contents-bar {
       visibility: visible;
@@ -40,7 +27,7 @@
   .w-contents-bar {
     position: absolute;
     top: 2px;
-    right: 2px;
+    left: 2px;
     visibility: hidden;
     opacity: 0;
     transition: all .3s ease-out;

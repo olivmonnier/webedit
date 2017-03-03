@@ -1446,6 +1446,10 @@ var _clickBtnDeleteContents = require('../events/clickBtnDeleteContents');
 
 var _clickBtnDeleteContents2 = _interopRequireDefault(_clickBtnDeleteContents);
 
+var _clickBtnDuplicate = require('../events/clickBtnDuplicate');
+
+var _clickBtnDuplicate2 = _interopRequireDefault(_clickBtnDuplicate);
+
 var _createElement = require('../utils/createElement');
 
 var _createElement2 = _interopRequireDefault(_createElement);
@@ -1461,21 +1465,27 @@ function createContentsContainer(container, editor) {
       className: 'w-btn-move fa fa-arrows'
     }, {
       tagName: 'button',
-      className: 'w-btn-edit fa fa-code',
-      on: {
-        click: (0, _clickBtnEditContents2.default)(editor)
-      }
-    }, {
-      tagName: 'button',
       className: 'w-btn-delete fa fa-trash',
       on: {
         click: _clickBtnDeleteContents2.default
+      }
+    }, {
+      tagName: 'button',
+      className: 'w-btn-duplicate fa fa-plus',
+      on: {
+        click: (0, _clickBtnDuplicate2.default)(editor)
+      }
+    }, {
+      tagName: 'button',
+      className: 'w-btn-edit fa fa-code',
+      on: {
+        click: (0, _clickBtnEditContents2.default)(editor)
       }
     }]
   }));
 }
 
-},{"../events/clickBtnDeleteContents":20,"../events/clickBtnEditContents":23,"../utils/createElement":34}],15:[function(require,module,exports){
+},{"../events/clickBtnDeleteContents":20,"../events/clickBtnDuplicate":22,"../events/clickBtnEditContents":23,"../utils/createElement":34}],15:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1539,7 +1549,6 @@ function dragNdrop(primaryContainers, editor) {
   var listContents = (0, _slice2.default)(document.querySelectorAll('.w-list-contents'));
 
   listStructures = listStructures.concat(primaryContainers);
-  listContents = listContents.concat((0, _slice2.default)(document.querySelectorAll('.w-contents')));
 
   dragContents = dragula(listContents, {
     copy: function copy(el, source) {
@@ -1785,22 +1794,27 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.default = function (editor) {
   return function (e) {
+    var parent = null;
     var newParent = null;
-    var parent = (0, _getClosest2.default)(e.target, '.w-content-container');
-    var content = parent.querySelector('.w-content');
-    var html = content.innerHTML;
-    var divSnippet = (0, _createElement2.default)({
-      tagName: 'div',
-      className: 'w-content editable',
-      html: html
-    });
+    var el = e.target;
 
-    newParent = (0, _createContentContainer2.default)(divSnippet, editor);
+    if (el.parentNode.classList.contains('w-actions')) {
+      parent = (0, _getClosest2.default)(el, '.w-content-container');
+      newParent = duplicateContent(parent, editor);
+    } else {
+      parent = (0, _getClosest2.default)(el, '.w-structure');
+      newParent = duplicateStructure(parent, editor);
+    }
+
     (0, _insertAfter2.default)(newParent, parent);
     editor.destroy();
     editor.setup();
   };
 };
+
+var _createContentsContainer = require('../components/createContentsContainer');
+
+var _createContentsContainer2 = _interopRequireDefault(_createContentsContainer);
 
 var _createContentContainer = require('../components/createContentContainer');
 
@@ -1818,9 +1832,44 @@ var _createElement = require('../utils/createElement');
 
 var _createElement2 = _interopRequireDefault(_createElement);
 
+var _slice = require('../utils/slice');
+
+var _slice2 = _interopRequireDefault(_slice);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"../components/createContentContainer":13,"../utils/createElement":34,"../utils/getClosest":35,"../utils/insertAfter":37}],23:[function(require,module,exports){
+function duplicateContent(parent, editor) {
+  var content = parent.querySelector('.w-content');
+  var html = content.innerHTML;
+  var divSnippet = (0, _createElement2.default)({
+    tagName: 'div',
+    className: 'w-content editable',
+    html: html
+  });
+  return (0, _createContentContainer2.default)(divSnippet, editor);
+}
+
+function duplicateStructure(parent, editor) {
+  var contents = (0, _slice2.default)(parent.querySelectorAll('.w-content-container'));
+  var newStructure = parent.cloneNode(true);
+  var newContentsContainer = newStructure.querySelector('.w-contents');
+
+  newStructure.querySelector('.w-contents-bar').remove();
+  newContentsContainer.innerHTML = '';
+  (0, _createContentsContainer2.default)(newStructure, editor);
+  contents.forEach(function (content) {
+    return newContentsContainer.appendChild(duplicateContent(content, editor));
+  });
+
+  var newContents = (0, _slice2.default)(newStructure.querySelectorAll('.w-contents'));
+  newContents.forEach(function (content) {
+    return window.instanceWebEdit.dragContents.containers.push(content);
+  });
+
+  return newStructure;
+}
+
+},{"../components/createContentContainer":13,"../components/createContentsContainer":14,"../utils/createElement":34,"../utils/getClosest":35,"../utils/insertAfter":37,"../utils/slice":38}],23:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

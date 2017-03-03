@@ -8,7 +8,6 @@ export default function dragNdrop(primaryContainers, editor) {
   let listContents = slice(document.querySelectorAll('.w-list-contents'));
 
   listStructures = listStructures.concat(primaryContainers);
-  listContents = listContents.concat(slice(document.querySelectorAll('.w-contents')));
 
   dragContents = dragula(listContents, {
     copy: function (el, source) {

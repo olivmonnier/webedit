@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Test</title>
+    <link rel="stylesheet" href="./INT.css">
     <link rel="stylesheet" href="./dist/webedit.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
@@ -14,9 +15,15 @@
     </style>
   </head>
   <body>
-    <div style="width: 1024px; margin: 0 auto;">
-      <div class="editor" style="min-height: 200px;"></div>
-    </div>
+    <table class="body">
+      <tr>
+        <td class="float-center" align="center" valign="top">
+          <center class="editor" style="min-height: 200px;"></center>
+        </td>
+      </tr>
+    </table>
+    <!-- prevent Gmail on iOS font size manipulation -->
+    <div style="display:none; white-space:nowrap; font:15px courier; line-height:0;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </div>
     <script src="./dist/webedit.vendors.js"></script>
     <script src="./dist/webedit.js"></script>
     <script>
@@ -24,16 +31,12 @@
         var webEditor = WebEdit('.editor', {
           viewports: [{ label: 'mobile', width: '480px', height: '600px' }, { label: 'tablet', width: '720px', height: '800px' }],
           contentsPath: [{
-            label: 'test 1',
-            url: './snippets.html'
-          },
-          {
-            label: 'test 2',
-            url: './snippets1.html'
+            label: 'Articles',
+            url: 'http://localhost:9002/partial/articles'
           }],
           structuresPath: [{
             label: 'Structures',
-            url: './structures.html'
+            url: 'http://localhost:9002/partial/structures'
           }],
           buttons: [
             {
