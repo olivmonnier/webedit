@@ -11,7 +11,7 @@ import clickDocument from './events/clickDocument';
 
 export default function(containerId, options = {}) {
   let urls = []; let contentsUrls = []; let structuresUrls = []; let instanceWebEdit = {};
-  let {editorOptions, contentsPath, structuresPath, viewports, buttons} = options;
+  let {editorOptions, contentsPath, structuresPath, viewports, actions} = options;
 
   const primaryContainers = slice(document.querySelectorAll(containerId));
   const editorMedium = initMediumEditor(editorOptions);
@@ -37,7 +37,7 @@ export default function(containerId, options = {}) {
     });
 
     Promise.all([structuresPromise, contentsPromise]).then(() => {
-      createBarActions(viewports, buttons);
+      createBarActions(viewports, actions);
       instanceWebEdit = Object.assign(instanceWebEdit, dragNDrop(primaryContainers, editorMedium));
       document.addEventListener('click', clickDocument);
     });

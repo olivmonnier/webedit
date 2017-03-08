@@ -2072,7 +2072,7 @@ exports.default = function (containerId) {
       contentsPath = options.contentsPath,
       structuresPath = options.structuresPath,
       viewports = options.viewports,
-      buttons = options.buttons;
+      actions = options.actions;
 
 
   var primaryContainers = (0, _slice2.default)(document.querySelectorAll(containerId));
@@ -2109,7 +2109,7 @@ exports.default = function (containerId) {
     });
 
     Promise.all([structuresPromise, contentsPromise]).then(function () {
-      (0, _createBarActions2.default)(viewports, buttons);
+      (0, _createBarActions2.default)(viewports, actions);
       instanceWebEdit = Object.assign(instanceWebEdit, (0, _dragNDrop2.default)(primaryContainers, editorMedium));
       document.addEventListener('click', _clickDocument2.default);
     });
@@ -2302,7 +2302,7 @@ function createElement(options) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.default = getClosest;
 /**
@@ -2314,22 +2314,22 @@ exports.default = getClosest;
  */
 function getClosest(elem, selector) {
 
-    // Element.matches() polyfill
-    if (!Element.prototype.matches) {
-        Element.prototype.matches = Element.prototype.matchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.msMatchesSelector || Element.prototype.oMatchesSelector || Element.prototype.webkitMatchesSelector || function (s) {
-            var matches = (this.document || this.ownerDocument).querySelectorAll(s),
-                i = matches.length;
-            while (--i >= 0 && matches.item(i) !== this) {}
-            return i > -1;
-        };
-    }
+  // Element.matches() polyfill
+  if (!Element.prototype.matches) {
+    Element.prototype.matches = Element.prototype.matchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.msMatchesSelector || Element.prototype.oMatchesSelector || Element.prototype.webkitMatchesSelector || function (s) {
+      var matches = (this.document || this.ownerDocument).querySelectorAll(s),
+          i = matches.length;
+      while (--i >= 0 && matches.item(i) !== this) {}
+      return i > -1;
+    };
+  }
 
-    // Get closest match
-    for (; elem && elem !== document; elem = elem.parentNode) {
-        if (elem.matches(selector)) return elem;
-    }
+  // Get closest match
+  for (; elem && elem !== document; elem = elem.parentNode) {
+    if (elem.matches(selector)) return elem;
+  }
 
-    return null;
+  return null;
 };
 
 },{}],35:[function(require,module,exports){
