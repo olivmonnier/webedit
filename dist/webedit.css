@@ -3296,7 +3296,8 @@ span.CodeMirror-selectedtext {
           top: 100%;
           left: 0;
           display: block;
-          background-color: #222222; }
+          background-color: #222222;
+          z-index: 200; }
       .w-bar-container > ul > li a, .w-bar-container > ul > li button {
         padding: 15px 20px;
         display: inline-block;

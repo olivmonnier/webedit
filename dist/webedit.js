@@ -1324,10 +1324,10 @@ function createListActions(actions, container) {
         tagName: 'li',
         childs: [{
           tagName: 'button',
-          className: 'w-btn ' + (action.class || ''),
+          className: 'w-btn-action ' + (action.class || ''),
           html: action.label,
           attributes: {
-            id: action.id
+            id: action.id || ''
           },
           on: {
             click: action.fn
@@ -2207,27 +2207,20 @@ exports.default = function (containerId) {
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
   var documentParent = window.opener.document;
-  var containersParent = (0, _slice2.default)(documentParent.querySelectorAll(containerId));
-  var containers = (0, _slice2.default)(document.querySelectorAll(containerId));
+  var containerParent = documentParent.querySelector(containerId);
+  var container = document.querySelector(containerId);
+  var contents = (0, _getContents2.default)(containerParent, false);
 
-  containersParent.forEach(function (containerParent, i) {
-    var contents = (0, _getContents2.default)(containerParent.querySelector('.w-contents'), false);
-
-    containers[i].innerHTML = contents;
-  });
+  container.innerHTML = contents;
 };
 
 var _getContents = require('./utils/getContents');
 
 var _getContents2 = _interopRequireDefault(_getContents);
 
-var _slice = require('./utils/slice');
-
-var _slice2 = _interopRequireDefault(_slice);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./utils/getContents":35,"./utils/slice":37}],32:[function(require,module,exports){
+},{"./utils/getContents":35}],32:[function(require,module,exports){
 'use strict';
 
 var _initEdit = require('./initEdit');
@@ -2346,33 +2339,57 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = getContents;
-var htmlEncode = require('htmlencode').htmlEncode;
 
+var _slice = require('./slice');
+
+var _slice2 = _interopRequireDefault(_slice);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var htmlEncode = require('htmlencode').htmlEncode;
 function getContents(primaryContainer) {
   var encoded = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
   var result = '';
-
   var primaryContainerClone = primaryContainer.cloneNode(true);
 
+  cleanHtml(primaryContainerClone);
+
   primaryContainerClone.childNodes.forEach(function (elem) {
-    if (elem.classList.contains('w-content-container')) {
-      var snippet = elem.querySelector('.w-content');
+    var divTemp = document.createElement('div');
+    var newElem = elem.cloneNode(true);
 
-      result += '\n<div>\n\t' + snippet.innerHTML.trim() + '\n</div>\n';
-    } else {
-      var divTemp = document.createElement('div');
-      var newElem = elem.cloneNode(true);
-
-      divTemp.appendChild(newElem);
-      result += divTemp.innerHTML;
-    }
+    divTemp.appendChild(newElem);
+    result += divTemp.innerHTML;
   });
 
   return encoded ? htmlEncode(result) : result;
 }
 
-},{"htmlencode":3}],36:[function(require,module,exports){
+function cleanHtml(container) {
+  var structures = (0, _slice2.default)(container.querySelectorAll('.w-structure'));
+  var contents = (0, _slice2.default)(container.querySelectorAll('.w-content-container'));
+  var structureBars = (0, _slice2.default)(container.querySelectorAll('.w-contents-bar'));
+  var contentActions = (0, _slice2.default)(container.querySelectorAll('.w-actions'));
+
+  structures.forEach(function (el) {
+    return el.classList.remove('w-structure');
+  });
+  contents.forEach(function (el) {
+    var content = el.querySelector('.w-content').innerHTML;
+
+    el.classList.remove('w-content-container');
+    el.innerHTML = content;
+  });
+  structureBars.forEach(function (el) {
+    return el.remove();
+  });
+  contentActions.forEach(function (el) {
+    return el.remove();
+  });
+}
+
+},{"./slice":37,"htmlencode":3}],36:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

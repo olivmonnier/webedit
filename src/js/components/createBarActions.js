@@ -51,10 +51,10 @@ function createListActions(actions, container) {
         childs: [
           {
             tagName: 'button',
-            className: 'w-btn ' + (action.class || ''),
+            className: 'w-btn-action ' + (action.class || ''),
             html: action.label,
             attributes: {
-              id: action.id
+              id: action.id || ''
             },
             on: {
               click: action.fn
