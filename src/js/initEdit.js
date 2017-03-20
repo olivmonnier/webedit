@@ -46,7 +46,7 @@ export default function(containerId, options = {}) {
 
     return Object.assign(instanceWebEdit, {
       exportHtml: function() {
-        const container = document.body;
+        const container = document.querySelector(containerId);
 
         return getContents(container);
       }

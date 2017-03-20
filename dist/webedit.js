@@ -2118,7 +2118,7 @@ exports.default = function (containerId) {
 
     return Object.assign(instanceWebEdit, {
       exportHtml: function exportHtml() {
-        var container = document.body;
+        var container = document.querySelector(containerId);
 
         return (0, _getContents2.default)(container);
       }
